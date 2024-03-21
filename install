@@ -1,0 +1,129 @@
+#!/usr/bin/sh
+
+# Package
+sudo apt -y install vim zsh curl wget man make gcc automake autoconf pkg-config openssh-client openssh-server lshw btop fq jq yq xq bat fontconfig nitrogen 
+
+sudo apt -y install build-essential xorg xinit libxft-dev libx11-dev libxrandr-dev libxinerama-dev libsixel libimlib2-dev libevent-dev ncurses-dev bison
+
+curl https://sh.rustup.rs -sSf | sh 
+
+# .config
+if [ ! -d "/home/$USER/.config" ]; then
+	mkdir -p /home/$USER/.config
+fi
+# Suckless
+if [ ! -d "/home/$USER/.config/suckless" ]; then
+	git clone https://github.com/bakkeby/dwm-flexipatch.git   /home/$USER/.config/suckless/dwm
+	git clone https://github.com/bakkeby/st-flexipatch.git    /home/$USER/.config/suckless/st
+	git clone https://github.com/bakkeby/dmenu-flexipatch.git /home/$USER/.config/suckless/dmenu
+	git clone https://git.suckless.org/slock                  /home/$USER/.config/suckless/slock
+fi
+rm -f /home/$USER/.config/suckless/dwm/config.h
+rm -f /home/$USER/.config/suckless/st/config.h
+rm -f /home/$USER/.config/suckless/dmenu/config.h
+rm -f /home/$USER/.config/suckless/slock/config.h
+ln -s /home/$USER/.dotfiles/suckless/dwm_config.h   /home/$USER/.config/suckless/dwm/config.h
+ln -s /home/$USER/.dotfiles/suckless/st_config.h    /home/$USER/.config/suckless/st/config.h
+ln -s /home/$USER/.dotfiles/suckless/dmenu_config.h /home/$USER/.config/suckless/dmenu/config.h
+ln -s /home/$USER/.dotfiles/suckless/slock_config.h /home/$USER/.config/suckless/slock/config.h
+sudo make -C "/home/$USER/.config/suckless/dwm"   clean install
+sudo make -C "/home/$USER/.config/suckless/st"    clean install
+sudo make -C "/home/$USER/.config/suckless/dmenu" clean install
+sudo make -C "/home/$USER/.config/suckless/slock" clean install
+rm -f /home/$USER/.xinitrc
+ln -s /home/$USER/.dotfiles/.xinitrc /home/$USER/.xinitrc
+#	echo "startx" >> .profile
+
+# Libsixsel
+if [ ! -d "/home/$USER/.config/libsixel" ]; then
+	git clone https://github.com/saitoha/libsixel.git /home/$USER/.config/libsixel
+	/home/$USER/.config/libsixel/configure
+	sudo make install
+fi
+
+# Zsh
+chsh -s $(which zsh)
+rm -f /home/$USER/.zshrc
+ln -s /home/$USER/.dotfiles/.zshrc /home/$USER/.zshrc
+
+if [ ! -d "/home/$USER/.config/powerlevel10k" ]; then
+	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /home/$USER/.config/powerlevel10k
+fi
+
+if [ ! -d "/home/$USER/.config/zsh-syntax-highlighting" ]; then
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/nam/.config/zsh-syntax-highlighting
+fi
+
+if [ ! -d "/home/$USER/.config/zsh-autocomplete" ]; then
+	git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git /home/$USER/.config/zsh-autocomplete
+fi
+
+# Tmux
+if [ ! -d "/home/$USER/.config/tmux" ]; then
+	git clone https://github.com/tmux/tmux.git /home/$USER/.config/tmux
+	sh /home/$USER/.config/tmux/autogen.sh
+	sh /home/$USER/.config/configure --enable-sixel
+	sudo -C "/home/$USER/.config/tmux" make install
+fi
+
+# Fzf
+if [ ! -d "/home/$USER/.config/fzf" ]; then
+	git clone --depth 1 https://github.com/junegunn/fzf.git /home/$USER/.config/fzf
+	/home/$USER/.config/fzf/install
+	# Update fzf
+	# cd /home/$USER/.config/.fzf && git pull && ./install
+fi
+
+
+# .local/share
+if [ ! -d "/home/$USER/.local/share" ]; then
+	mkdir -p /home/$USER/.local/share
+fi
+# Font
+rm -rf /home/$USER/.local/share/fonts
+ln -s /home/$USER/.dotfiles/fonts /home/$USER/.local/share/fonts
+fc-cache -fv
+rm -f /home/$USER/test-fonts.sh
+cp /home/$USER/.dotfiles/test-fonts.sh /home/$USER/test-fonts.sh
+chmod +x /home/$USER/test-fonts.sh
+
+# Vim
+if [ -f "/home/$USER/.vimrc" ]; then
+	sudo rm -rf /home/$USER/.vimrc
+fi
+ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
+
+# Lazygit
+if [ ! -d "/home/$USER/.local/share/lazygit" ]; then
+	mkdir -p /home/$USER/.local/share/lazygit
+	LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+	curl -Lo /home/$USER/.local/share/lazygit/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+	tar -xf /home/$USER/.local/share/lazygit/lazygit.tar.gz -C /home/$USER/.local/share/lazygit
+	sudo install /home/$USER/.local/share/lazygit/lazygit /usr/local/bin
+fi
+
+# Ripgrep
+if [ ! -d "/home/$USER/.local/share/ripgrep" ]; then
+	mkdir -p /home/$USER/.local/share/ripgrep
+	curl -Lo /home/$USER/.local/share/ripgrep/ripgrep_13.0.0_amd64.deb  https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
+	sudo dpkg -i /home/$USER/.local/share/ripgrep/ripgrep_13.0.0_amd64.deb
+fi
+
+
+
+
+#source /home/$USER/.config/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+#source /home/$USER/.config/powerlevel10k/powerlevel10k.zsh-theme
+#source /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#[[ ! -f /home/$USER/.p10k.zsh ]] || source /home/$USER/.p10k.zsh
+#[ -f /home/$USER/.fzf.zsh ] && source /home/$USER/.fzf.zsh
+#
+#alias -g bat='batcat'
+#alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
+#alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
+#
+#export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+#export MANROFFOPT="-c"
+
+
+
