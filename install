@@ -1,9 +1,9 @@
 #!/usr/bin/sh
 
 # Package
-sudo apt -y install vim zsh curl wget man make gcc automake autoconf pkg-config openssh-client openssh-server lshw btop fq jq yq xq bat fontconfig timg nitrogen 
+sudo apt -y install vim zsh curl wget man make gcc automake autoconf pkg-config openssh-client openssh-server lshw btop fq jq yq xq bat fontconfig nitrogen 
 
-sudo apt -y install build-essential xorg xinit libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev libevent-dev ncurses-dev bison
+sudo apt -y install build-essential xorg xinit libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev libevent-dev ncurses-dev bison libsixel-bin
 
 curl https://sh.rustup.rs -sSf | sh 
 
@@ -32,7 +32,7 @@ if [ ! -d "/home/$USER/.config/suckless" ]; then
 	ln -s /home/$USER/.dotfiles/suckless /home/$USER/.config/suckless
 fi
 #sudo make -C "/home/$USER/.config/suckless/dwm"      clean install
-#sudo make -C "/home/$USER/.config/suckless/st"       clean install
+sudo make -C "/home/$USER/.config/suckless/st"       clean install
 #sudo make -C "/home/$USER/.config/suckless/dmenu"    clean install
 #sudo make -C "/home/$USER/.config/suckless/slock"    clean install
 #sudo make -C "/home/$USER/.config/suckless/slstatus" clean install
@@ -67,9 +67,11 @@ fi
 # Tmux
 if [ ! -d "/home/$USER/.config/tmux" ]; then
 	git clone https://github.com/tmux/tmux.git /home/$USER/.config/tmux
-	sh /home/$USER/.config/tmux/autogen.sh
-	sh /home/$USER/.config/configure --enable-sixel
-	sudo -C "/home/$USER/.config/tmux" make install
+	cd /home/$USER/.config/tmux
+	sh ./autogen.sh
+	sh ./configure --enable-sixel
+	sudo make install
+	cd /home/$USER
 fi
 
 # Fzf
