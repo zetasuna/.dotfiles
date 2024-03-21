@@ -1,9 +1,9 @@
 #!/usr/bin/sh
 
 # Package
-sudo apt -y install vim zsh curl wget man make gcc automake autoconf pkg-config openssh-client openssh-server lshw btop fq jq yq xq bat fontconfig nitrogen 
+sudo apt -y install vim zsh curl wget man make gcc automake autoconf pkg-config openssh-client openssh-server lshw btop fq jq yq xq bat fontconfig timg nitrogen 
 
-sudo apt -y install build-essential xorg xinit libxft-dev libx11-dev libxrandr-dev libxinerama-dev libsixel libimlib2-dev libevent-dev ncurses-dev bison
+sudo apt -y install build-essential xorg xinit libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev libevent-dev ncurses-dev bison
 
 curl https://sh.rustup.rs -sSf | sh 
 
@@ -12,34 +12,40 @@ if [ ! -d "/home/$USER/.config" ]; then
 	mkdir -p /home/$USER/.config
 fi
 # Suckless
+#if [ ! -d "/home/$USER/.config/suckless" ]; then
+#	git clone https://github.com/bakkeby/dwm-flexipatch.git   /home/$USER/.config/suckless/dwm
+#	git clone https://github.com/bakkeby/st-flexipatch.git    /home/$USER/.config/suckless/st
+#	git clone https://github.com/bakkeby/dmenu-flexipatch.git /home/$USER/.config/suckless/dmenu
+#	git clone https://github.com/bakkeby/slock-flexipatch.git /home/$USER/.config/suckless/slock
+#	git clone https://git.suckless.org/slstatus               /home/$USER/.config/suckless/slstatus
+#fi
+#rm -f /home/$USER/.config/suckless/dwm/config.h
+#rm -f /home/$USER/.config/suckless/st/config.h
+#rm -f /home/$USER/.config/suckless/dmenu/config.h
+#rm -f /home/$USER/.config/suckless/slock/config.h
+#ln -s /home/$USER/.dotfiles/suckless/dwm_config.h   /home/$USER/.config/suckless/dwm/config.h
+#ln -s /home/$USER/.dotfiles/suckless/st_config.h    /home/$USER/.config/suckless/st/config.h
+#ln -s /home/$USER/.dotfiles/suckless/dmenu_config.h /home/$USER/.config/suckless/dmenu/config.h
+#ln -s /home/$USER/.dotfiles/suckless/slock_config.h /home/$USER/.config/suckless/slock/config.h
+
 if [ ! -d "/home/$USER/.config/suckless" ]; then
-	git clone https://github.com/bakkeby/dwm-flexipatch.git   /home/$USER/.config/suckless/dwm
-	git clone https://github.com/bakkeby/st-flexipatch.git    /home/$USER/.config/suckless/st
-	git clone https://github.com/bakkeby/dmenu-flexipatch.git /home/$USER/.config/suckless/dmenu
-	git clone https://git.suckless.org/slock                  /home/$USER/.config/suckless/slock
+	ln -s /home/$USER/.dotfiles/suckless /home/$USER/.config/suckless
 fi
-rm -f /home/$USER/.config/suckless/dwm/config.h
-rm -f /home/$USER/.config/suckless/st/config.h
-rm -f /home/$USER/.config/suckless/dmenu/config.h
-rm -f /home/$USER/.config/suckless/slock/config.h
-ln -s /home/$USER/.dotfiles/suckless/dwm_config.h   /home/$USER/.config/suckless/dwm/config.h
-ln -s /home/$USER/.dotfiles/suckless/st_config.h    /home/$USER/.config/suckless/st/config.h
-ln -s /home/$USER/.dotfiles/suckless/dmenu_config.h /home/$USER/.config/suckless/dmenu/config.h
-ln -s /home/$USER/.dotfiles/suckless/slock_config.h /home/$USER/.config/suckless/slock/config.h
-sudo make -C "/home/$USER/.config/suckless/dwm"   clean install
-sudo make -C "/home/$USER/.config/suckless/st"    clean install
-sudo make -C "/home/$USER/.config/suckless/dmenu" clean install
-sudo make -C "/home/$USER/.config/suckless/slock" clean install
+#sudo make -C "/home/$USER/.config/suckless/dwm"      clean install
+#sudo make -C "/home/$USER/.config/suckless/st"       clean install
+#sudo make -C "/home/$USER/.config/suckless/dmenu"    clean install
+#sudo make -C "/home/$USER/.config/suckless/slock"    clean install
+#sudo make -C "/home/$USER/.config/suckless/slstatus" clean install
 rm -f /home/$USER/.xinitrc
 ln -s /home/$USER/.dotfiles/.xinitrc /home/$USER/.xinitrc
 #	echo "startx" >> .profile
 
 # Libsixsel
-if [ ! -d "/home/$USER/.config/libsixel" ]; then
-	git clone https://github.com/saitoha/libsixel.git /home/$USER/.config/libsixel
-	/home/$USER/.config/libsixel/configure
-	sudo make install
-fi
+#if [ ! -d "/home/$USER/.config/libsixel" ]; then
+#	git clone https://github.com/saitoha/libsixel.git /home/$USER/.config/libsixel
+#	/home/$USER/.config/libsixel/configure
+#	sudo make install
+#fi
 
 # Zsh
 chsh -s $(which zsh)

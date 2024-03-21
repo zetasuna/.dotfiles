@@ -7,16 +7,14 @@
 "
 
 " [[ PLUGINS ]]
-set runtimepath^=/home/$USER/.config/vim
-if !filereadable(expand("/home/$USER/.config/vim/autoload/plug.vim"))
-	silent execute "!curl -fLo /home/$USER/.config/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+set runtimepath^=/home/$USER/.local/share/vim
+if !filereadable(expand("/home/$USER/.local/share/vim/autoload/plug.vim"))
+	silent execute "!curl -fLo /home/$USER/.local/share/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 	autocmd VimEnter * PlugInstall
 endif
 
-call plug#begin(expand("/home/$USER/.config/vim/plugged"))
+call plug#begin(expand("/home/$USER/.local/share/vim/plugged"))
 Plug 'joshdick/onedark.vim'
-Plug 'tomasr/molokai'
-Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -24,7 +22,6 @@ call plug#end()
 syntax on
 colorscheme onedark
 set background=dark
-"let g:molokai_original=1
 let g:onedark_termcolors=256
 let g:ale_lint_delay=0
 let g:ale_linters={'java': ['javac']}
@@ -42,7 +39,6 @@ filetype indent on
 if has("syntax")
 	syntax on
 endif
-"set background=dark
 let g:mapleader=' '
 set t_Co=256
 set timeout
@@ -52,7 +48,7 @@ set ttimeoutlen=0
 set number
 set cursorline
 set cursorcolumn
-set viewdir=$HOME/.config/vim/view
+set viewdir=$HOME/.local/share/vim/view
 set noshowmode
 set showcmd
 set cmdheight=1
