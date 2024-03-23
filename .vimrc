@@ -29,7 +29,7 @@ let g:ale_linters={'java': ['javac']}
 nnoremap <silent> fz :fzf!<CR>
 nnoremap <silent> ff :Files!<CR>
 nnoremap <silent> fb :Buffers!<CR>
-"nnoremap <silent> vt :vertical term<CR> 
+nnoremap <silent> <leader>t :vertical terminal<CR>
 
 " [[ OPTIONS ]]
 set nocompatible
@@ -47,7 +47,8 @@ set timeoutlen=3000
 set ttimeoutlen=0
 set number
 set cursorline
-set cursorcolumn
+set cursorlineopt=number
+set nocursorcolumn
 set viewdir=$HOME/.local/share/vim/view
 set noshowmode
 set showcmd
@@ -55,28 +56,28 @@ set cmdheight=1
 set noruler
 set showtabline=0
 set splitright
-nnoremap <silent> <leader>t :vertical terminal<CR>
+set fillchars+=vert:┃
 function! EnterStatuslineColor()
 	if mode() =~ "[vV\x16]" 
-		hi statusline ctermbg=yellow ctermfg=black  cterm=NONE
-		hi User1      ctermbg=black  ctermfg=yellow cterm=NONE
+		hi statusline ctermbg=3    ctermfg=0  cterm=NONE
+		hi User1      ctermbg=0    ctermfg=3  cterm=NONE
 	else
 		if mode() =~ 'i'
-			hi statusline ctermbg=blue  ctermfg=black cterm=NONE
-			hi User1      ctermbg=black ctermfg=blue  cterm=NONE
+			hi statusline ctermbg=12   ctermfg=0  cterm=NONE
+			hi User1      ctermbg=0    ctermfg=12 cterm=NONE
 		elseif mode() =~ 'R'
-			hi statusline ctermbg=red   ctermfg=black cterm=NONE
-			hi User1      ctermbg=black ctermfg=red   cterm=NONE
+			hi statusline ctermbg=9    ctermfg=0  cterm=NONE
+			hi User1      ctermbg=0    ctermfg=9  cterm=NONE
 		else
-			hi statusline ctermbg=black ctermfg=black cterm=NONE
-			hi User1      ctermbg=black ctermfg=black cterm=NONE
+			hi statusline ctermbg=NONE ctermfg=0  cterm=NONE
+			hi User1      ctermbg=NONE ctermfg=0  cterm=NONE
 		endif
 	endif
 endfunction 
 
 function! LeaveStatuslineColor()
-	hi statusline ctermbg=green ctermfg=black cterm=NONE
-	hi User1      ctermbg=black ctermfg=green cterm=NONE
+	hi statusline ctermbg=10   ctermfg=0  cterm=NONE
+	hi User1      ctermbg=0    ctermfg=10 cterm=NONE
 endfunction	
 
 au ModeChanged *:[i]* call EnterStatuslineColor()
@@ -86,8 +87,6 @@ au ModeChanged [vV\x16]*:* call LeaveStatuslineColor()
 au ModeChanged *:[R]* call EnterStatuslineColor()
 au ModeChanged [R]*:* call LeaveStatuslineColor()
 
-hi StatusLine ctermbg=green ctermfg=black cterm=NONE
-hi User1                    ctermfg=green cterm=NONE
 set laststatus=2
 function! FileFormat()
 	if &fileformat == 'unix'
@@ -102,39 +101,42 @@ function! FileFormat()
 endfunction
 augroup statusline
 	autocmd!
-	"autocmd WinEnter,BufEnter * setlocal statusline=\ \ %1*%*%t%1*%*%w%h%r%m%1*%*%=%1*%*%4c%1*%*%4l%1*%*%{&fileencoding?&fileencoding:&encoding}%1*%*%{FileFormat()} | setlocal number | setlocal cursorline | setlocal cursorlineopt=number
-	"autocmd WinEnter,BufEnter * setlocal statusline=\[%{&fileformat}\|%{&fileencoding?&fileencoding:&encoding}\]%1*%5c:%-5l%*%t\ %w%h%r%m | setlocal number | setlocal cursorline | setlocal cursorlineopt=number
-	autocmd WinEnter,BufEnter * setlocal statusline=%{FileFormat()}%{&fileencoding?&fileencoding:&encoding}%1*%*%4c┃%-4l%1*%*%t%1*%*%w%h%r%m 
-	autocmd WinLeave,BufLeave * setlocal statusline= 
+	autocmd WinEnter,BufEnter ?* setlocal statusline=%{FileFormat()}%{&fileencoding?&fileencoding:&encoding}%1*%*%4c┃%-4l%1*%*%t%1*%*%w%h%r%m 
+	autocmd WinLeave,BufLeave ?* setlocal statusline= 
 augroup end
-set fillchars+=vert:┃
-hi StatusLineNC     ctermbg=black ctermfg=black cterm=NONE
-hi StatusLineTerm   ctermbg=green ctermfg=black cterm=NONE
-hi StatusLineTermNC ctermbg=black ctermfg=black cterm=NONE
-" hi MoreMsg          ctermbg=black ctermfg=green cterm=NONE
-" hi ModeMsg          ctermbg=green ctermfg=black cterm=NONE
-" hi Visual           ctermbg=green ctermfg=black cterm=NONE
-" hi WildMenu         ctermbg=black ctermfg=green cterm=NONE
-" hi LineNr           ctermbg=black ctermfg=green cterm=NONE
-" hi CursorLineNR     ctermfg=green cterm=NONE
-hi VertSplit        ctermbg=black ctermfg=green cterm=NONE
+hi Normal           ctermbg=NONE            cterm=NONE
+hi User1            ctermbg=0    ctermfg=10 cterm=NONE
+hi StatusLine       ctermbg=10   ctermfg=0  cterm=NONE
+hi StatusLineNC     ctermbg=NONE ctermfg=0  cterm=NONE
+hi StatusLineTerm   ctermbg=10   ctermfg=0  cterm=NONE
+hi StatusLineTermNC ctermbg=NONE ctermfg=0  cterm=NONE
+hi MoreMsg          ctermbg=NONE ctermfg=10 cterm=NONE
+"hi ModeMsg          ctermbg=green ctermfg=black cterm=NONE
+hi Visual           ctermbg=10   ctermfg=0  cterm=NONE
+"hi WildMenu         ctermbg=NONE ctermfg=10 cterm=NONE
+"hi LineNr           ctermbg=NONE ctermfg=10 cterm=NONE
+"hi CursorColumn     ctermbg=235             cterm=NONE   
+hi CursorLine       ctermbg=NONE            cterm=NONE
+hi CursorLineNr     ctermbg=NONE ctermfg=10 cterm=NONE
+hi VertSplit        ctermbg=NONE ctermfg=10 cterm=NONE
 "hi IncSearch        ctermbg=green ctermfg=black cterm=NONE
-"hi Question         ctermbg=black ctermfg=red   cterm=NONE
-"hi ErrorMsg         ctermbg=black ctermfg=red   cterm=NONE
-"hi WarningMsg       ctermbg=black ctermfg=red   cterm=NONE
-"hi Title            ctermbg=black ctermfg=green cterm=NONE
-"hi SpecialKey       ctermbg=black ctermfg=green cterm=NONE
-"hi NonText          ctermbg=black ctermfg=green cterm=NONE
-"hi MatchParen       ctermbg=green ctermfg=black cterm=NONE
+hi Question         ctermbg=NONE ctermfg=10 cterm=NONE
+hi ErrorMsg         ctermbg=NONE ctermfg=9  cterm=NONE
+hi WarningMsg       ctermbg=NONE ctermfg=9  cterm=NONE
+"hi Title            ctermbg=NONE ctermfg=10 cterm=NONE
+"hi SpecialKey       ctermbg=NONE ctermfg=10 cterm=NONE
+"hi NonText          ctermbg=NONE ctermfg=10 cterm=NONE
+hi MatchParen       ctermbg=NONE ctermfg=10 cterm=NONE
 
 " [[ MAPPINGS ]]
+
 " [[ VIMSCRIPT ]]
 " Save current cursor when open/close file
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 augroup remember_folds
   autocmd!
-  autocmd BufWinLeave * mkview
-  autocmd BufWinEnter * silent! loadview
+  autocmd BufWinLeave ?* silent! mkview
+  autocmd BufWinEnter ?* silent! loadview
 augroup END
 

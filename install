@@ -1,10 +1,20 @@
 #!/usr/bin/sh
 
-# Package
+# General
 sudo apt -y install vim zsh curl wget man make gcc automake autoconf pkg-config openssh-client openssh-server lshw btop fq jq yq xq bat fontconfig nitrogen 
 
-sudo apt -y install build-essential xorg xinit libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev libevent-dev ncurses-dev bison libsixel-bin
+sudo apt -y install xorg xinit x11-xserver-utils build-essential libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev libevent-dev ncurses-dev bison libsixel-bin
 
+# Zsh
+chsh -s $(which zsh)
+#rm -f /home/$USER/.zshrc
+#ln -s /home/$USER/.dotfiles/.zshrc /home/$USER/.zshrc
+
+# Vim
+rm -f /home/$USER/.vimrc
+ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
+
+# Rust
 curl https://sh.rustup.rs -sSf | sh 
 
 # .config
@@ -27,7 +37,6 @@ fi
 #ln -s /home/$USER/.dotfiles/suckless/st_config.h    /home/$USER/.config/suckless/st/config.h
 #ln -s /home/$USER/.dotfiles/suckless/dmenu_config.h /home/$USER/.config/suckless/dmenu/config.h
 #ln -s /home/$USER/.dotfiles/suckless/slock_config.h /home/$USER/.config/suckless/slock/config.h
-
 if [ ! -d "/home/$USER/.config/suckless" ]; then
 	ln -s /home/$USER/.dotfiles/suckless /home/$USER/.config/suckless
 fi
@@ -47,11 +56,7 @@ ln -s /home/$USER/.dotfiles/.xinitrc /home/$USER/.xinitrc
 #	sudo make install
 #fi
 
-# Zsh
-chsh -s $(which zsh)
-rm -f /home/$USER/.zshrc
-ln -s /home/$USER/.dotfiles/.zshrc /home/$USER/.zshrc
-
+# Zsh Plugin
 if [ ! -d "/home/$USER/.config/powerlevel10k" ]; then
 	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /home/$USER/.config/powerlevel10k
 fi
@@ -77,11 +82,27 @@ fi
 # Fzf
 if [ ! -d "/home/$USER/.config/fzf" ]; then
 	git clone --depth 1 https://github.com/junegunn/fzf.git /home/$USER/.config/fzf
-	/home/$USER/.config/fzf/install
+	cd /home/$USER/.config/fzf && ./install
+	cd /home/$USER
 	# Update fzf
-	# cd /home/$USER/.config/.fzf && git pull && ./install
+	# cd /home/$USER/.config/fzf && git pull && ./install
 fi
 
+# Lazygit
+if [ ! -d "/home/$USER/.config/lazygit" ]; then
+	mkdir -p /home/$USER/.config/lazygit
+	LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+	curl -Lo /home/$USER/.config/lazygit/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+	tar -xf /home/$USER/.config/lazygit/lazygit.tar.gz -C /home/$USER/.config/lazygit
+	sudo install /home/$USER/.config/lazygit/lazygit /usr/local/bin
+fi
+
+# Ripgrep
+if [ ! -d "/home/$USER/.config/ripgrep" ]; then
+	mkdir -p /home/$USER/.config/ripgrep
+	curl -Lo /home/$USER/.config/ripgrep/ripgrep_13.0.0_amd64.deb  https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
+	sudo dpkg -i /home/$USER/.config/ripgrep/ripgrep_13.0.0_amd64.deb
+fi
 
 # .local/share
 if [ ! -d "/home/$USER/.local/share" ]; then
@@ -91,31 +112,8 @@ fi
 rm -rf /home/$USER/.local/share/fonts
 ln -s /home/$USER/.dotfiles/fonts /home/$USER/.local/share/fonts
 fc-cache -fv
-rm -f /home/$USER/test-fonts.sh
-cp /home/$USER/.dotfiles/test-fonts.sh /home/$USER/test-fonts.sh
-chmod +x /home/$USER/test-fonts.sh
+chmod +x /home/$USER/.local/share/test-fonts.sh
 
-# Vim
-if [ -f "/home/$USER/.vimrc" ]; then
-	sudo rm -rf /home/$USER/.vimrc
-fi
-ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
-
-# Lazygit
-if [ ! -d "/home/$USER/.local/share/lazygit" ]; then
-	mkdir -p /home/$USER/.local/share/lazygit
-	LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-	curl -Lo /home/$USER/.local/share/lazygit/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-	tar -xf /home/$USER/.local/share/lazygit/lazygit.tar.gz -C /home/$USER/.local/share/lazygit
-	sudo install /home/$USER/.local/share/lazygit/lazygit /usr/local/bin
-fi
-
-# Ripgrep
-if [ ! -d "/home/$USER/.local/share/ripgrep" ]; then
-	mkdir -p /home/$USER/.local/share/ripgrep
-	curl -Lo /home/$USER/.local/share/ripgrep/ripgrep_13.0.0_amd64.deb  https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
-	sudo dpkg -i /home/$USER/.local/share/ripgrep/ripgrep_13.0.0_amd64.deb
-fi
 
 
 
@@ -125,6 +123,7 @@ fi
 #source /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 #[[ ! -f /home/$USER/.p10k.zsh ]] || source /home/$USER/.p10k.zsh
 #[ -f /home/$USER/.fzf.zsh ] && source /home/$USER/.fzf.zsh
+#export PS2='%F{76}⮩ %f'
 #
 #alias -g bat='batcat'
 #alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
@@ -133,5 +132,8 @@ fi
 #export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 #export MANROFFOPT="-c"
 
-
+# public IP
+# dig +short myip.opendns.com @resolver1.opendns.com
+# volumn
+# echo "`wpctl get-volume @DEFAULT_SINK@ | sed 's/.* //'`" '* 100' | bc | sed 's/\..*/%/'
 
