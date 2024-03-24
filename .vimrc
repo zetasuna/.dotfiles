@@ -4,9 +4,26 @@
 " | . ` |/ _` | '_ ` _ \  \ \ / / | '_ ` _ \| '__/ __|
 " | |\  | (_| | | | | | |  \ V /| | | | | | | | | (__ 
 " |_| \_|\__,_|_| |_| |_| (_)_/ |_|_| |_| |_|_|  \___|
-"
+"======================================================
+"======================================================
+"===                                .-----.         ===
+"===     .----------------------.   | === |         ===
+"===     |.-""""""""""""""""""-.|   |-----|         ===
+"===     ||                    ||   | === |         ===
+"===     ||   N.D.NAM .VIMRC   ||   |-----|         ===
+"===     ||                    ||   | === |         ===
+"===     ||                    ||   |-----|         ===
+"===     ||:Tutor              ||   |:::::|         ===
+"===     |'-..................-'|   |____o|         ===
+"===     `"")----------------(""`   ___________     ===
+"===    /::::::::::|  |::::::::::\  \ no mouse \    ===
+"===   /:::========|  |==hjkl==:::\  \ required \   ===
+"===  '""""""""""""'  '""""""""""""'  '""""""""""'  ===
+"======================================================
+"======================================================
 
-" [[ PLUGINS ]]
+
+" [[ PLUGINS ]] {{{
 set runtimepath^=/home/$USER/.local/share/vim
 if !filereadable(expand("/home/$USER/.local/share/vim/autoload/plug.vim"))
 	silent execute "!curl -fLo /home/$USER/.local/share/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
@@ -30,16 +47,17 @@ nnoremap <silent> fz :fzf!<CR>
 nnoremap <silent> ff :Files!<CR>
 nnoremap <silent> fb :Buffers!<CR>
 nnoremap <silent> <leader>t :vertical terminal<CR>
+"}}}
 
-" [[ OPTIONS ]]
-set nocompatible
-filetype on
-filetype plugin on
-filetype indent on
+" [[ OPTIONS ]] {{{
 if has("syntax")
 	syntax on
 endif
 let g:mapleader=' '
+filetype on
+filetype plugin on
+filetype indent on
+set nocompatible
 set t_Co=256
 set timeout
 set ttimeout
@@ -49,63 +67,21 @@ set number
 set cursorline
 set cursorlineopt=number
 set nocursorcolumn
-set viewdir=$HOME/.local/share/vim/view
+"set clipboard
 set noshowmode
 set showcmd
 set cmdheight=1
+set laststatus=2
 set noruler
 set showtabline=0
 set splitright
 set fillchars+=vert:┃
-function! EnterStatuslineColor()
-	if mode() =~ "[vV\x16]" 
-		hi statusline ctermbg=3    ctermfg=0  cterm=NONE
-		hi User1      ctermbg=0    ctermfg=3  cterm=NONE
-	else
-		if mode() =~ 'i'
-			hi statusline ctermbg=12   ctermfg=0  cterm=NONE
-			hi User1      ctermbg=0    ctermfg=12 cterm=NONE
-		elseif mode() =~ 'R'
-			hi statusline ctermbg=9    ctermfg=0  cterm=NONE
-			hi User1      ctermbg=0    ctermfg=9  cterm=NONE
-		else
-			hi statusline ctermbg=NONE ctermfg=0  cterm=NONE
-			hi User1      ctermbg=NONE ctermfg=0  cterm=NONE
-		endif
-	endif
-endfunction 
-
-function! LeaveStatuslineColor()
-	hi statusline ctermbg=10   ctermfg=0  cterm=NONE
-	hi User1      ctermbg=0    ctermfg=10 cterm=NONE
-endfunction	
-
-au ModeChanged *:[i]* call EnterStatuslineColor()
-au ModeChanged [i]*:* call LeaveStatuslineColor() 
-au ModeChanged *:[vV\x16]* call EnterStatuslineColor()
-au ModeChanged [vV\x16]*:* call LeaveStatuslineColor()
-au ModeChanged *:[R]* call EnterStatuslineColor()
-au ModeChanged [R]*:* call LeaveStatuslineColor()
-
-set laststatus=2
-function! FileFormat()
-	if &fileformat == 'unix'
-		return ' '
-	elseif &fileformat == 'dos'
-		return ' '
-	elseif &fileformat == 'mac'
-		return ' '
-	else 
-		return &fileformat		
-	endif
-endfunction
-augroup statusline
-	autocmd!
-	autocmd WinEnter,BufEnter ?* setlocal statusline=%{FileFormat()}%{&fileencoding?&fileencoding:&encoding}%1*%*%4c┃%-4l%1*%*%t%1*%*%w%h%r%m 
-	autocmd WinLeave,BufLeave ?* setlocal statusline= 
-augroup end
+set viewdir=$HOME/.local/share/vim/view
+set viewoptions-=options
+set foldmethod=marker
 hi Normal           ctermbg=NONE            cterm=NONE
-hi User1            ctermbg=0    ctermfg=10 cterm=NONE
+hi Terminal         ctermbg=NONE            cterm=NONE
+hi User1            ctermbg=NONE ctermfg=10 cterm=NONE
 hi StatusLine       ctermbg=10   ctermfg=0  cterm=NONE
 hi StatusLineNC     ctermbg=NONE ctermfg=0  cterm=NONE
 hi StatusLineTerm   ctermbg=10   ctermfg=0  cterm=NONE
@@ -127,16 +103,84 @@ hi WarningMsg       ctermbg=NONE ctermfg=9  cterm=NONE
 "hi SpecialKey       ctermbg=NONE ctermfg=10 cterm=NONE
 "hi NonText          ctermbg=NONE ctermfg=10 cterm=NONE
 hi MatchParen       ctermbg=NONE ctermfg=10 cterm=NONE
+"}}}
 
-" [[ MAPPINGS ]]
+" [[ MAPPINGS ]] {{{
+"}}}
 
-" [[ VIMSCRIPT ]]
-" Save current cursor when open/close file
+" [[ VIMSCRIPT ]] {{{
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+autocmd WinEnter,BufEnter * setlocal statusline=%{FileFormat()}│%{&fileencoding?&fileencoding:&encoding}%1*%*%4c┃%-4l%1*%*%t│%{LinterStatus()}%1*%*%w%h%r%m
+autocmd WinLeave,BufLeave * setlocal statusline=
+autocmd BufWinLeave *.* silent! mkview
+autocmd BufWinEnter *.* silent! loadview  
 
-augroup remember_folds
-  autocmd!
-  autocmd BufWinLeave ?* silent! mkview
-  autocmd BufWinEnter ?* silent! loadview
-augroup END
+function! LinterStatus() abort
+	let l:counts = ale#statusline#Count(bufnr(''))
+	let l:all_errors = l:counts.error + l:counts.style_error
+   	let l:all_non_errors = l:counts.total - l:all_errors
+    	return l:counts.total == 0 ? '' : printf(
+    	\   ':%d :%d',
+    	\   all_non_errors,
+    	\   all_errors
+    	\)
+endfunction
 
+
+function! EnterStatuslineColor()
+	if mode() =~ "[vV\x16]" 
+		hi statusline ctermbg=3    ctermfg=0  cterm=NONE
+		hi User1      ctermbg=NONE ctermfg=3  cterm=NONE
+	else
+		if mode() =~ 'i'
+			hi statusline ctermbg=6    ctermfg=0  cterm=NONE
+			hi User1      ctermbg=NONE ctermfg=6  cterm=NONE
+		elseif mode() =~ 'R'
+			hi statusline ctermbg=9    ctermfg=0  cterm=NONE
+			hi User1      ctermbg=NONE ctermfg=9  cterm=NONE
+		else
+			hi statusline ctermbg=NONE ctermfg=0  cterm=NONE
+			hi User1      ctermbg=NONE ctermfg=0  cterm=NONE
+		endif
+	endif
+endfunction 
+
+
+function! LeaveStatuslineColor()
+	hi statusline ctermbg=10   ctermfg=0  cterm=NONE
+	hi User1      ctermbg=NONE ctermfg=10 cterm=NONE
+endfunction	
+
+au ModeChanged *:[i]* call EnterStatuslineColor()
+au ModeChanged [i]*:* call LeaveStatuslineColor() 
+au ModeChanged *:[vV\x16]* call EnterStatuslineColor()
+au ModeChanged [vV\x16]*:* call LeaveStatuslineColor()
+au ModeChanged *:[R]* call EnterStatuslineColor()
+au ModeChanged [R]*:* call LeaveStatuslineColor()
+
+function! FileFormat()
+	if &fileformat == 'unix'
+		return ''
+	elseif &fileformat == 'dos'
+		return ''
+	elseif &fileformat == 'mac'
+		return ''
+	else 
+		return &fileformat		
+	endif
+endfunction
+
+"augroup statusline  
+"	autocmd!	
+"	autocmd WinEnter,BufEnter * setlocal statusline=%{FileFormat()}│%{&fileencoding?&fileencoding:&encoding}%1*%*%4c┃%-4l%1*%*%t│%{LinterStatus()}%1*%*%w%h%r%m
+"	autocmd WinLeave,BufLeave * setlocal statusline=
+"	autocmd BufLeave * silent! mkview
+"	autocmd BufEnter * silent! loadview  
+"augroup end
+
+"augroup remember_folds
+"  autocmd!
+"  "autocmd BufWinLeave * silent! mkview
+"  "autocmd BufWinEnter * silent! loadview
+"augroup END
+"}}}

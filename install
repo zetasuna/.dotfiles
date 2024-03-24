@@ -1,9 +1,9 @@
 #!/usr/bin/sh
 
 # General
-sudo apt -y install vim zsh curl wget man make gcc automake autoconf pkg-config openssh-client openssh-server lshw btop fq jq yq xq bat fontconfig nitrogen 
+sudo apt -y install zsh curl wget unzip man make cmake gcc automake autoconf pkg-config fontconfig gettext lshw btop fd-find fq jq yq xq bat nitrogen 
 
-sudo apt -y install xorg xinit x11-xserver-utils build-essential libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev libevent-dev ncurses-dev bison libsixel-bin
+sudo apt -y install xorg xinit x11-xserver-utils fswatch build-essential ninja-build libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev libevent-dev ncurses-dev bison libsixel-bin
 
 # Zsh
 chsh -s $(which zsh)
@@ -69,15 +69,23 @@ if [ ! -d "/home/$USER/.config/zsh-autocomplete" ]; then
 	git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git /home/$USER/.config/zsh-autocomplete
 fi
 
-# Tmux
-if [ ! -d "/home/$USER/.config/tmux" ]; then
-	git clone https://github.com/tmux/tmux.git /home/$USER/.config/tmux
-	cd /home/$USER/.config/tmux
-	sh ./autogen.sh
-	sh ./configure --enable-sixel
-	sudo make install
+# Neovim
+if [ ! -d "/home/$USER/.config/nvim" ]; then
+	git clone https://github.com/neovim/neovim /home/$USER/.config/nvim
+	cd /home/$USER/.config/nvim && make CMAKE_BUILD_TYPE=Release
+	cd /home/$USER/.config/nvim/build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
 	cd /home/$USER
 fi
+
+# Tmux
+#if [ ! -d "/home/$USER/.config/tmux" ]; then
+#	git clone https://github.com/tmux/tmux.git /home/$USER/.config/tmux
+#	cd /home/$USER/.config/tmux
+#	sh ./autogen.sh
+#	sh ./configure --enable-sixel
+#	sudo make install
+#	cd /home/$USER
+#fi
 
 # Fzf
 if [ ! -d "/home/$USER/.config/fzf" ]; then
@@ -91,8 +99,8 @@ fi
 # Lazygit
 if [ ! -d "/home/$USER/.config/lazygit" ]; then
 	mkdir -p /home/$USER/.config/lazygit
-	LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-	curl -Lo /home/$USER/.config/lazygit/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+	LAZYGIT_VERSION=$(curl -s 'https://api.github.com/repos/jesseduffield/lazygit/releases/latest' | grep -Po '"tag_name": "v\K[^"]*')
+	curl -Lo /home/$USER/.config/lazygit/lazygit.tar.gz 'https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz'
 	tar -xf /home/$USER/.config/lazygit/lazygit.tar.gz -C /home/$USER/.config/lazygit
 	sudo install /home/$USER/.config/lazygit/lazygit /usr/local/bin
 fi
