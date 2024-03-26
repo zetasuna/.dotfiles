@@ -1,9 +1,9 @@
 #!/usr/bin/sh
 
-# General
+# General {{{
 sudo apt -y install zsh curl wget unzip man make cmake gcc automake autoconf pkg-config fontconfig gettext lshw btop fd-find fq jq yq xq bat nitrogen 
 
-sudo apt -y install xorg xinit x11-xserver-utils fswatch build-essential ninja-build libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev libevent-dev ncurses-dev bison libsixel-bin
+sudo apt -y install xorg xinit x11-xserver-utils fswatch build-essential ninja-build libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev libevent-dev ncurses-dev bison 
 
 # Zsh
 chsh -s $(which zsh)
@@ -11,17 +11,19 @@ chsh -s $(which zsh)
 #ln -s /home/$USER/.dotfiles/.zshrc /home/$USER/.zshrc
 
 # Vim
-rm -f /home/$USER/.vimrc
-ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
+#rm -f /home/$USER/.vimrc
+#ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
 
 # Rust
 curl https://sh.rustup.rs -sSf | sh 
+#}}}
 
-# .config
+# .config {{{
 if [ ! -d "/home/$USER/.config" ]; then
 	mkdir -p /home/$USER/.config
 fi
-# Suckless
+
+# Suckless {{{
 #if [ ! -d "/home/$USER/.config/suckless" ]; then
 #	git clone https://github.com/bakkeby/dwm-flexipatch.git   /home/$USER/.config/suckless/dwm
 #	git clone https://github.com/bakkeby/st-flexipatch.git    /home/$USER/.config/suckless/st
@@ -37,24 +39,18 @@ fi
 #ln -s /home/$USER/.dotfiles/suckless/st_config.h    /home/$USER/.config/suckless/st/config.h
 #ln -s /home/$USER/.dotfiles/suckless/dmenu_config.h /home/$USER/.config/suckless/dmenu/config.h
 #ln -s /home/$USER/.dotfiles/suckless/slock_config.h /home/$USER/.config/suckless/slock/config.h
-if [ ! -d "/home/$USER/.config/suckless" ]; then
-	ln -s /home/$USER/.dotfiles/suckless /home/$USER/.config/suckless
-fi
+#if [ ! -d "/home/$USER/.config/suckless" ]; then
+#	ln -s /home/$USER/.dotfiles/suckless /home/$USER/.config/suckless
+#fi
 #sudo make -C "/home/$USER/.config/suckless/dwm"      clean install
-sudo make -C "/home/$USER/.config/suckless/st"       clean install
+#sudo make -C "/home/$USER/.config/suckless/st"       clean install
 #sudo make -C "/home/$USER/.config/suckless/dmenu"    clean install
 #sudo make -C "/home/$USER/.config/suckless/slock"    clean install
 #sudo make -C "/home/$USER/.config/suckless/slstatus" clean install
-rm -f /home/$USER/.xinitrc
-ln -s /home/$USER/.dotfiles/.xinitrc /home/$USER/.xinitrc
+#rm -f /home/$USER/.xinitrc
+#ln -s /home/$USER/.dotfiles/.xinitrc /home/$USER/.xinitrc
 #	echo "startx" >> .profile
-
-# Libsixsel
-#if [ ! -d "/home/$USER/.config/libsixel" ]; then
-#	git clone https://github.com/saitoha/libsixel.git /home/$USER/.config/libsixel
-#	/home/$USER/.config/libsixel/configure
-#	sudo make install
-#fi
+#}}}
 
 # Zsh Plugin
 if [ ! -d "/home/$USER/.config/powerlevel10k" ]; then
@@ -62,7 +58,7 @@ if [ ! -d "/home/$USER/.config/powerlevel10k" ]; then
 fi
 
 if [ ! -d "/home/$USER/.config/zsh-syntax-highlighting" ]; then
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/nam/.config/zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/$USER/.config/zsh-syntax-highlighting
 fi
 
 if [ ! -d "/home/$USER/.config/zsh-autocomplete" ]; then
@@ -71,21 +67,21 @@ fi
 
 # Neovim
 if [ ! -d "/home/$USER/.config/nvim" ]; then
-	git clone https://github.com/neovim/neovim /home/$USER/.config/nvim
-	cd /home/$USER/.config/nvim && make CMAKE_BUILD_TYPE=Release
-	cd /home/$USER/.config/nvim/build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
+	git clone https://github.com/neovim/neovim /home/$USER/.config/neovim
+	cd /home/$USER/.config/neovim && make CMAKE_BUILD_TYPE=Release
+	cd /home/$USER/.config/neovim/build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
 	cd /home/$USER
 fi
 
 # Tmux
-#if [ ! -d "/home/$USER/.config/tmux" ]; then
-#	git clone https://github.com/tmux/tmux.git /home/$USER/.config/tmux
-#	cd /home/$USER/.config/tmux
-#	sh ./autogen.sh
-#	sh ./configure --enable-sixel
-#	sudo make install
-#	cd /home/$USER
-#fi
+if [ ! -d "/home/$USER/.config/tmux" ]; then
+	git clone https://github.com/tmux/tmux.git /home/$USER/.config/tmux
+	cd /home/$USER/.config/tmux
+	sh ./autogen.sh
+	sh ./configure --enable-sixel
+	sudo make install
+	cd /home/$USER
+fi
 
 # Fzf
 if [ ! -d "/home/$USER/.config/fzf" ]; then
@@ -97,13 +93,13 @@ if [ ! -d "/home/$USER/.config/fzf" ]; then
 fi
 
 # Lazygit
-if [ ! -d "/home/$USER/.config/lazygit" ]; then
-	mkdir -p /home/$USER/.config/lazygit
-	LAZYGIT_VERSION=$(curl -s 'https://api.github.com/repos/jesseduffield/lazygit/releases/latest' | grep -Po '"tag_name": "v\K[^"]*')
-	curl -Lo /home/$USER/.config/lazygit/lazygit.tar.gz 'https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz'
-	tar -xf /home/$USER/.config/lazygit/lazygit.tar.gz -C /home/$USER/.config/lazygit
-	sudo install /home/$USER/.config/lazygit/lazygit /usr/local/bin
-fi
+#if [ ! -d "/home/$USER/.config/lazygit" ]; then
+#	mkdir -p /home/$USER/.config/lazygit
+#	LAZYGIT_VERSION=$(curl -s 'https://api.github.com/repos/jesseduffield/lazygit/releases/latest' | grep -Po '"tag_name": "v\K[^"]*')
+#	curl -Lo /home/$USER/.config/lazygit/lazygit.tar.gz 'https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz'
+#	tar -xf /home/$USER/.config/lazygit/lazygit.tar.gz -C /home/$USER/.config/lazygit
+#	sudo install /home/$USER/.config/lazygit/lazygit /usr/local/bin
+#fi
 
 # Ripgrep
 if [ ! -d "/home/$USER/.config/ripgrep" ]; then
@@ -111,8 +107,9 @@ if [ ! -d "/home/$USER/.config/ripgrep" ]; then
 	curl -Lo /home/$USER/.config/ripgrep/ripgrep_13.0.0_amd64.deb  https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
 	sudo dpkg -i /home/$USER/.config/ripgrep/ripgrep_13.0.0_amd64.deb
 fi
+#}}}
 
-# .local/share
+# .local/share {{{
 if [ ! -d "/home/$USER/.local/share" ]; then
 	mkdir -p /home/$USER/.local/share
 fi
@@ -121,27 +118,4 @@ rm -rf /home/$USER/.local/share/fonts
 ln -s /home/$USER/.dotfiles/fonts /home/$USER/.local/share/fonts
 fc-cache -fv
 chmod +x /home/$USER/.local/share/test-fonts.sh
-
-
-
-
-
-#source /home/$USER/.config/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-#source /home/$USER/.config/powerlevel10k/powerlevel10k.zsh-theme
-#source /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-#[[ ! -f /home/$USER/.p10k.zsh ]] || source /home/$USER/.p10k.zsh
-#[ -f /home/$USER/.fzf.zsh ] && source /home/$USER/.fzf.zsh
-#export PS2='%F{76}⮩ %f'
-#
-#alias -g bat='batcat'
-#alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
-#alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
-#
-#export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-#export MANROFFOPT="-c"
-
-# public IP
-# dig +short myip.opendns.com @resolver1.opendns.com
-# volumn
-# echo "`wpctl get-volume @DEFAULT_SINK@ | sed 's/.* //'`" '* 100' | bc | sed 's/\..*/%/'
-
+#}}}
