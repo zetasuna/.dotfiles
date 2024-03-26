@@ -23,54 +23,63 @@ HISTSIZE=1000
 SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
+export PS2='%F{76} %f'
+export fpath=(/home/$USER/.config/zsh-completions/src $fpath)
+export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
+export MANROFFOPT="-c"
+
 # Use modern completion system
+rm -f /home/$USER/.zcompdump
 autoload -Uz compinit
 compinit
 
-# Zstyle {{{
+# Zstyle 
 eval "$(dircolors -b)"
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*' auto-description 'specify: %d'
-zstyle ':completion:*' completer _expand _complete _correct _approximate
-zstyle ':completion:*' format 'Completing %d'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' menu select=2
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
-zstyle ':completion:*' menu select=long
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle ':completion:*' use-compctl false
-zstyle ':completion:*' verbose true
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
-#}}}
+#zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+#zstyle ':completion:*' list-colors ''
+#zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+#zstyle ':completion:*' auto-description 'specify: %d'
+#zstyle ':completion:*' completer _expand _complete _correct _approximate
+#zstyle ':completion:*' format 'Completing %d'
+#zstyle ':completion:*' group-name ''
+#zstyle ':completion:*' menu select=2
+#zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+#zstyle ':completion:*' menu select=long
+#zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+#zstyle ':completion:*' use-compctl false
+#zstyle ':completion:*' verbose true
+#zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+#zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+#
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+# NOTE: don't use escape sequences here, fzf-tab will ignore them
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+zstyle ':completion:*' menu no
+# preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# switch group using `<` and `>`
+zstyle ':fzf-tab:*' switch-group '<' '>'
 
-# Source {{{
-source /home/$USER/.config/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+# Source 
+[ -f /home/$USER/.fzf.zsh ] && source /home/$USER/.fzf.zsh
+[[ ! -f /home/$USER/.p10k.zsh ]] || source /home/$USER/.p10k.zsh
 source /home/$USER/.config/powerlevel10k/powerlevel10k.zsh-theme
-source /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 #source /home/$USER/.config/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-#source /home/$USER/.config/powerlevel10k/powerlevel10k.zsh-theme
-#source /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-#[[ ! -f /home/$USER/.p10k.zsh ]] || source /home/$USER/.p10k.zsh
-#[ -f /home/$USER/.fzf.zsh ] && source /home/$USER/.fzf.zsh
-#}}}
+source /home/$USER/.config/fzf-tab/fzf-tab.plugin.zsh
+source /home/$USER/.config/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# Alias {{{
+# Alias 
 alias -g ls='ls --color=always'
 alias -g grep='grep --color=always'
 alias -g ip='ip --color=always'
 alias -g -- -h='-h 2>&1 | batcat --language=help --style=plain'
 alias -g -- --help='--help 2>&1 | batcat --language=help --style=plain'
-#}}}
-
-# Export {{{
-export PS2='%F{76}⮩ %f'
-export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
-export MANROFFOPT="-c"
-#}}}
-
 
 # public IP
 # dig +short myip.opendns.com @resolver1.opendns.com

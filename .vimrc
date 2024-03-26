@@ -53,7 +53,7 @@ nnoremap <silent> <leader>t :vertical terminal<CR>
 if has("syntax")
 	syntax on
 endif
-let g:mapleader=' '
+let g:mapleader='\'
 filetype on
 filetype plugin on
 filetype indent on

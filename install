@@ -1,18 +1,9 @@
 #!/usr/bin/sh
 
 # General {{{
-sudo apt -y install zsh curl wget unzip man make cmake gcc automake autoconf pkg-config fontconfig gettext lshw btop fd-find fq jq yq xq bat nitrogen 
+sudo apt -y install zsh curl wget unzip man make cmake gcc automake autoconf pkg-config fontconfig gettext lshw btop fd-find fq jq yq xq bat tldr # i3 kitty nitrogen picom firefox-esr youtube-dl vlc 7zip
 
 sudo apt -y install xorg xinit x11-xserver-utils fswatch build-essential ninja-build libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev libevent-dev ncurses-dev bison 
-
-# Zsh
-chsh -s $(which zsh)
-#rm -f /home/$USER/.zshrc
-#ln -s /home/$USER/.dotfiles/.zshrc /home/$USER/.zshrc
-
-# Vim
-#rm -f /home/$USER/.vimrc
-#ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
 
 # Rust
 curl https://sh.rustup.rs -sSf | sh 
@@ -57,20 +48,54 @@ if [ ! -d "/home/$USER/.config/powerlevel10k" ]; then
 	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /home/$USER/.config/powerlevel10k
 fi
 
+#if [ ! -d "/home/$USER/.config/zsh-autocomplete" ]; then
+#	git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git /home/$USER/.config/zsh-autocomplete
+#fi
+
+if [ ! -d "/home/$USER/.config/zsh-completions" ]; then
+	git clone https://github.com/zsh-users/zsh-completions.git /home/$USER/.config/zsh-completions
+fi
+
+if [ ! -d "/home/$USER/.config/fzf-tab" ]; then
+	git clone https://github.com/Aloxaf/fzf-tab /home/$USER/.config/fzf-tab
+fi
+
+if [ ! -d "/home/$USER/.config/vavi" ]; then
+	git clone https://github.com/denisidoro/navi /home/$USER/.config/navi
+	cd /home/$USER/.config/navi
+	sudo make BIN_DIR=/usr/local/bin install
+	cd /home/$USER
+fi
+
+if [ ! -d "/home/$USER/.config/zsh-autosuggestions" ]; then
+	git clone https://github.com/zsh-users/zsh-autosuggestions /home/$USER/.config/zsh-autosuggestions
+fi
+
 if [ ! -d "/home/$USER/.config/zsh-syntax-highlighting" ]; then
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/$USER/.config/zsh-syntax-highlighting
 fi
 
-if [ ! -d "/home/$USER/.config/zsh-autocomplete" ]; then
-	git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git /home/$USER/.config/zsh-autocomplete
-fi
-
 # Neovim
-if [ ! -d "/home/$USER/.config/nvim" ]; then
+if [ ! -d "/home/$USER/.config/neovim" ]; then
 	git clone https://github.com/neovim/neovim /home/$USER/.config/neovim
 	cd /home/$USER/.config/neovim && make CMAKE_BUILD_TYPE=Release
-	cd /home/$USER/.config/neovim/build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
+	sudo make install
 	cd /home/$USER
+fi
+
+# Lazyvim
+if [ ! -d "/home/$USER/.config/nvim" ]; then
+	# required
+	mv ~/.config/nvim{,.bak}
+
+	# optional but recommended
+	mv ~/.local/share/nvim{,.bak}
+	mv ~/.local/state/nvim{,.bak}
+	mv ~/.cache/nvim{,.bak}	
+
+	# Clone
+	git clone https://github.com/LazyVim/starter /home/$USER/.config/nvim	
+	rm -rf /home/$USER/.config/nvim/.git
 fi
 
 # Tmux
@@ -93,19 +118,19 @@ if [ ! -d "/home/$USER/.config/fzf" ]; then
 fi
 
 # Lazygit
-#if [ ! -d "/home/$USER/.config/lazygit" ]; then
-#	mkdir -p /home/$USER/.config/lazygit
-#	LAZYGIT_VERSION=$(curl -s 'https://api.github.com/repos/jesseduffield/lazygit/releases/latest' | grep -Po '"tag_name": "v\K[^"]*')
-#	curl -Lo /home/$USER/.config/lazygit/lazygit.tar.gz 'https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz'
-#	tar -xf /home/$USER/.config/lazygit/lazygit.tar.gz -C /home/$USER/.config/lazygit
-#	sudo install /home/$USER/.config/lazygit/lazygit /usr/local/bin
-#fi
+if [ ! -d "/home/$USER/.config/lazygit" ]; then
+	mkdir -p /home/$USER/.config/lazygit
+	LAZYGIT_VERSION=$(curl -s 'https://api.github.com/repos/jesseduffield/lazygit/releases/latest' | grep -Po '"tag_name": "v\K[^"]*')
+	curl -Lo /home/$USER/.config/lazygit/lazygit.tar.gz 'https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz'
+	tar -xf /home/$USER/.config/lazygit/lazygit.tar.gz -C /home/$USER/.config/lazygit
+	sudo install /home/$USER/.config/lazygit/lazygit /usr/local/bin
+fi
 
 # Ripgrep
 if [ ! -d "/home/$USER/.config/ripgrep" ]; then
 	mkdir -p /home/$USER/.config/ripgrep
-	curl -Lo /home/$USER/.config/ripgrep/ripgrep_13.0.0_amd64.deb  https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
-	sudo dpkg -i /home/$USER/.config/ripgrep/ripgrep_13.0.0_amd64.deb
+	curl -Lo /home/$USER/.config/ripgrep/ripgrep_14.1.0_amd64.deb  https://github.com/BurntSushi/ripgrep/releases/download/14.1.0/ripgrep_14.1.0_amd64.deb
+	sudo dpkg -i /home/$USER/.config/ripgrep/ripgrep_14.1.0_amd64.deb
 fi
 #}}}
 
@@ -119,3 +144,13 @@ ln -s /home/$USER/.dotfiles/fonts /home/$USER/.local/share/fonts
 fc-cache -fv
 chmod +x /home/$USER/.local/share/test-fonts.sh
 #}}}
+
+
+# Zsh
+chsh -s $(which zsh)
+rm -f /home/$USER/.zshrc
+ln -s /home/$USER/.dotfiles/.zshrc /home/$USER/.zshrc
+
+# Vim
+#rm -f /home/$USER/.vimrc
+#ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
