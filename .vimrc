@@ -109,24 +109,6 @@ hi MatchParen       ctermbg=NONE ctermfg=10 cterm=NONE
 "}}}
 
 " [[ VIMSCRIPT ]] {{{
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-autocmd WinEnter,BufEnter * setlocal statusline=%{FileFormat()}│%{&fileencoding?&fileencoding:&encoding}%1*%*%4c┃%-4l%1*%*%t│%{LinterStatus()}%1*%*%w%h%r%m
-autocmd WinLeave,BufLeave * setlocal statusline=
-autocmd BufWinLeave *.* silent! mkview
-autocmd BufWinEnter *.* silent! loadview  
-
-function! LinterStatus() abort
-	let l:counts = ale#statusline#Count(bufnr(''))
-	let l:all_errors = l:counts.error + l:counts.style_error
-   	let l:all_non_errors = l:counts.total - l:all_errors
-    	return l:counts.total == 0 ? '' : printf(
-    	\   ':%d :%d',
-    	\   all_non_errors,
-    	\   all_errors
-    	\)
-endfunction
-
-
 function! EnterStatuslineColor()
 	if mode() =~ "[vV\x16]" 
 		hi statusline ctermbg=3    ctermfg=0  cterm=NONE
@@ -145,30 +127,46 @@ function! EnterStatuslineColor()
 	endif
 endfunction 
 
-
 function! LeaveStatuslineColor()
 	hi statusline ctermbg=10   ctermfg=0  cterm=NONE
 	hi User1      ctermbg=NONE ctermfg=10 cterm=NONE
 endfunction	
 
-au ModeChanged *:[i]* call EnterStatuslineColor()
-au ModeChanged [i]*:* call LeaveStatuslineColor() 
-au ModeChanged *:[vV\x16]* call EnterStatuslineColor()
-au ModeChanged [vV\x16]*:* call LeaveStatuslineColor()
-au ModeChanged *:[R]* call EnterStatuslineColor()
-au ModeChanged [R]*:* call LeaveStatuslineColor()
+autocmd ModeChanged *:[i]* call EnterStatuslineColor()
+autocmd ModeChanged [i]*:* call LeaveStatuslineColor() 
+autocmd ModeChanged *:[vV\x16]* call EnterStatuslineColor()
+autocmd ModeChanged [vV\x16]*:* call LeaveStatuslineColor()
+autocmd ModeChanged *:[R]* call EnterStatuslineColor()
+autocmd ModeChanged [R]*:* call LeaveStatuslineColor()
 
 function! FileFormat()
 	if &fileformat == 'unix'
-		return ''
+		return '  '
 	elseif &fileformat == 'dos'
-		return ''
+		return '  '
 	elseif &fileformat == 'mac'
-		return ''
+		return '  '
 	else 
 		return &fileformat		
 	endif
 endfunction
+
+function! LinterStatus() abort
+	let l:counts = ale#statusline#Count(bufnr(''))
+	let l:all_errors = l:counts.error + l:counts.style_error
+   	let l:all_non_errors = l:counts.total - l:all_errors
+    	return l:counts.total == 0 ? '  ' : printf(
+    	\   ' %d  %d',
+    	\   all_non_errors,
+    	\   all_errors
+    	\)
+endfunction
+
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+autocmd WinEnter,BufEnter * setlocal statusline=%{FileFormat()}│%{&fileencoding?&fileencoding:&encoding}%1*%*%4c┃%-4l%1*%*%t│%{LinterStatus()}%1*%*%w%h%r%m%=
+autocmd WinLeave,BufLeave * setlocal statusline=
+autocmd BufWinLeave *.* silent! mkview
+autocmd BufWinEnter *.* silent! loadview  
 
 "augroup statusline  
 "	autocmd!	

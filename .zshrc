@@ -64,6 +64,8 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 # switch group using `<` and `>`
 zstyle ':fzf-tab:*' switch-group '<' '>'
+# fzf-tab popup tmux
+#zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
 # Source 
 [ -f /home/$USER/.fzf.zsh ] && source /home/$USER/.fzf.zsh
@@ -76,7 +78,7 @@ source /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Alias 
 alias -g ls='ls --color=always'
-alias -g grep='grep --color=always'
+#alias -g grep='grep --color=always'
 alias -g ip='ip --color=always'
 alias -g -- -h='-h 2>&1 | batcat --language=help --style=plain'
 alias -g -- --help='--help 2>&1 | batcat --language=help --style=plain'

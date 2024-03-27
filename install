@@ -7,6 +7,15 @@ sudo apt -y install xorg xinit x11-xserver-utils fswatch build-essential ninja-b
 
 # Rust
 curl https://sh.rustup.rs -sSf | sh 
+
+# Zsh
+rm -f /home/$USER/.zshrc
+ln -s /home/$USER/.dotfiles/.zshrc /home/$USER/.zshrc
+chsh -s $(which zsh)
+
+# Vim
+#rm -f /home/$USER/.vimrc
+#ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
 #}}}
 
 # .config {{{
@@ -60,7 +69,7 @@ if [ ! -d "/home/$USER/.config/fzf-tab" ]; then
 	git clone https://github.com/Aloxaf/fzf-tab /home/$USER/.config/fzf-tab
 fi
 
-if [ ! -d "/home/$USER/.config/vavi" ]; then
+if [ ! -d "/home/$USER/.config/navi" ]; then
 	git clone https://github.com/denisidoro/navi /home/$USER/.config/navi
 	cd /home/$USER/.config/navi
 	sudo make BIN_DIR=/usr/local/bin install
@@ -120,8 +129,8 @@ fi
 # Lazygit
 if [ ! -d "/home/$USER/.config/lazygit" ]; then
 	mkdir -p /home/$USER/.config/lazygit
-	LAZYGIT_VERSION=$(curl -s 'https://api.github.com/repos/jesseduffield/lazygit/releases/latest' | grep -Po '"tag_name": "v\K[^"]*')
-	curl -Lo /home/$USER/.config/lazygit/lazygit.tar.gz 'https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz'
+	LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+	curl -Lo /home/$USER/.config/lazygit/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 	tar -xf /home/$USER/.config/lazygit/lazygit.tar.gz -C /home/$USER/.config/lazygit
 	sudo install /home/$USER/.config/lazygit/lazygit /usr/local/bin
 fi
@@ -146,11 +155,3 @@ chmod +x /home/$USER/.local/share/test-fonts.sh
 #}}}
 
 
-# Zsh
-chsh -s $(which zsh)
-rm -f /home/$USER/.zshrc
-ln -s /home/$USER/.dotfiles/.zshrc /home/$USER/.zshrc
-
-# Vim
-#rm -f /home/$USER/.vimrc
-#ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
