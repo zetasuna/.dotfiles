@@ -69,8 +69,8 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 
 # Source 
 [ -f /home/$USER/.fzf.zsh ] && source /home/$USER/.fzf.zsh
-[[ ! -f /home/$USER/.p10k.zsh ]] || source /home/$USER/.p10k.zsh
 source /home/$USER/.config/powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 #source /home/$USER/.config/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 source /home/$USER/.config/fzf-tab/fzf-tab.plugin.zsh
 source /home/$USER/.config/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -88,3 +88,4 @@ alias -g -- --help='--help 2>&1 | batcat --language=help --style=plain'
 # Volumn
 # echo "`wpctl get-volume @DEFAULT_SINK@ | sed 's/.* //'`" '* 100' | bc | sed 's/\..*/%/'
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

@@ -12,6 +12,7 @@ curl https://sh.rustup.rs -sSf | sh
 rm -f /home/$USER/.zshrc
 ln -s /home/$USER/.dotfiles/.zshrc /home/$USER/.zshrc
 chsh -s $(which zsh)
+exec zsh
 
 # Vim
 #rm -f /home/$USER/.vimrc
