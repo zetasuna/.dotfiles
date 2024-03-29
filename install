@@ -56,7 +56,8 @@ if [ ! -d "/home/$USER/.config/tmux" ]; then
 	cd /home/$USER/.config/tmux
 	sh ./autogen.sh
 	sh ./configure --enable-sixel
-	make && sudo make install
+	sudo make install
+	sudo pkill -9 tmux
 	cd /home/$USER
 fi
 #}}}
