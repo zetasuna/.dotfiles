@@ -3,8 +3,8 @@
 sudo apt -y install\
 	xorg xinit x11-xserver-utils fswatch build-essential ninja-build\
 	libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev libevent-dev ncurses-dev bison\
-	zsh curl wget unzip man make cmake gcc automake autoconf pkg-config fontconfig gettext\
-	lshw btop fd-find fq jq yq xq\
+	zsh curl wget unzip man make cmake gcc automake autoconf pkg-config fontconfig gettext libtool\
+	lshw btop jq\
        	#i3 kitty nitrogen picom firefox-esr youtube-dl vlc 7zip
 	
 # Vim
@@ -13,25 +13,26 @@ sudo apt -y install\
 
 # Rust {{{
 curl https://sh.rustup.rs -sSf | sh 
-cargo install bat
-cargo install navi
-cargo install ripgrep
+cargo install bat ripgrep fd-find navi
 #}}}
 
 # Go {{{
-GO_VERSION=$(curl -s "https://go.dev/dl/" | grep -Po 'go[0-9.]*\.linux-amd64\.tar\.gz' | head -n 1)
+GO_VERSION=$(curl -s "https://go.dev/dl/" | grep -Po 'go[0-9.]*\.linux-amd64\.tar\.gz' | sort -V | tail -n 1)
 curl -Lo /home/$USER/go.tar.gz "https://go.dev/dl/{$GO_VERSION}" 
 tar -xf /home/$USER/go.tar.gz -C /home/$USER
-mv /home/$USER/go /home/$USER/.go
 rm -f /home/$USER/go.tar.gz 
+go install github.com/jesseduffield/lazygit@latest
+go install github.com/wader/fq@latest
+go install github.com/mikefarah/yq/v4@latest
+go install github.com/sibprogrammer/xq@latest
 #}}}
 
 # NodeJs(NPM) {{{
 NODE_VERSION=$(curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
 curl -Lo /home/$USER/node.tar.gz "https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.gz"
 tar -xf/home/$USER/node.tar.gz -C /home/$USER
-mv $(ls | grep node | sort -V | tail -n 1) .nodejs
 rm -f /home/$USER/node.tar.gz
+npm install -g tldr
 #}}}
 
 # .config {{{
@@ -78,7 +79,7 @@ if [ ! -d "/home/$USER/.config/powerlevel10k" ]; then
 fi
 
 #if [ ! -d "/home/$USER/.config/zsh-autocomplete" ]; then
-#	git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git /home/$USER/.config/zsh-autocomplete
+#	git clone --depth 1 https://github.com/marlonrichert/zsh-autocomplete.git /home/$USER/.config/zsh-autocomplete
 #fi
 
 if [ ! -d "/home/$USER/.config/zsh-completions" ]; then
@@ -141,15 +142,6 @@ if [ ! -d "/home/$USER/.config/fzf" ]; then
 	# cd /home/$USER/.config/fzf && git pull && ./install
 fi
 #}}}
-
-# Lazygit
-if [ ! -d "/home/$USER/.config/lazygit" ]; then
-	mkdir -p /home/$USER/.config/lazygit
-	LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-	curl -Lo /home/$USER/.config/lazygit/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-	tar -xf /home/$USER/.config/lazygit/lazygit.tar.gz -C /home/$USER/.config/lazygit
-	sudo install /home/$USER/.config/lazygit/lazygit /usr/local/bin
-fi
 
 #}}}
 

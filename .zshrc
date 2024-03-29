@@ -10,7 +10,7 @@
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+	source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 setopt histignorealldups sharehistory
@@ -24,13 +24,13 @@ SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
 export PS2='%F{76} %f'
-export PATH="/home/$USER/.go/bin:/home/$USER/.nodejs/bin:$PATH"
+export PATH="/home/$USER/go/bin:/home/$USER/$(ls | grep -Po "node-v[0-9.]*-linux-x64" | sort -V | tail -n 1)/bin:$PATH"
 export fpath=(/home/$USER/.config/zsh-completions/src $fpath)
 #export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 #export MANROFFOPT="-c"
 
 # Use modern completion system
-#rm -f /home/$USER/.zcompdump
+rm -f /home/$USER/.zcompdump
 autoload -Uz compinit
 compinit
 
@@ -70,12 +70,11 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 
 # Source 
 [ -f /home/$USER/.fzf.zsh ] && source /home/$USER/.fzf.zsh
-source /home/$USER/.config/powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-#source /home/$USER/.config/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-source /home/$USER/.config/fzf-tab/fzf-tab.plugin.zsh
-#source /home/$USER/.config/zsh-autosuggestions/zsh-autosuggestions.zsh
-#source /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[ -f /home/$USER/.config/powerlevel10k/powerlevel10k.zsh-theme ] && source /home/$USER/.config/powerlevel10k/powerlevel10k.zsh-theme
+[ -f /home/$USER/.config/zsh-autocomplete/zsh-autocomplete.plugin.zsh ] && source /home/$USER/.config/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+[ -f /home/$USER/.config/fzf-tab/fzf-tab.plugin.zsh ] && source /home/$USER/.config/fzf-tab/fzf-tab.plugin.zsh
+[ -f /home/$USER/.config/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source /home/$USER/.config/zsh-autosuggestions/zsh-autosuggestions.zsh
+[ -f /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Alias 
 alias -g ls='ls --color=always'
@@ -89,4 +88,3 @@ alias -g ip='ip --color=always'
 # Volumn
 # echo "`wpctl get-volume @DEFAULT_SINK@ | sed 's/.* //'`" '* 100' | bc | sed 's/\..*/%/'
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
