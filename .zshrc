@@ -24,12 +24,13 @@ SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
 export PS2='%F{76} %f'
+export PATH="/home/$USER/.go/bin:/home/$USER/.nodejs/bin:$PATH"
 export fpath=(/home/$USER/.config/zsh-completions/src $fpath)
-export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
-export MANROFFOPT="-c"
+#export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+#export MANROFFOPT="-c"
 
 # Use modern completion system
-rm -f /home/$USER/.zcompdump
+#rm -f /home/$USER/.zcompdump
 autoload -Uz compinit
 compinit
 
@@ -73,15 +74,15 @@ source /home/$USER/.config/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 #source /home/$USER/.config/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 source /home/$USER/.config/fzf-tab/fzf-tab.plugin.zsh
-source /home/$USER/.config/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#source /home/$USER/.config/zsh-autosuggestions/zsh-autosuggestions.zsh
+#source /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Alias 
 alias -g ls='ls --color=always'
 #alias -g grep='grep --color=always'
 alias -g ip='ip --color=always'
-alias -g -- -h='-h 2>&1 | batcat --language=help --style=plain'
-alias -g -- --help='--help 2>&1 | batcat --language=help --style=plain'
+#alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
+#alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
 
 # public IP
 # dig +short myip.opendns.com @resolver1.opendns.com

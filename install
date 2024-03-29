@@ -1,22 +1,37 @@
 #!/usr/bin/sh
 
-# General {{{
-sudo apt -y install zsh curl wget unzip man make cmake gcc automake autoconf pkg-config fontconfig gettext lshw btop fd-find fq jq yq xq bat tldr # i3 kitty nitrogen picom firefox-esr youtube-dl vlc 7zip
-
-sudo apt -y install xorg xinit x11-xserver-utils fswatch build-essential ninja-build libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev libevent-dev ncurses-dev bison 
-
-# Rust
-curl https://sh.rustup.rs -sSf | sh 
-
-# Zsh
-rm -f /home/$USER/.zshrc
-ln -s /home/$USER/.dotfiles/.zshrc /home/$USER/.zshrc
-chsh -s $(which zsh)
-exec zsh
-
+sudo apt -y install\
+	xorg xinit x11-xserver-utils fswatch build-essential ninja-build\
+	libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev libevent-dev ncurses-dev bison\
+	zsh curl wget unzip man make cmake gcc automake autoconf pkg-config fontconfig gettext\
+	lshw btop fd-find fq jq yq xq\
+       	#i3 kitty nitrogen picom firefox-esr youtube-dl vlc 7zip
+	
 # Vim
 #rm -f /home/$USER/.vimrc
 #ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
+
+# Rust {{{
+curl https://sh.rustup.rs -sSf | sh 
+cargo install bat
+cargo install navi
+cargo install ripgrep
+#}}}
+
+# Go {{{
+GO_VERSION=$(curl -s "https://go.dev/dl/" | grep -Po 'go[0-9.]*\.linux-amd64\.tar\.gz' | head -n 1)
+curl -Lo /home/$USER/go.tar.gz "https://go.dev/dl/{$GO_VERSION}" 
+tar -xf /home/$USER/go.tar.gz -C /home/$USER
+mv /home/$USER/go /home/$USER/.go
+rm -f /home/$USER/go.tar.gz 
+#}}}
+
+# NodeJs(NPM) {{{
+NODE_VERSION=$(curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
+curl -Lo /home/$USER/node.tar.gz "https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.gz"
+tar -xf/home/$USER/node.tar.gz -C /home/$USER
+mv $(ls | grep node | sort -V | tail -n 1) .nodejs
+rm -f /home/$USER/node.tar.gz
 #}}}
 
 # .config {{{
@@ -53,6 +68,10 @@ fi
 #	echo "startx" >> .profile
 #}}}
 
+# Zsh {{{
+rm -f /home/$USER/.zshrc
+ln -s /home/$USER/.dotfiles/.zshrc /home/$USER/.zshrc
+chsh -s $(which zsh)
 # Zsh Plugin
 if [ ! -d "/home/$USER/.config/powerlevel10k" ]; then
 	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /home/$USER/.config/powerlevel10k
@@ -70,13 +89,6 @@ if [ ! -d "/home/$USER/.config/fzf-tab" ]; then
 	git clone https://github.com/Aloxaf/fzf-tab /home/$USER/.config/fzf-tab
 fi
 
-if [ ! -d "/home/$USER/.config/navi" ]; then
-	git clone https://github.com/denisidoro/navi /home/$USER/.config/navi
-	cd /home/$USER/.config/navi
-	sudo make BIN_DIR=/usr/local/bin install
-	cd /home/$USER
-fi
-
 if [ ! -d "/home/$USER/.config/zsh-autosuggestions" ]; then
 	git clone https://github.com/zsh-users/zsh-autosuggestions /home/$USER/.config/zsh-autosuggestions
 fi
@@ -84,15 +96,15 @@ fi
 if [ ! -d "/home/$USER/.config/zsh-syntax-highlighting" ]; then
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/$USER/.config/zsh-syntax-highlighting
 fi
+#}}}
 
-# Neovim
+# Neovim {{{
 if [ ! -d "/home/$USER/.config/neovim" ]; then
 	git clone https://github.com/neovim/neovim /home/$USER/.config/neovim
 	cd /home/$USER/.config/neovim && make CMAKE_BUILD_TYPE=Release
 	sudo make install
 	cd /home/$USER
 fi
-
 # Lazyvim
 if [ ! -d "/home/$USER/.config/nvim" ]; then
 	# required
@@ -107,8 +119,9 @@ if [ ! -d "/home/$USER/.config/nvim" ]; then
 	git clone https://github.com/LazyVim/starter /home/$USER/.config/nvim	
 	rm -rf /home/$USER/.config/nvim/.git
 fi
+#}}}
 
-# Tmux
+# Tmux {{{
 if [ ! -d "/home/$USER/.config/tmux" ]; then
 	git clone https://github.com/tmux/tmux.git /home/$USER/.config/tmux
 	cd /home/$USER/.config/tmux
@@ -117,8 +130,9 @@ if [ ! -d "/home/$USER/.config/tmux" ]; then
 	sudo make install
 	cd /home/$USER
 fi
+#}}}
 
-# Fzf
+# Fzf {{{
 if [ ! -d "/home/$USER/.config/fzf" ]; then
 	git clone --depth 1 https://github.com/junegunn/fzf.git /home/$USER/.config/fzf
 	cd /home/$USER/.config/fzf && ./install
@@ -126,6 +140,7 @@ if [ ! -d "/home/$USER/.config/fzf" ]; then
 	# Update fzf
 	# cd /home/$USER/.config/fzf && git pull && ./install
 fi
+#}}}
 
 # Lazygit
 if [ ! -d "/home/$USER/.config/lazygit" ]; then
@@ -136,12 +151,6 @@ if [ ! -d "/home/$USER/.config/lazygit" ]; then
 	sudo install /home/$USER/.config/lazygit/lazygit /usr/local/bin
 fi
 
-# Ripgrep
-if [ ! -d "/home/$USER/.config/ripgrep" ]; then
-	mkdir -p /home/$USER/.config/ripgrep
-	curl -Lo /home/$USER/.config/ripgrep/ripgrep_14.1.0_amd64.deb  https://github.com/BurntSushi/ripgrep/releases/download/14.1.0/ripgrep_14.1.0_amd64.deb
-	sudo dpkg -i /home/$USER/.config/ripgrep/ripgrep_14.1.0_amd64.deb
-fi
 #}}}
 
 # .local/share {{{
@@ -154,5 +163,7 @@ ln -s /home/$USER/.dotfiles/fonts /home/$USER/.local/share/fonts
 fc-cache -fv
 chmod +x /home/$USER/.local/share/test-fonts.sh
 #}}}
+
+exec zsh
 
 

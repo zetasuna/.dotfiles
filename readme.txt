@@ -28,7 +28,7 @@ Text to ascii art: https://patorjk.com/software/taag/#p=display&f=Big&t=Nam%20.d
 1: Download Debian: https://www.debian.org/download
 2: Install Debian
 3: Login as root and run: 
-	+) apt undate && apt upgrade
+	+) apt update && apt upgrade
 	+) apt install -y git sudo openssh-client openssh-server
 	+) adduser NAME_OF_USER sudo
 	+) logout
