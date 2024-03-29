@@ -24,7 +24,7 @@ SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
 export PS2='%F{76} %f'
-export PATH="/home/$USER/go/bin:/home/$USER/$(ls | grep -Po "node-v[0-9.]*-linux-x64" | sort -V | tail -n 1)/bin:$PATH"
+export PATH="/home/$USER/.goroot/bin:/home/$USER/.nodejs/bin:/home/$USER/.cargo/bin:$PATH"
 export fpath=(/home/$USER/.config/zsh-completions/src $fpath)
 #export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 #export MANROFFOPT="-c"
@@ -69,8 +69,9 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 #zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
 # Source 
-[ -f /home/$USER/.fzf.zsh ] && source /home/$USER/.fzf.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f /home/$USER/.config/powerlevel10k/powerlevel10k.zsh-theme ] && source /home/$USER/.config/powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [ -f /home/$USER/.config/zsh-autocomplete/zsh-autocomplete.plugin.zsh ] && source /home/$USER/.config/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 [ -f /home/$USER/.config/fzf-tab/fzf-tab.plugin.zsh ] && source /home/$USER/.config/fzf-tab/fzf-tab.plugin.zsh
 [ -f /home/$USER/.config/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source /home/$USER/.config/zsh-autosuggestions/zsh-autosuggestions.zsh

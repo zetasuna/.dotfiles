@@ -7,38 +7,19 @@ sudo apt -y install\
 	lshw btop jq\
        	#i3 kitty nitrogen picom firefox-esr youtube-dl vlc 7zip
 	
-# Vim
-#rm -f /home/$USER/.vimrc
-#ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
-
-# Rust {{{
-curl https://sh.rustup.rs -sSf | sh 
-cargo install bat ripgrep fd-find navi
-#}}}
-
-# Go {{{
-GO_VERSION=$(curl -s "https://go.dev/dl/" | grep -Po 'go[0-9.]*\.linux-amd64\.tar\.gz' | sort -V | tail -n 1)
-curl -Lo /home/$USER/go.tar.gz "https://go.dev/dl/{$GO_VERSION}" 
-tar -xf /home/$USER/go.tar.gz -C /home/$USER
-rm -f /home/$USER/go.tar.gz 
-go install github.com/jesseduffield/lazygit@latest
-go install github.com/wader/fq@latest
-go install github.com/mikefarah/yq/v4@latest
-go install github.com/sibprogrammer/xq@latest
-#}}}
-
-# NodeJs(NPM) {{{
-NODE_VERSION=$(curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
-curl -Lo /home/$USER/node.tar.gz "https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.gz"
-tar -xf/home/$USER/node.tar.gz -C /home/$USER
-rm -f /home/$USER/node.tar.gz
-npm install -g tldr
-#}}}
-
-# .config {{{
 if [ ! -d "/home/$USER/.config" ]; then
 	mkdir -p /home/$USER/.config
 fi
+if [ ! -d "/home/$USER/.local/share" ]; then
+	mkdir -p /home/$USER/.local/share
+fi
+
+# Font {{{
+rm -rf /home/$USER/.local/share/fonts
+ln -s /home/$USER/.dotfiles/fonts /home/$USER/.local/share/fonts
+fc-cache -fv
+chmod +x /home/$USER/.local/share/test-fonts.sh
+#}}}
 
 # Suckless {{{
 #if [ ! -d "/home/$USER/.config/suckless" ]; then
@@ -67,6 +48,17 @@ fi
 #rm -f /home/$USER/.xinitrc
 #ln -s /home/$USER/.dotfiles/.xinitrc /home/$USER/.xinitrc
 #	echo "startx" >> .profile
+#}}}
+
+# Tmux {{{
+if [ ! -d "/home/$USER/.config/tmux" ]; then
+	git clone https://github.com/tmux/tmux.git /home/$USER/.config/tmux
+	cd /home/$USER/.config/tmux
+	sh ./autogen.sh
+	sh ./configure --enable-sixel
+	make && sudo make install
+	cd /home/$USER
+fi
 #}}}
 
 # Zsh {{{
@@ -99,6 +91,50 @@ if [ ! -d "/home/$USER/.config/zsh-syntax-highlighting" ]; then
 fi
 #}}}
 
+# Fzf {{{
+if [ ! -d "/home/$USER/.config/fzf" ]; then
+	git clone --depth 1 https://github.com/junegunn/fzf.git /home/$USER/.config/fzf
+	cd /home/$USER/.config/fzf && ./install
+	cd /home/$USER
+	# Update fzf
+	# cd /home/$USER/.config/fzf && git pull && ./install
+fi
+#}}}
+
+exec zsh
+
+# Rust {{{
+curl https://sh.rustup.rs -sSf | sh 
+cargo install bat ripgrep fd-find navi
+#}}}
+
+# Go {{{
+GO_VERSION=$(curl -s "https://go.dev/dl/" | grep -Po 'go[0-9.]*\.linux-amd64\.tar\.gz' | sort -V | tail -n 1)
+curl -Lo /home/$USER/go.tar.gz "https://go.dev/dl/{$GO_VERSION}" 
+tar -xf /home/$USER/go.tar.gz -C /home/$USER
+mv /home/$USER/go /home/$USER/.goroot
+rm -f /home/$USER/go.tar.gz 
+go install github.com/jesseduffield/lazygit@latest
+go install github.com/wader/fq@latest
+go install github.com/mikefarah/yq/v4@latest
+go install github.com/sibprogrammer/xq@latest
+#}}}
+
+# NodeJs(NPM) {{{
+NODE_VERSION=$(curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
+curl -Lo /home/$USER/node.tar.gz "https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.gz"
+tar -xf/home/$USER/node.tar.gz -C /home/$USER
+mv /home/$USER/$(ls | grep -Po "node-v[0-9.]*-linux-x64" | sort -V | tail -n 1) /home/$USER/.nodejs
+rm -f /home/$USER/node.tar.gz
+npm install -g tldr
+#}}}
+
+# Vim {{{
+#sudo apt -y install vim
+#rm -f /home/$USER/.vimrc
+#ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
+#}}}
+
 # Neovim {{{
 if [ ! -d "/home/$USER/.config/neovim" ]; then
 	git clone https://github.com/neovim/neovim /home/$USER/.config/neovim
@@ -121,41 +157,4 @@ if [ ! -d "/home/$USER/.config/nvim" ]; then
 	rm -rf /home/$USER/.config/nvim/.git
 fi
 #}}}
-
-# Tmux {{{
-if [ ! -d "/home/$USER/.config/tmux" ]; then
-	git clone https://github.com/tmux/tmux.git /home/$USER/.config/tmux
-	cd /home/$USER/.config/tmux
-	sh ./autogen.sh
-	sh ./configure --enable-sixel
-	sudo make install
-	cd /home/$USER
-fi
-#}}}
-
-# Fzf {{{
-if [ ! -d "/home/$USER/.config/fzf" ]; then
-	git clone --depth 1 https://github.com/junegunn/fzf.git /home/$USER/.config/fzf
-	cd /home/$USER/.config/fzf && ./install
-	cd /home/$USER
-	# Update fzf
-	# cd /home/$USER/.config/fzf && git pull && ./install
-fi
-#}}}
-
-#}}}
-
-# .local/share {{{
-if [ ! -d "/home/$USER/.local/share" ]; then
-	mkdir -p /home/$USER/.local/share
-fi
-# Font
-rm -rf /home/$USER/.local/share/fonts
-ln -s /home/$USER/.dotfiles/fonts /home/$USER/.local/share/fonts
-fc-cache -fv
-chmod +x /home/$USER/.local/share/test-fonts.sh
-#}}}
-
-exec zsh
-
 
