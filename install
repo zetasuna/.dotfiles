@@ -136,12 +136,10 @@ npm install -g tldr
 #}}}
 
 # Neovim {{{
-if [ ! -d "/home/$USER/.config/neovim" ]; then
-	git clone https://github.com/neovim/neovim /home/$USER/.config/neovim
-	cd /home/$USER/.config/neovim && make CMAKE_BUILD_TYPE=Release
-	sudo make install
-	cd /home/$USER
-fi
+curl -Lo /home/$USER/nvim.linux64.tar.gz https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-linux64.tar.gz
+rm -rf /home/$USER/nvim-linux64.tar.gz
 # Lazyvim
 if [ ! -d "/home/$USER/.config/nvim" ]; then
 	# required
