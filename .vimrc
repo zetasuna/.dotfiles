@@ -1,9 +1,3 @@
-"  _   _                         _                    
-" | \ | |                       (_)                   
-" |  \| | __ _ _ __ ___   __   ___ _ __ ___  _ __ ___ 
-" | . ` |/ _` | '_ ` _ \  \ \ / / | '_ ` _ \| '__/ __|
-" | |\  | (_| | | | | | |  \ V /| | | | | | | | | (__ 
-" |_| \_|\__,_|_| |_| |_| (_)_/ |_|_| |_| |_|_|  \___|
 "======================================================
 "======================================================
 "===                                .-----.         ===
@@ -30,23 +24,36 @@ if !filereadable(expand("/home/$USER/.local/share/vim/autoload/plug.vim"))
 	autocmd VimEnter * PlugInstall
 endif
 
+" Enable completion where available.
+" This setting must be set before ALE is loaded.
+" You should not turn this setting on if you wish to use ALE as a completion
+" source for other completion plugins, like Deoplete.
+let g:ale_completion_enabled=1
+let g:ale_completion_delay=0
+"let g:fzf_vim.preview_window = []
+
 call plug#begin(expand("/home/$USER/.local/share/vim/plugged"))
-Plug 'joshdick/onedark.vim'
+Plug 'sainnhe/gruvbox-material'
 Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 call plug#end()
+
 syntax on
-colorscheme onedark
+colorscheme gruvbox-material
 set background=dark
-let g:onedark_termcolors=256
+"let g:gruvbox_contrast=hard
+" Set this variable to 1 to fix files when you save them.
+let g:ale_fix_on_save=1
+let g:ale_fixers = {
+			\ '*': ['remove_trailing_lines', 'trim_whitespace'],
+			\ 'javascript': ['eslint'],
+			\}
 let g:ale_lint_delay=0
-let g:ale_linters={'java': ['javac']}
-"let g:fzf_vim.preview_window = []
-nnoremap <silent> fz :fzf!<CR>
-nnoremap <silent> ff :Files!<CR>
-nnoremap <silent> fb :Buffers!<CR>
-nnoremap <silent> <leader>t :vertical terminal<CR>
+let g:ale_linters={
+			\ 'vim' : ['ale_custom_linting_rules'],
+			\ 'lua' : ['lua_language_server'],
+			\}
 "}}}
 
 " [[ OPTIONS ]] {{{
@@ -76,14 +83,14 @@ set noruler
 set showtabline=0
 set splitright
 set fillchars+=vert:┃
-set viewdir=$HOME/.local/share/vim/view
+"set viewdir=$HOME/.local/share/vim/view
 set viewoptions-=options
 set foldmethod=marker
 hi Normal           ctermbg=NONE            cterm=NONE
 hi Terminal         ctermbg=NONE            cterm=NONE
 hi User1            ctermbg=NONE ctermfg=10 cterm=NONE
 hi StatusLine       ctermbg=10   ctermfg=0  cterm=NONE
-hi StatusLineNC     ctermbg=NONE ctermfg=0  cterm=NONE
+hi StatusLineNC     ctermbg=10   ctermfg=0  cterm=NONE
 hi StatusLineTerm   ctermbg=10   ctermfg=0  cterm=NONE
 hi StatusLineTermNC ctermbg=NONE ctermfg=0  cterm=NONE
 hi MoreMsg          ctermbg=NONE ctermfg=10 cterm=NONE
@@ -91,7 +98,7 @@ hi MoreMsg          ctermbg=NONE ctermfg=10 cterm=NONE
 hi Visual           ctermbg=10   ctermfg=0  cterm=NONE
 "hi WildMenu         ctermbg=NONE ctermfg=10 cterm=NONE
 "hi LineNr           ctermbg=NONE ctermfg=10 cterm=NONE
-"hi CursorColumn     ctermbg=235             cterm=NONE   
+"hi CursorColumn     ctermbg=235             cterm=NONE
 hi CursorLine       ctermbg=NONE            cterm=NONE
 hi CursorLineNr     ctermbg=NONE ctermfg=10 cterm=NONE
 hi VertSplit        ctermbg=NONE ctermfg=10 cterm=NONE
@@ -106,11 +113,15 @@ hi MatchParen       ctermbg=NONE ctermfg=10 cterm=NONE
 "}}}
 
 " [[ MAPPINGS ]] {{{
+nnoremap <silent> fz :fzf!<CR>
+nnoremap <silent> ff :Files!<CR>
+nnoremap <silent> fb :Buffers!<CR>
+nnoremap <silent> <leader>t :vertical terminal<CR>
 "}}}
 
 " [[ VIMSCRIPT ]] {{{
 function! EnterStatuslineColor()
-	if mode() =~ "[vV\x16]" 
+	if mode() =~ "[vV\x16]"
 		hi statusline ctermbg=3    ctermfg=0  cterm=NONE
 		hi User1      ctermbg=NONE ctermfg=3  cterm=NONE
 	else
@@ -125,15 +136,15 @@ function! EnterStatuslineColor()
 			hi User1      ctermbg=NONE ctermfg=0  cterm=NONE
 		endif
 	endif
-endfunction 
+endfunction
 
 function! LeaveStatuslineColor()
 	hi statusline ctermbg=10   ctermfg=0  cterm=NONE
 	hi User1      ctermbg=NONE ctermfg=10 cterm=NONE
-endfunction	
+endfunction
 
 autocmd ModeChanged *:[i]* call EnterStatuslineColor()
-autocmd ModeChanged [i]*:* call LeaveStatuslineColor() 
+autocmd ModeChanged [i]*:* call LeaveStatuslineColor()
 autocmd ModeChanged *:[vV\x16]* call EnterStatuslineColor()
 autocmd ModeChanged [vV\x16]*:* call LeaveStatuslineColor()
 autocmd ModeChanged *:[R]* call EnterStatuslineColor()
@@ -146,8 +157,8 @@ function! FileFormat()
 		return '  '
 	elseif &fileformat == 'mac'
 		return '  '
-	else 
-		return &fileformat		
+	else
+		return &fileformat
 	endif
 endfunction
 
@@ -156,24 +167,24 @@ function! LinterStatus() abort
 	let l:all_errors = l:counts.error + l:counts.style_error
    	let l:all_non_errors = l:counts.total - l:all_errors
     	return l:counts.total == 0 ? '  ' : printf(
-    	\   ' %d  %d',
+    	\   ' %d│ %d',
     	\   all_non_errors,
     	\   all_errors
     	\)
 endfunction
 
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-autocmd WinEnter,BufEnter * setlocal statusline=%{FileFormat()}│%{&fileencoding?&fileencoding:&encoding}%1*%*%4c┃%-4l%1*%*%t│%{LinterStatus()}%1*%*%w%h%r%m%=
-autocmd WinLeave,BufLeave * setlocal statusline=
+autocmd WinEnter,BufEnter * setlocal statusline=%{FileFormat()}│%{&fileencoding?&fileencoding:&encoding}%4c┃%-4l%t│%{LinterStatus()}%w%h%r%m%=
+autocmd WinLeave,BufLeave * setlocal statusline=%=
 autocmd BufWinLeave *.* silent! mkview
-autocmd BufWinEnter *.* silent! loadview  
+autocmd BufWinEnter *.* silent! loadview
 
-"augroup statusline  
-"	autocmd!	
+"augroup statusline
+"	autocmd!
 "	autocmd WinEnter,BufEnter * setlocal statusline=%{FileFormat()}│%{&fileencoding?&fileencoding:&encoding}%1*%*%4c┃%-4l%1*%*%t│%{LinterStatus()}%1*%*%w%h%r%m
 "	autocmd WinLeave,BufLeave * setlocal statusline=
 "	autocmd BufLeave * silent! mkview
-"	autocmd BufEnter * silent! loadview  
+"	autocmd BufEnter * silent! loadview
 "augroup end
 
 "augroup remember_folds
