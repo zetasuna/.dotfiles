@@ -4,9 +4,9 @@ sudo apt -y install\
 	gcc make cmake automake autoconf build-essential ninja-build\
 	libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev\
 	libevent-dev ncurses-dev\
-	pkg-config fontconfig gettext libtool bison fswatch\
+	pkg-config fontconfig gettext libtool libtool-bin bison fswatch\
 	xclip xorg xinit x11-xserver-utils\
-	fish vim man-db curl wget tar zip unzip bzip2 gzip lshw btop\
+	fish tmux vim man-db curl wget tar zip unzip bzip2 gzip lshw btop\
        	#i3 kitty zsh nitrogen picom firefox-esr youtube-dl vlc 7zip
 
 if [ ! -d "/home/$USER/.config" ]; then
@@ -53,14 +53,14 @@ chmod +x /home/$USER/.local/share/test-fonts.sh
 #}}}
 
 # Tmux {{{
-if [ ! -d "/home/$USER/.config/tmux" ]; then
-	git clone https://github.com/tmux/tmux.git /home/$USER/.config/tmux
-	cd /home/$USER/.config/tmux
-	sh ./autogen.sh
-	sh ./configure --enable-sixel
-	make && sudo make install
-	cd /home/$USER
-fi
+#if [ ! -d "/home/$USER/.config/tmux" ]; then
+#	git clone https://github.com/tmux/tmux.git /home/$USER/.config/tmux
+#	cd /home/$USER/.config/tmux
+#	sh ./autogen.sh
+#	sh ./configure --enable-sixel
+#	make && sudo make install
+#	cd /home/$USER
+#fi
 #}}}
 
 # Zsh {{{
@@ -96,18 +96,19 @@ fi
 # Fish {{{
 if ! grep -q "fisher" /home/$USER/.config/fish/fish_plugins ;then
 	curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+	fisher install IlanCosman/tide@v6
 	fisher install jethrokuan/fzf
 fi
 #}}}
 
 # Fzf {{{
-if [ ! -d "/home/$USER/.config/fzf" ]; then
-	git clone --depth 1 https://github.com/junegunn/fzf.git /home/$USER/.config/fzf
-	cd /home/$USER/.config/fzf && ./install
-	cd /home/$USER
-	# Update fzf
-	# cd /home/$USER/.config/fzf && git pull && ./install
-fi
+#if [ ! -d "/home/$USER/.config/fzf" ]; then
+#	git clone --depth 1 https://github.com/junegunn/fzf.git /home/$USER/.config/fzf
+#	cd /home/$USER/.config/fzf && ./install
+#	cd /home/$USER
+#	# Update fzf
+#	# cd /home/$USER/.config/fzf && git pull && ./install
+#fi
 #}}}
 
 exec zsh
@@ -139,9 +140,14 @@ npm install -g tldr
 #}}}
 
 # Vim {{{
-sudo apt -y install vim
-rm -f /home/$USER/.vimrc
-ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
+#git clone https://github.com/vim/vim.git /home/$USER/.config/vim
+#cd /home/$USER/.config/vim/src
+#make distclean
+#make
+#sudo make install
+#cd /home/$USER
+#rm -f /home/$USER/.vimrc
+#ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
 #}}}
 
 # Neovim {{{

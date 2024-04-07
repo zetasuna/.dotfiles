@@ -30,7 +30,6 @@ endif
 " source for other completion plugins, like Deoplete.
 let g:ale_completion_enabled=1
 let g:ale_completion_delay=0
-"let g:fzf_vim.preview_window = []
 
 call plug#begin(expand("/home/$USER/.local/share/vim/plugged"))
 Plug 'sainnhe/gruvbox-material'
@@ -39,10 +38,18 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 call plug#end()
 
+" Important!!
+if has('termguicolors')
+	set termguicolors
+endif
 syntax on
-colorscheme gruvbox-material
 set background=dark
-"let g:gruvbox_contrast=hard
+" Set contrast.
+" This configuration option should be placed before `colorscheme gruvbox-material`.
+" Available values: 'hard', 'medium'(default), 'soft'
+let g:gruvbox_material_background='hard'
+colorscheme gruvbox-material
+
 " Set this variable to 1 to fix files when you save them.
 let g:ale_fix_on_save=1
 let g:ale_fixers = {
@@ -72,7 +79,7 @@ set timeoutlen=3000
 set ttimeoutlen=0
 set number
 set cursorline
-set cursorlineopt=number
+set cursorlineopt=number,line
 set nocursorcolumn
 "set clipboard
 set noshowmode
@@ -86,30 +93,29 @@ set fillchars+=vert:┃
 "set viewdir=$HOME/.local/share/vim/view
 set viewoptions-=options
 set foldmethod=marker
-hi Normal           ctermbg=NONE            cterm=NONE
-hi Terminal         ctermbg=NONE            cterm=NONE
-hi User1            ctermbg=NONE ctermfg=10 cterm=NONE
-hi StatusLine       ctermbg=10   ctermfg=0  cterm=NONE
-hi StatusLineNC     ctermbg=10   ctermfg=0  cterm=NONE
-hi StatusLineTerm   ctermbg=10   ctermfg=0  cterm=NONE
-hi StatusLineTermNC ctermbg=NONE ctermfg=0  cterm=NONE
-hi MoreMsg          ctermbg=NONE ctermfg=10 cterm=NONE
-"hi ModeMsg          ctermbg=green ctermfg=black cterm=NONE
-hi Visual           ctermbg=10   ctermfg=0  cterm=NONE
-"hi WildMenu         ctermbg=NONE ctermfg=10 cterm=NONE
-"hi LineNr           ctermbg=NONE ctermfg=10 cterm=NONE
-"hi CursorColumn     ctermbg=235             cterm=NONE
-hi CursorLine       ctermbg=NONE            cterm=NONE
-hi CursorLineNr     ctermbg=NONE ctermfg=10 cterm=NONE
-hi VertSplit        ctermbg=NONE ctermfg=10 cterm=NONE
+"hi Normal           guibg=none                  gui=none
+hi Terminal         guibg=#1d2021               gui=none
+hi StatusLine       guibg=#a9b665 guifg=#1d2021 gui=none
+hi StatusLineNC     guibg=#a9b665 guifg=#1d2021 gui=none
+hi StatusLineTerm   guibg=#a9b665 guifg=#1d2021 gui=none
+hi StatusLineTermNC guibg=#a9b665 guifg=#1d2021 gui=none
+hi Visual           guibg=#a9b665 guifg=#1d2021 gui=none
+"hi LineNr           guibg=#1d2021 guifg=#a9b665 gui=none
+"hi CursorColumn     guibg=235                   gui=none
+"hi CursorLine       guibg=#504945               gui=none
+hi CursorLineNr     guibg=#1d2021 guifg=#a9b665 gui=none
+hi VertSplit        guibg=#1d2021 guifg=#a9b665 gui=none
 "hi IncSearch        ctermbg=green ctermfg=black cterm=NONE
-hi Question         ctermbg=NONE ctermfg=10 cterm=NONE
-hi ErrorMsg         ctermbg=NONE ctermfg=9  cterm=NONE
-hi WarningMsg       ctermbg=NONE ctermfg=9  cterm=NONE
-"hi Title            ctermbg=NONE ctermfg=10 cterm=NONE
-"hi SpecialKey       ctermbg=NONE ctermfg=10 cterm=NONE
-"hi NonText          ctermbg=NONE ctermfg=10 cterm=NONE
-hi MatchParen       ctermbg=NONE ctermfg=10 cterm=NONE
+"hi WildMenu         ctermbg=NONE ctermfg=10 cterm=NONE
+hi ModeMsg          guibg=#a9b665 guifg=#1d2021 gui=none
+hi MoreMsg          guibg=#1d2021 guifg=#a9b665 gui=none
+hi ErrorMsg         guibg=#1d2021 guifg=#ea6962 gui=none
+hi WarningMsg       guibg=#1d2021 guifg=#ea6962 gui=none
+hi Question         guibg=#1d2021 guifg=#ea6962 gui=none
+hi Title            guibg=#1d2021 guifg=#a9b665 gui=none
+hi SpecialKey       guibg=#1d2021 guifg=#a9b665 gui=none
+hi NonText          guibg=#1d2021 guifg=#a9b665 gui=none
+"hi MatchParen       ctermbg=NONE ctermfg=10 cterm=NONE
 "}}}
 
 " [[ MAPPINGS ]] {{{
@@ -122,25 +128,20 @@ nnoremap <silent> <leader>t :vertical terminal<CR>
 " [[ VIMSCRIPT ]] {{{
 function! EnterStatuslineColor()
 	if mode() =~ "[vV\x16]"
-		hi statusline ctermbg=3    ctermfg=0  cterm=NONE
-		hi User1      ctermbg=NONE ctermfg=3  cterm=NONE
+		hi statusline guibg=#d8a657 guifg=#1d2021 gui=none
 	else
 		if mode() =~ 'i'
-			hi statusline ctermbg=6    ctermfg=0  cterm=NONE
-			hi User1      ctermbg=NONE ctermfg=6  cterm=NONE
+			hi statusline guibg=#7daea3 guifg=#1d2021 gui=none
 		elseif mode() =~ 'R'
-			hi statusline ctermbg=9    ctermfg=0  cterm=NONE
-			hi User1      ctermbg=NONE ctermfg=9  cterm=NONE
+			hi statusline guibg=#ea6962 guifg=#1d2021 gui=none
 		else
-			hi statusline ctermbg=NONE ctermfg=0  cterm=NONE
-			hi User1      ctermbg=NONE ctermfg=0  cterm=NONE
+			hi statusline guibg=#7c6f64 guifg=#1d2021 gui=none
 		endif
 	endif
 endfunction
 
 function! LeaveStatuslineColor()
-	hi statusline ctermbg=10   ctermfg=0  cterm=NONE
-	hi User1      ctermbg=NONE ctermfg=10 cterm=NONE
+	hi statusline guibg=#a9b665 guifg=#1d2021 gui=none
 endfunction
 
 autocmd ModeChanged *:[i]* call EnterStatuslineColor()
@@ -174,22 +175,10 @@ function! LinterStatus() abort
 endfunction
 
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
 autocmd WinEnter,BufEnter * setlocal statusline=%{FileFormat()}│%{&fileencoding?&fileencoding:&encoding}%4c┃%-4l%t│%{LinterStatus()}%w%h%r%m%=
 autocmd WinLeave,BufLeave * setlocal statusline=%=
+
 autocmd BufWinLeave *.* silent! mkview
 autocmd BufWinEnter *.* silent! loadview
-
-"augroup statusline
-"	autocmd!
-"	autocmd WinEnter,BufEnter * setlocal statusline=%{FileFormat()}│%{&fileencoding?&fileencoding:&encoding}%1*%*%4c┃%-4l%1*%*%t│%{LinterStatus()}%1*%*%w%h%r%m
-"	autocmd WinLeave,BufLeave * setlocal statusline=
-"	autocmd BufLeave * silent! mkview
-"	autocmd BufEnter * silent! loadview
-"augroup end
-
-"augroup remember_folds
-"  autocmd!
-"  "autocmd BufWinLeave * silent! mkview
-"  "autocmd BufWinEnter * silent! loadview
-"augroup END
 "}}}
