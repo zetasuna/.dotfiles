@@ -63,6 +63,42 @@ chmod +x /home/$USER/.local/share/test-fonts.sh
 #fi
 #}}}
 
+# Vim {{{
+#git clone https://github.com/vim/vim.git /home/$USER/.config/vim
+#cd /home/$USER/.config/vim/src
+#make distclean
+#make
+#sudo make install
+#cd /home/$USER
+#rm -f /home/$USER/.vimrc
+#ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
+#}}}
+
+# Neovim {{{
+curl -Lo /home/$USER/nvim-linux64.tar.gz https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf /home/$USER/nvim-linux64.tar.gz
+rm -f /home/$USER/nvim-linux64.tar.gz
+#git clone https://github.com/neovim/neovim /home/$USER/.config/neovim
+#cd /home/$USER/neovim && make CMAKE_BUILD_TYPE=Release
+#sudo make install
+#cd /home/$USER
+## Lazyvim
+#if [ ! -d "/home/$USER/.config/nvim" ]; then
+#	# required
+#	mv ~/.config/nvim{,.bak}
+#
+#	# optional but recommended
+#	mv ~/.local/share/nvim{,.bak}
+#	mv ~/.local/state/nvim{,.bak}
+#	mv ~/.cache/nvim{,.bak}
+#
+#	# Clone
+#	git clone https://github.com/LazyVim/starter /home/$USER/.config/nvim
+#	rm -rf /home/$USER/.config/nvim/.git
+#fi
+#}}}
+
 # Tmux {{{
 #if [ ! -d "/home/$USER/.config/tmux" ]; then
 #	git clone https://github.com/tmux/tmux.git /home/$USER/.config/tmux
@@ -111,7 +147,7 @@ if ! grep -q "fisher" /home/$USER/.config/fish/fish_plugins ;then
 	fisher install jethrokuan/fzf
 fi
 exec fish
-set -Ua fish_user_paths /home/$USER/.goroot/bin /home/$USER/.nodejs/bin /home/$USER/.cargo/bin
+set -Ua fish_user_paths /opt/nvim-linux64/bin /home/$USER/.goroot/bin /home/$USER/.nodejs/bin /home/$USER/.cargo/bin
 set -U FZF_COMPLETE 0
 echo "set -gx EDITOR vim" >> /home/$USER/.config/fish/config_fish
 #}}}
@@ -142,34 +178,3 @@ rm -f /home/$USER/node.tar.gz
 npm install -g tldr
 #}}}
 
-# Vim {{{
-#git clone https://github.com/vim/vim.git /home/$USER/.config/vim
-#cd /home/$USER/.config/vim/src
-#make distclean
-#make
-#sudo make install
-#cd /home/$USER
-rm -f /home/$USER/.vimrc
-ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
-#}}}
-
-# Neovim {{{
-#git clone https://github.com/neovim/neovim /home/$USER/.config/neovim
-#cd /home/$USER/neovim && make CMAKE_BUILD_TYPE=Release
-#sudo make install
-#cd /home/$USER
-## Lazyvim
-#if [ ! -d "/home/$USER/.config/nvim" ]; then
-#	# required
-#	mv ~/.config/nvim{,.bak}
-#
-#	# optional but recommended
-#	mv ~/.local/share/nvim{,.bak}
-#	mv ~/.local/state/nvim{,.bak}
-#	mv ~/.cache/nvim{,.bak}
-#
-#	# Clone
-#	git clone https://github.com/LazyVim/starter /home/$USER/.config/nvim
-#	rm -rf /home/$USER/.config/nvim/.git
-#fi
-#}}}
