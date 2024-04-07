@@ -1,5 +1,12 @@
 #!/usr/bin/sh
 
+# Essential {{{
+if [ ! -d "/home/$USER/.config" ]; then
+	mkdir -p /home/$USER/.config
+fi
+if [ ! -d "/home/$USER/.local/share" ]; then
+	mkdir -p /home/$USER/.local/share
+fi
 sudo apt -y install\
 	gcc make cmake automake autoconf build-essential ninja-build\
 	libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev\
@@ -8,13 +15,7 @@ sudo apt -y install\
 	xclip xorg xinit x11-xserver-utils\
 	fish tmux vim man-db curl wget tar zip unzip bzip2 gzip lshw btop\
        	#i3 kitty zsh nitrogen picom firefox-esr youtube-dl vlc 7zip
-
-if [ ! -d "/home/$USER/.config" ]; then
-	mkdir -p /home/$USER/.config
-fi
-if [ ! -d "/home/$USER/.local/share" ]; then
-	mkdir -p /home/$USER/.local/share
-fi
+#}}}
 
 # Font {{{
 rm -rf /home/$USER/.local/share/fonts
@@ -50,6 +51,16 @@ chmod +x /home/$USER/.local/share/test-fonts.sh
 #rm -f /home/$USER/.xinitrc
 #ln -s /home/$USER/.dotfiles/.xinitrc /home/$USER/.xinitrc
 #	echo "startx" >> .profile
+#}}}
+
+# Fzf {{{
+#if [ ! -d "/home/$USER/.config/fzf" ]; then
+#	git clone --depth 1 https://github.com/junegunn/fzf.git /home/$USER/.config/fzf
+#	cd /home/$USER/.config/fzf && ./install
+#	cd /home/$USER
+#	# Update fzf
+#	# cd /home/$USER/.config/fzf && git pull && ./install
+#fi
 #}}}
 
 # Tmux {{{
@@ -99,19 +110,11 @@ if ! grep -q "fisher" /home/$USER/.config/fish/fish_plugins ;then
 	fisher install IlanCosman/tide@v6
 	fisher install jethrokuan/fzf
 fi
+exec fish
+set -Ua fish_user_paths /home/$USER/.goroot/bin /home/$USER/.nodejs/bin /home/$USER/.cargo/bin
+set -U FZF_COMPLETE 0
+echo "set -gx EDITOR vim" >> /home/$USER/.config/fish/config_fish
 #}}}
-
-# Fzf {{{
-#if [ ! -d "/home/$USER/.config/fzf" ]; then
-#	git clone --depth 1 https://github.com/junegunn/fzf.git /home/$USER/.config/fzf
-#	cd /home/$USER/.config/fzf && ./install
-#	cd /home/$USER
-#	# Update fzf
-#	# cd /home/$USER/.config/fzf && git pull && ./install
-#fi
-#}}}
-
-exec zsh
 
 # Rust {{{
 curl https://sh.rustup.rs -sSf | sh
@@ -146,8 +149,8 @@ npm install -g tldr
 #make
 #sudo make install
 #cd /home/$USER
-#rm -f /home/$USER/.vimrc
-#ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
+rm -f /home/$USER/.vimrc
+ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
 #}}}
 
 # Neovim {{{
