@@ -13,7 +13,7 @@ sudo apt -y install\
 	libevent-dev ncurses-dev \
 	pkg-config fontconfig gettext libtool libtool-bin bison fswatch \
 	xclip xorg xinit x11-xserver-utils \
-	fish fzf mux man-db curl wget tar zip unzip bzip2 gzip lshw btop \
+	fish fzf tmux man-db curl wget tar zip unzip bzip2 gzip lshw btop \
 	pipx
        	#i3 kitty zsh vim nitrogen picom firefox-esr youtube-dl vlc 7zip
 #}}}
@@ -146,7 +146,7 @@ cd /home/$USER
 #}}}
 
 # Bash {{{
-cat <<EOF >> /home/$USER/.bashrc
+cat <<'EOF' >> /home/$USER/.bashrc
 export PATH="/home/$USER/.local/pipx/shared/bin:/home/$USER/.cargo/bin:/home/$USER/perl5/bin:/usr/local/src/go/bin:/usr/local/src/nodejs/bin:$PATH"
 PERL5LIB="/home/nam/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/nam/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
@@ -161,31 +161,32 @@ chsh -s $(which fish)
 exec fish
 if not grep -q "fisher" /home/$USER/.config/fish/fish_plugins
 	curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
-	fisher install IlanCosman/tide@v6
-	fisher install jethrokuan/fzf
 end
+fisher install IlanCosman/tide@v6
+fisher install jethrokuan/fzf
 
 echo " \
-	set -gx EDITOR vim
-	set -q PERL5LIB; and set -x PERL5LIB /home/nam/perl5/lib/perl5:$PERL5LIB;
-	set -q PERL5LIB; or set -x PERL5LIB /home/nam/perl5/lib/perl5;
-	set -q PERL_LOCAL_LIB_ROOT; and set -x PERL_LOCAL_LIB_ROOT /home/nam/perl5:$PERL_LOCAL_LIB_ROOT;
-	set -q PERL_LOCAL_LIB_ROOT; or set -x PERL_LOCAL_LIB_ROOT /home/nam/perl5;
-	set -x PERL_MB_OPT --install_base\ \"/home/nam/perl5\";
-	set -x PERL_MM_OPT INSTALL_BASE=/home/nam/perl5;
+	set -gx EDITOR nvim
+	set -q PERL5LIB; and set -x PERL5LIB /home/$USER/perl5/lib/perl5:$PERL5LIB;
+	set -q PERL5LIB; or set -x PERL5LIB /home/$USER/perl5/lib/perl5;
+	set -q PERL_LOCAL_LIB_ROOT; and set -x PERL_LOCAL_LIB_ROOT /home/$USER/perl5:$PERL_LOCAL_LIB_ROOT;
+	set -q PERL_LOCAL_LIB_ROOT; or set -x PERL_LOCAL_LIB_ROOT /home/$USER/perl5;
+	set -x PERL_MB_OPT --install_base\ \"/home/$USER/perl5\";
+	set -x PERL_MM_OPT INSTALL_BASE=/home/$USER/perl5;
 	" >> /home/$USER/.config/fish/config_fish
-set -U FZF_COMPLETE 0
+set -U FZF_COMPLETE 2
 set -Ua fish_user_paths /home/$USER/.local/pipx/shared/bin home/$USER/.cargo/bin /home/$USER/perl5/bin /usr/local/src/go/bin /usr/local/src/nodejs/bin 
 exec fish
 #}}}
 
 # Perl(CPAN) {{{
-cpan
+cpan local::lib
 cpan App::cpanminus
+cpanm Neovim::Ext
 #}}}
 
 # Python(PIPX) {{{
-pipx
+pipx install neovim
 pip install neovim
 #}}}
 
@@ -201,6 +202,7 @@ curl -Lo /home/$USER/go.tar.gz "https://go.dev/dl/{$GO_VERSION}"
 sudo tar -xzf /home/$USER/go.tar.gz -C /usr/local/src
 rm -f /home/$USER/go.tar.gz
 go install github.com/jesseduffield/lazygit@latest
+go install github.com/jesseduffield/lazydocker@latest
 #go install github.com/wader/fq@latest
 #go install github.com/mikefarah/yq/v4@latest
 #go install github.com/sibprogrammer/xq@latest
@@ -211,7 +213,8 @@ go install github.com/jesseduffield/lazygit@latest
 set NODE_VERSION (curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
 curl -Lo /home/$USER/node.tar.gz "https://nodejs.org/dist/{$NODE_VERSION}/node-{$NODE_VERSION}-linux-x64.tar.gz"
 sudo tar -xzf /home/$USER/node.tar.gz -C /usr/local/src
-sudo mv /usr/local/src/$(ls | grep -Po "node-v[0-9.]*-linux-x64" | sort -V | tail -n 1) /usr/local/src/nodejs
+#sudo mv /usr/local/src/$(ls | grep -Po "node-v[0-9.]*-linux-x64" | sort -V | tail -n 1) /usr/local/src/nodejs
+sudo mv /usr/local/src/(ls | grep -Po 'node-v[0-9.]*-linux-x64' | sort -V | tail -n 1) /usr/local/src/nodejs
 rm -f /home/$USER/node.tar.gz
 npm install -g neovim tldr
 #}}}
