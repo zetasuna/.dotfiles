@@ -220,8 +220,8 @@ NODE_VERSION=$(curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep
 #set NODE_VERSION (curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
 curl -Lo /home/$USER/node.tar.gz "https://nodejs.org/dist/{$NODE_VERSION}/node-{$NODE_VERSION}-linux-x64.tar.gz"
 sudo tar -xzf /home/$USER/node.tar.gz -C /usr/local/src
-sudo mv /usr/local/src/$(ls | grep -Po "node-v[0-9.]*-linux-x64" | sort -V | tail -n 1) /usr/local/src/nodejs
-#sudo mv /usr/local/src/(ls | grep -Po 'node-v[0-9.]*-linux-x64' | sort -V | tail -n 1) /usr/local/src/nodejs
+sudo mv /usr/local/src/$(ls /usr/local/src | grep -Po "node-v[0-9.]*-linux-x64" | sort -V | tail -n 1) /usr/local/src/nodejs
+#sudo mv /usr/local/src/(ls /usr/local/src | grep -Po 'node-v[0-9.]*-linux-x64' | sort -V | tail -n 1) /usr/local/src/nodejs
 rm -f /home/$USER/node.tar.gz
 npm install -g neovim tldr
 #}}}
