@@ -148,14 +148,14 @@ cp /home/$USER/.dotfiles/init.vim /home/$USER/.config/nvim/init.vim
 #}}}
 
 # Bash {{{
-cat <<'EOF' >> /home/$USER/.bashrc
+cat <<'EOF' >> /home/$USER/.profile
 export PATH="/home/$USER/.local/pipx/shared/bin:/home/$USER/.cargo/bin:/home/$USER/perl5/bin:/usr/local/src/go/bin:/usr/local/src/nodejs/bin:$PATH"
 PERL5LIB="/home/nam/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/nam/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/nam/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/nam/perl5"; export PERL_MM_OPT;
 EOF
-. /home/$USER/.bashrc
+. /home/$USER/.profile
 #}}}
 
 # Fish {{{
