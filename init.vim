@@ -18,8 +18,13 @@
 
 
 " [[ PLUGINS ]] {{{
-set runtimepath^=/home/$USER/.local/share/vim
-if !filereadable(expand("/home/$USER/.local/share/vim/autoload/plug.vim"))
+let g:mapleader='\'
+filetype on
+filetype plugin on
+filetype indent on
+set nocompatible
+set runtimepath^=/home/$USER/.local/share/nvim
+if !filereadable(expand("/home/$USER/.local/share/nvim/autoload/plug.vim"))
 	silent execute "!curl -fLo /home/$USER/.local/share/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 	autocmd VimEnter * PlugInstall
 endif
@@ -31,7 +36,7 @@ endif
 let g:ale_completion_enabled=1
 let g:ale_completion_delay=0
 
-call plug#begin(expand("/home/$USER/.local/share/vim/plugged"))
+call plug#begin(expand("/home/$USER/.local/share/nvim/plugged"))
 Plug 'sainnhe/gruvbox-material'
 Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -42,7 +47,9 @@ call plug#end()
 if has('termguicolors')
 	set termguicolors
 endif
-syntax on
+if has("syntax")
+	syntax on
+endif
 set background=dark
 " Set contrast.
 " This configuration option should be placed before `colorscheme gruvbox-material`.
@@ -64,15 +71,7 @@ let g:ale_linters={
 "}}}
 
 " [[ OPTIONS ]] {{{
-if has("syntax")
-	syntax on
-endif
-let g:mapleader='\'
-filetype on
-filetype plugin on
-filetype indent on
-set nocompatible
-set t_Co=256
+"set t_Co=256
 set timeout
 set ttimeout
 set timeoutlen=3000
@@ -93,28 +92,28 @@ set fillchars+=vert:┃
 "set viewdir=$HOME/.local/share/vim/view
 set viewoptions-=options
 set foldmethod=marker
-"hi Normal           guibg=none                  gui=none
-hi Terminal         guibg=#1d2021               gui=none
-hi StatusLine       guibg=#a9b665 guifg=#1d2021 gui=none
-hi StatusLineNC     guibg=#a9b665 guifg=#1d2021 gui=none
-hi StatusLineTerm   guibg=#a9b665 guifg=#1d2021 gui=none
-hi StatusLineTermNC guibg=#a9b665 guifg=#1d2021 gui=none
-hi Visual           guibg=#a9b665 guifg=#1d2021 gui=none
-"hi LineNr           guibg=#1d2021 guifg=#a9b665 gui=none
-"hi CursorColumn     guibg=235                   gui=none
-"hi CursorLine       guibg=#504945               gui=none
-hi CursorLineNr     guibg=#1d2021 guifg=#a9b665 gui=none
-hi VertSplit        guibg=#1d2021 guifg=#a9b665 gui=none
+"hi Normal           guibg=NONE                  gui=NONE
+hi Terminal         guibg=#1d2021               gui=NONE
+hi StatusLine       guibg=#a9b665 guifg=#1d2021 gui=NONE
+hi StatusLineNC     guibg=#a9b665 guifg=#1d2021 gui=NONE
+hi StatusLineTerm   guibg=#a9b665 guifg=#1d2021 gui=NONE
+hi StatusLineTermNC guibg=#a9b665 guifg=#1d2021 gui=NONE
+hi Visual           guibg=#a9b665 guifg=#1d2021 gui=NONE
+"hi LineNr           guibg=#1d2021 guifg=#a9b665 gui=NONE
+"hi CursorColumn     guibg=235                   gui=NONE
+"hi CursorLine       guibg=#504945               gui=NONE
+hi CursorLineNr     guibg=#1d2021 guifg=#a9b665 gui=NONE
+hi VertSplit        guibg=#1d2021 guifg=#a9b665 gui=NONE
 "hi IncSearch        ctermbg=green ctermfg=black cterm=NONE
 "hi WildMenu         ctermbg=NONE ctermfg=10 cterm=NONE
-hi ModeMsg          guibg=#a9b665 guifg=#1d2021 gui=none
-hi MoreMsg          guibg=#1d2021 guifg=#a9b665 gui=none
-hi ErrorMsg         guibg=#1d2021 guifg=#ea6962 gui=none
-hi WarningMsg       guibg=#1d2021 guifg=#ea6962 gui=none
-hi Question         guibg=#1d2021 guifg=#ea6962 gui=none
-hi Title            guibg=#1d2021 guifg=#a9b665 gui=none
-hi SpecialKey       guibg=#1d2021 guifg=#a9b665 gui=none
-hi NonText          guibg=#1d2021 guifg=#a9b665 gui=none
+hi ModeMsg          guibg=#a9b665 guifg=#1d2021 gui=NONE
+hi MoreMsg          guibg=#1d2021 guifg=#a9b665 gui=NONE
+hi ErrorMsg         guibg=#1d2021 guifg=#ea6962 gui=NONE
+hi WarningMsg       guibg=#1d2021 guifg=#ea6962 gui=NONE
+hi Question         guibg=#1d2021 guifg=#ea6962 gui=NONE
+hi Title            guibg=#1d2021 guifg=#a9b665 gui=NONE
+hi SpecialKey       guibg=#1d2021 guifg=#a9b665 gui=NONE
+hi NonText          guibg=#1d2021 guifg=#a9b665 gui=NONE
 "hi MatchParen       ctermbg=NONE ctermfg=10 cterm=NONE
 "}}}
 
