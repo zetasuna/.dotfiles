@@ -84,7 +84,7 @@ set nocursorcolumn
 "set clipboard
 set noshowmode
 set showcmd
-set cmdheight=1
+set cmdheight=0
 set laststatus=3
 set noruler
 set showtabline=0
