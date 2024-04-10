@@ -115,8 +115,11 @@ ln -s /home/$USER/.dotfiles/init.vim /home/$USER/.config/nvim/init.vim
 #	sudo make install
 #	cd /home/$USER
 #fi
-ln -s /home/$USER/.dotfiles/.tmux.conf /home/$USER/.tmux.conf
-ln -s /home/$USER/.dotfiles/.tmux.conf.local /home/$USER/.tmux.conf.local
+mkdir -p /home/$USER/.config/tmux
+cp /home/$USER/.dotfiles/.tmux.conf /home/$USER/.config/tmux/tmux.conf
+cp /home/$USER/.dotfiles/.tmux.conf.local /home/$USER/.config/tmux/tmux.conf.local
+#ln -s /home/$USER/.dotfiles/.tmux.conf /home/$USER/.tmux.conf
+#ln -s /home/$USER/.dotfiles/.tmux.conf.local /home/$USER/.tmux.conf.local
 #}}}
 
 # Zsh {{{
