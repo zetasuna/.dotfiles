@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/usr/bin/bash
 
 # Essential {{{
 if [ ! -d "/home/$USER/.config" ]; then
@@ -155,19 +155,18 @@ PERL_LOCAL_LIB_ROOT="/home/nam/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROO
 PERL_MB_OPT="--install_base \"/home/nam/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/nam/perl5"; export PERL_MM_OPT;
 EOF
-exec bash
+. /home/$USER/.bashrc
 #}}}
 
 # Fish {{{
 chsh -s $(which fish)
-exec fish
-if not grep -q "fisher" /home/$USER/.config/fish/fish_plugins
+if ! grep -q "fisher" /home/$USER/.config/fish/fish_plugins; then
 	curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
-end
+fi
 fisher install IlanCosman/tide@v6
 fisher install jethrokuan/fzf
 
-echo " \
+echo "\
 	set -gx EDITOR nvim
 	set -q PERL5LIB; and set -x PERL5LIB /home/$USER/perl5/lib/perl5:$PERL5LIB;
 	set -q PERL5LIB; or set -x PERL5LIB /home/$USER/perl5/lib/perl5;
@@ -176,9 +175,8 @@ echo " \
 	set -x PERL_MB_OPT --install_base\ \"/home/$USER/perl5\";
 	set -x PERL_MM_OPT INSTALL_BASE=/home/$USER/perl5;
 	" >> /home/$USER/.config/fish/config_fish
-set -U FZF_COMPLETE 2
-set -Ua fish_user_paths /home/$USER/.local/pipx/shared/bin home/$USER/.cargo/bin /home/$USER/perl5/bin /usr/local/src/go/bin /usr/local/src/nodejs/bin
-exec fish
+	fish -c 'set -U FZF_COMPLETE 2'
+	fish -c 'set -Ua fish_user_paths /home/$USER/.local/pipx/shared/bin home/$USER/.cargo/bin /home/$USER/perl5/bin /usr/local/src/go/bin /usr/local/src/nodejs/bin'
 #}}}
 
 # Perl(CPAN) {{{
@@ -198,8 +196,8 @@ cargo install bat ripgrep fd-find
 #}}}
 
 # Go {{{
-#GO_VERSION=$(curl -s "https://go.dev/dl/" | grep -Po 'go[0-9.]*\.linux-amd64\.tar\.gz' | sort -V | tail -n 1)
-set GO_VERSION (curl -s "https://go.dev/dl/" | grep -Po 'go[0-9.]*\.linux-amd64\.tar\.gz' | sort -V | tail -n 1)
+GO_VERSION=$(curl -s "https://go.dev/dl/" | grep -Po 'go[0-9.]*\.linux-amd64\.tar\.gz' | sort -V | tail -n 1)
+#set GO_VERSION (curl -s "https://go.dev/dl/" | grep -Po 'go[0-9.]*\.linux-amd64\.tar\.gz' | sort -V | tail -n 1)
 curl -Lo /home/$USER/go.tar.gz "https://go.dev/dl/{$GO_VERSION}"
 sudo tar -xzf /home/$USER/go.tar.gz -C /usr/local/src
 rm -f /home/$USER/go.tar.gz
@@ -211,12 +209,12 @@ go install github.com/jesseduffield/lazydocker@latest
 #}}}
 
 # NodeJs(NPM) {{{
-#NODE_VERSION=$(curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
-set NODE_VERSION (curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
+NODE_VERSION=$(curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
+#set NODE_VERSION (curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
 curl -Lo /home/$USER/node.tar.gz "https://nodejs.org/dist/{$NODE_VERSION}/node-{$NODE_VERSION}-linux-x64.tar.gz"
 sudo tar -xzf /home/$USER/node.tar.gz -C /usr/local/src
-#sudo mv /usr/local/src/$(ls | grep -Po "node-v[0-9.]*-linux-x64" | sort -V | tail -n 1) /usr/local/src/nodejs
-sudo mv /usr/local/src/(ls | grep -Po 'node-v[0-9.]*-linux-x64' | sort -V | tail -n 1) /usr/local/src/nodejs
+sudo mv /usr/local/src/$(ls | grep -Po "node-v[0-9.]*-linux-x64" | sort -V | tail -n 1) /usr/local/src/nodejs
+#sudo mv /usr/local/src/(ls | grep -Po 'node-v[0-9.]*-linux-x64' | sort -V | tail -n 1) /usr/local/src/nodejs
 rm -f /home/$USER/node.tar.gz
 npm install -g neovim tldr
 #}}}
