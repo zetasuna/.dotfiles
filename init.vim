@@ -25,7 +25,7 @@ filetype indent on
 set nocompatible
 set runtimepath^=/home/$USER/.local/share/nvim
 if !filereadable(expand("/home/$USER/.local/share/nvim/autoload/plug.vim"))
-	silent execute "!curl -fLo /home/$USER/.local/share/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+	silent execute "!curl -fLo /home/$USER/.local/share/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 	autocmd VimEnter * PlugInstall
 endif
 
