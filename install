@@ -161,12 +161,16 @@ EOF
 # Fish {{{
 chsh -s $(which fish)
 if ! grep -q "fisher" /home/$USER/.config/fish/fish_plugins; then
-	curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+	fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
+	fish -c 'fisher install IlanCosman/tide@v6'
+	fish -c 'fisher install jethrokuan/fzf'
 fi
-fisher install IlanCosman/tide@v6
-fisher install jethrokuan/fzf
 
 echo "\
+	if status is-interactive
+		# Commands to run in interactive sessions can go here
+	end
+
 	set -gx EDITOR nvim
 	set -q PERL5LIB; and set -x PERL5LIB /home/$USER/perl5/lib/perl5:$PERL5LIB;
 	set -q PERL5LIB; or set -x PERL5LIB /home/$USER/perl5/lib/perl5;
@@ -174,7 +178,7 @@ echo "\
 	set -q PERL_LOCAL_LIB_ROOT; or set -x PERL_LOCAL_LIB_ROOT /home/$USER/perl5;
 	set -x PERL_MB_OPT --install_base\ \"/home/$USER/perl5\";
 	set -x PERL_MM_OPT INSTALL_BASE=/home/$USER/perl5;
-	" >> /home/$USER/.config/fish/config_fish
+	" >> /home/$USER/.config/fish/config.fish
 	fish -c 'set -U FZF_COMPLETE 2'
 	fish -c 'set -Ua fish_user_paths /home/$USER/.local/pipx/shared/bin home/$USER/.cargo/bin /home/$USER/perl5/bin /usr/local/src/go/bin /usr/local/src/nodejs/bin'
 #}}}
