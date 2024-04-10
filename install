@@ -160,6 +160,7 @@ EOF
 
 # Fish {{{
 chsh -s $(which fish)
+mkdir -p /home/$USER/.config/fish
 if ! grep -q "fisher" /home/$USER/.config/fish/fish_plugins; then
 	fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
 	fish -c 'fisher install IlanCosman/tide@v6'
@@ -168,7 +169,7 @@ fi
 
 echo "\
 	if status is-interactive
-		# Commands to run in interactive sessions can go here
+	# Commands to run in interactive sessions can go here
 	end
 
 	set -gx EDITOR nvim
