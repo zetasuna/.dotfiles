@@ -23,9 +23,10 @@ filetype on
 filetype plugin on
 filetype indent on
 set nocompatible
-set runtimepath^=/home/$USER/.local/share/nvim
-if !filereadable(expand("/home/$USER/.local/share/nvim/autoload/plug.vim"))
-	silent execute "!curl -fLo /home/$USER/.local/share/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+set runtimepath^=/home/$USER/.local/share/vim
+
+if !filereadable(expand("/home/$USER/.local/share/vim/autoload/plug.vim"))
+	silent execute "!curl -fLo /home/$USER/.local/share/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 	autocmd VimEnter * PlugInstall
 endif
 
@@ -36,7 +37,7 @@ endif
 let g:ale_completion_enabled=1
 let g:ale_completion_delay=0
 
-call plug#begin(expand("/home/$USER/.local/share/nvim/plugged"))
+call plug#begin(expand("/home/$USER/.local/share/vim/plugged"))
 Plug 'sainnhe/gruvbox-material'
 Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -84,11 +85,11 @@ set nocursorcolumn
 set noshowmode
 set showcmd
 set cmdheight=1
-set laststatus=2
+set laststatus=3
 set noruler
 set showtabline=0
 set splitright
-set fillchars+=vert:┃
+set fillchars=vert:┃,vertleft:┫,vertright:┣,verthoriz:╋,horiz:━,horizup:┻,horizdown:┳
 "set viewdir=$HOME/.local/share/vim/view
 set viewoptions-=options
 set foldmethod=marker
@@ -103,7 +104,7 @@ hi Visual           guibg=#a9b665 guifg=#1d2021 gui=NONE
 "hi CursorColumn     guibg=235                   gui=NONE
 "hi CursorLine       guibg=#504945               gui=NONE
 hi CursorLineNr     guibg=#1d2021 guifg=#a9b665 gui=NONE
-hi VertSplit        guibg=#1d2021 guifg=#a9b665 gui=NONE
+hi WinSeparator       guibg=#1d2021 guifg=#a9b665 gui=NONE
 "hi IncSearch        ctermbg=green ctermfg=black cterm=NONE
 "hi WildMenu         ctermbg=NONE ctermfg=10 cterm=NONE
 hi ModeMsg          guibg=#a9b665 guifg=#1d2021 gui=NONE

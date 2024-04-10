@@ -88,7 +88,7 @@ sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
 cd /home/$USER
 mkdir -p /home/$USER/.config/nvim
-cp /home/$USER/.dotfiles/init.vim /home/$USER/.config/nvim/init.vim
+ln -s /home/$USER/.dotfiles/init.vim /home/$USER/.config/nvim/init.vim
 ## Lazyvim
 #if [ ! -d "/home/$USER/.config/nvim" ]; then
 #	# required
@@ -115,6 +115,8 @@ cp /home/$USER/.dotfiles/init.vim /home/$USER/.config/nvim/init.vim
 #	sudo make install
 #	cd /home/$USER
 #fi
+ln -s /home/$USER/.dotfiles/.tmux.conf /home/$USER/.tmux.conf
+ln -s /home/$USER/.dotfiles/.tmux.conf.local /home/$USER/.tmux.conf.local
 #}}}
 
 # Zsh {{{
