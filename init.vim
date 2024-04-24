@@ -39,6 +39,7 @@ let g:ale_completion_delay=0
 
 call plug#begin(expand("/home/$USER/.local/share/vim/plugged"))
 Plug 'sainnhe/gruvbox-material'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -56,7 +57,8 @@ set background=dark
 " This configuration option should be placed before `colorscheme gruvbox-material`.
 " Available values: 'hard', 'medium'(default), 'soft'
 let g:gruvbox_material_background='hard'
-colorscheme gruvbox-material
+"colorscheme gruvbox-material
+colorscheme  dracula
 
 " Set this variable to 1 to fix files when you save them.
 let g:ale_fix_on_save=1

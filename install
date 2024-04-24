@@ -185,8 +185,10 @@ echo "\
 	set -x PERL_MB_OPT --install_base\ \"/home/$USER/perl5\";
 	set -x PERL_MM_OPT INSTALL_BASE=/home/$USER/perl5;
 	" >> /home/$USER/.config/fish/config.fish
-	fish -c 'set -U FZF_COMPLETE 2'
-	fish -c 'set -Ua fish_user_paths /home/$USER/.local/pipx/shared/bin home/$USER/.cargo/bin /home/$USER/perl5/bin /usr/local/src/go/bin /usr/local/src/nodejs/bin'
+	fish -c 'set -U FZF_COMPLETE 3'
+	fish -c 'set -U FZF_PREVIEW_DIR_CMD "ls -aclh --color=always"'
+  fish -c 'set -U FZF_PREVIEW_FILE_CMD "bat -n --color=always --theme=Dracula"'
+	fish -c 'set -Ua fish_user_paths /home/$USER/.local/pipx/shared/bin /home/$USER/.cargo/bin /home/$USER/perl5/bin /usr/local/src/go/bin /usr/local/src/nodejs/bin'
 #}}}
 
 # Perl(CPAN) {{{
