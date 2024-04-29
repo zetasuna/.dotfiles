@@ -23,10 +23,10 @@ filetype on
 filetype plugin on
 filetype indent on
 set nocompatible
-set runtimepath^=$HOME/.local/share/vim
+set runtimepath^=$HOME/.local/share/nvim
 
-if !filereadable(expand("$HOME/.local/share/vim/autoload/plug.vim"))
-	silent execute "!curl -fLo $HOME/.local/share/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+if !filereadable(expand("$HOME/.local/share/nvim/autoload/plug.vim"))
+	silent execute "!curl -fLo $HOME/.local/share/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 	autocmd VimEnter * PlugInstall
 endif
 
@@ -37,7 +37,7 @@ endif
 let g:ale_completion_enabled=1
 let g:ale_completion_delay=0
 
-call plug#begin(expand("$HOME/.local/share/vim/plugged"))
+call plug#begin(expand("$HOME/.local/share/nvim/plugged"))
 Plug 'sainnhe/gruvbox-material'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'dense-analysis/ale'
