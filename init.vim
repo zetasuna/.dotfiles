@@ -105,7 +105,7 @@ hi Visual           guibg=#a9b665 guifg=#1d2021 gui=NONE
 "hi LineNr           guibg=#1d2021 guifg=#a9b665 gui=NONE
 "hi CursorColumn     guibg=235                   gui=NONE
 "hi CursorLine       guibg=#504945               gui=NONE
-hi CursorLineNr     guibg=#1d2021 guifg=#a9b665 gui=NONE
+"hi CursorLineNr     guibg=#1d2021 guifg=#a9b665 gui=NONE
 hi WinSeparator       guibg=#1d2021 guifg=#a9b665 gui=NONE
 "hi IncSearch        ctermbg=green ctermfg=black cterm=NONE
 "hi WildMenu         ctermbg=NONE ctermfg=10 cterm=NONE
@@ -115,8 +115,8 @@ hi ErrorMsg         guibg=#1d2021 guifg=#ea6962 gui=NONE
 hi WarningMsg       guibg=#1d2021 guifg=#ea6962 gui=NONE
 hi Question         guibg=#1d2021 guifg=#ea6962 gui=NONE
 hi Title            guibg=#1d2021 guifg=#a9b665 gui=NONE
-hi SpecialKey       guibg=#1d2021 guifg=#a9b665 gui=NONE
-hi NonText          guibg=#1d2021 guifg=#a9b665 gui=NONE
+"hi SpecialKey       guibg=#1d2021 guifg=#a9b665 gui=NONE
+"hi NonText          guibg=#1d2021 guifg=#a9b665 gui=NONE
 "hi MatchParen       ctermbg=NONE ctermfg=10 cterm=NONE
 "}}}
 
