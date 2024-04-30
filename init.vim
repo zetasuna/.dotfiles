@@ -95,7 +95,7 @@ set fillchars=vert:┃,vertleft:┫,vertright:┣,verthoriz:╋,horiz:━,horizu
 "set viewdir=$HOME/.local/share/vim/view
 set viewoptions-=options
 set foldmethod=marker
-"hi Normal           guibg=NONE                  gui=NONE
+hi Normal           guibg=NONE                  gui=NONE
 hi Terminal         guibg=#1d2021               gui=NONE
 hi StatusLine       guibg=#a9b665 guifg=#1d2021 gui=NONE
 hi StatusLineNC     guibg=#a9b665 guifg=#1d2021 gui=NONE
