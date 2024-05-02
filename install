@@ -8,12 +8,13 @@ if [ ! -d "/home/$USER/.local/share" ]; then
 	mkdir -p /home/$USER/.local/share
 fi
 sudo apt -y install\
-	gcc make cmake automake autoconf build-essential ninja-build \
-	libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev \
-	libevent-dev ncurses-dev \
-	pkg-config fontconfig gettext libtool libtool-bin bison fswatch \
-	xclip xorg xinit x11-xserver-utils \
-	fish fzf tmux man-db curl wget tar zip unzip bzip2 gzip lshw btop \
+	gcc make cmake automake autoconf build-essential ninja-build\
+	libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev\
+	libevent-dev ncurses-dev\
+	pkg-config fontconfig gettext libtool libtool-bin bison fswatch\
+	xclip xorg xinit x11-xserver-utils\
+	fish fzf tmux man-db curl wget tar zip unzip bzip2 gzip lshw btop\
+	aria2 yt-dlp ffmpeg patch\
 	pipx
        	#i3 kitty zsh vim nitrogen picom firefox-esr youtube-dl vlc 7zip
 #}}}
@@ -189,6 +190,7 @@ echo "\
 	alias vi 'nvim'
 	" >> /home/$USER/.config/fish/config.fish
 	fish -c 'set -U FZF_COMPLETE 3'
+  set -Ux FZF_DEFAULT_OPTS '--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4 --height=50%  --reverse --multi --info=default --prompt=" " --pointer= --marker= --preview-window=right:60%'
 	fish -c 'set -U FZF_PREVIEW_DIR_CMD "ls -alhv --color=always --group-directories-first"'
 	fish -c 'set -U FZF_PREVIEW_FILE_CMD "bat -n --color=always --theme=Dracula"'
 	fish -c 'set -Ua fish_user_paths /home/$USER/.local/pipx/shared/bin /home/$USER/.cargo/bin /home/$USER/perl5/bin /usr/local/src/go/bin /usr/local/src/nodejs/bin'
