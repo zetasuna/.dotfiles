@@ -14,7 +14,8 @@ sudo apt -y install\
   pkg-config fontconfig gettext libtool libtool-bin bison fswatch\
   xclip xorg xinit x11-xserver-utils\
   fish fzf tmux man-db curl wget tar zip unzip bzip2 gzip lshw btop\
-  aria2 yt-dlp ffmpeg patch transmission-cli\
+  aria2 yt-dlp ffmpeg patch mpv transmission-cli\
+  gnupg lsb-release apt-transport-https ca-certificates\
   pipx
   #i3 kitty zsh vim nitrogen picom firefox-esr youtube-dl vlc 7zip
 #}}}
@@ -25,6 +26,49 @@ sudo cp -r /home/$USER/.dotfiles/fonts /usr/local/share/fonts
 fc-cache -fv
 #cp /home/$USER/.dotfiles/testfont.sh /home/$USER/testfont.sh
 #chmod +x /home/$USER/testfont.sh
+#}}}
+
+# Librewolf {{{
+#distro=$(if echo " una bookworm vanessa focal jammy bullseye vera uma " | grep -q " $(lsb_release -sc) "; then lsb_release -sc; else echo focal; fi)
+#wget -O- https://deb.librewolf.net/keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/librewolf.gpg
+#sudo tee /etc/apt/sources.list.d/librewolf.sources << EOF > /dev/null
+#Types: deb
+#URIs: https://deb.librewolf.net
+#Suites: $distro
+#Components: main
+#Architectures: amd64
+#Signed-By: /usr/share/keyrings/librewolf.gpg
+#EOF
+#sudo apt update
+#sudo apt install librewolf -y
+#}}}
+
+# Anime Cli {{{
+#git clone "https://github.com/pystardust/ani-cli.git"
+#sudo cp ani-cli/ani-cli /usr/local/bin
+#rm -rf ani-cli
+#}}}
+
+# Virtualbox {{{
+#wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg --dearmor
+#sudo apt update
+#sudo apt install -y virtualbox-7.0
+#}}}
+
+# ProtonVPN {{{
+#wget https://repo2.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.3-3_all.deb
+#sudo dpkg -i ./protonvpn-stable-release_1.0.3-3_all.deb && sudo apt update
+#echo "de7ef83a663049b5244736d3eabaacec003eb294a4d6024a8fbe0394f22cc4e5  protonvpn-stable-release_1.0.3-3_all.deb" | sha256sum --check -
+#sudo apt update
+#rm -f ./protonvpn-stable-release_1.0.3-3_all.deb
+#sudo apt install -y protonvpn-cli
+#}}}
+
+# Ibus Bamboo {{{
+#echo 'deb http://download.opensuse.org/repositories/home:/lamlng/Debian_11/ /' | sudo tee /etc/apt/sources.list.d/home:lamlng.list
+#curl -fsSL https://download.opensuse.org/repositories/home:lamlng/Debian_11/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_lamlng.gpg > /dev/null
+#sudo apt update
+#sudo apt install -y ibus-bamboo
 #}}}
 
 # Suckless {{{
