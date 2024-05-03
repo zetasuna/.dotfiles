@@ -2,29 +2,29 @@
 
 # Essential {{{
 if [ ! -d "/home/$USER/.config" ]; then
-	mkdir -p /home/$USER/.config
+  mkdir -p /home/$USER/.config
 fi
 if [ ! -d "/home/$USER/.local/share" ]; then
-	mkdir -p /home/$USER/.local/share
+  mkdir -p /home/$USER/.local/share
 fi
 sudo apt -y install\
-	gcc make cmake automake autoconf build-essential ninja-build\
-	libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev\
-	libevent-dev ncurses-dev\
-	pkg-config fontconfig gettext libtool libtool-bin bison fswatch\
-	xclip xorg xinit x11-xserver-utils\
-	fish fzf tmux man-db curl wget tar zip unzip bzip2 gzip lshw btop\
-	aria2 yt-dlp ffmpeg patch\
-	pipx
-       	#i3 kitty zsh vim nitrogen picom firefox-esr youtube-dl vlc 7zip
+  gcc make cmake automake autoconf build-essential ninja-build\
+  libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev\
+  libevent-dev ncurses-dev\
+  pkg-config fontconfig gettext libtool libtool-bin bison fswatch\
+  xclip xorg xinit x11-xserver-utils\
+  fish fzf tmux man-db curl wget tar zip unzip bzip2 gzip lshw btop\
+  aria2 yt-dlp ffmpeg patch transmission-cli\
+  pipx
+  #i3 kitty zsh vim nitrogen picom firefox-esr youtube-dl vlc 7zip
 #}}}
 
 # Font {{{
 sudo rm -rf /usr/local/share/fonts
 sudo cp -r /home/$USER/.dotfiles/fonts /usr/local/share/fonts
-cp /home/$USER/.dotfiles/testfont.sh /home/$USER/testfont.sh
 fc-cache -fv
-chmod +x /home/$USER/testfont.sh
+#cp /home/$USER/.dotfiles/testfont.sh /home/$USER/testfont.sh
+#chmod +x /home/$USER/testfont.sh
 #}}}
 
 # Suckless {{{
@@ -116,9 +116,9 @@ ln -s /home/$USER/.dotfiles/init.vim /home/$USER/.config/nvim/init.vim
 #	sudo make install
 #	cd /home/$USER
 #fi
-mkdir -p /home/$USER/.config/tmux
-cp /home/$USER/.dotfiles/.tmux.conf /home/$USER/.config/tmux/tmux.conf
-cp /home/$USER/.dotfiles/.tmux.conf.local /home/$USER/.config/tmux/tmux.conf.local
+#mkdir -p /home/$USER/.config/tmux
+#ln -s /home/$USER/.dotfiles/.tmux.conf /home/$USER/.config/tmux/tmux.conf
+#ln -s /home/$USER/.dotfiles/.tmux.conf.local /home/$USER/.config/tmux/tmux.conf.local
 #ln -s /home/$USER/.dotfiles/.tmux.conf /home/$USER/.tmux.conf
 #ln -s /home/$USER/.dotfiles/.tmux.conf.local /home/$USER/.tmux.conf.local
 #}}}
@@ -156,10 +156,10 @@ cp /home/$USER/.dotfiles/.tmux.conf.local /home/$USER/.config/tmux/tmux.conf.loc
 # Bash {{{
 cat <<'EOF' >> /home/$USER/.profile
 export PATH="/home/$USER/.local/pipx/shared/bin:/home/$USER/.cargo/bin:/home/$USER/perl5/bin:/usr/local/src/go/bin:/usr/local/src/nodejs/bin:$PATH"
-PERL5LIB="/home/nam/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/nam/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/nam/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/nam/perl5"; export PERL_MM_OPT;
+PERL5LIB="/home/$USER/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/$USER/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/$USER/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/$USER/perl5"; export PERL_MM_OPT;
 EOF
 . /home/$USER/.profile
 #}}}
@@ -167,47 +167,32 @@ EOF
 # Fish {{{
 chsh -s $(which fish)
 mkdir -p /home/$USER/.config/fish
+ln -s /home/$USER/.dotfiles/config.fish /home/$USER/.config/fish/config.fish
 if ! grep -q "fisher" /home/$USER/.config/fish/fish_plugins; then
-	fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
-	fish -c 'fisher install IlanCosman/tide@v6'
-	fish -c 'fisher install jethrokuan/fzf'
+  fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
+  fish -c 'fisher install IlanCosman/tide@v6'
+  fish -c 'fisher install jethrokuan/fzf'
 fi
-
-echo "\
-	if status is-interactive
-	# Commands to run in interactive sessions can go here
-	end
-
-	set -gx EDITOR nvim
-	set -q PERL5LIB; and set -x PERL5LIB /home/$USER/perl5/lib/perl5:$PERL5LIB;
-	set -q PERL5LIB; or set -x PERL5LIB /home/$USER/perl5/lib/perl5;
-	set -q PERL_LOCAL_LIB_ROOT; and set -x PERL_LOCAL_LIB_ROOT /home/$USER/perl5:$PERL_LOCAL_LIB_ROOT;
-	set -q PERL_LOCAL_LIB_ROOT; or set -x PERL_LOCAL_LIB_ROOT /home/$USER/perl5;
-	set -x PERL_MB_OPT --install_base\ \"/home/$USER/perl5\";
-	set -x PERL_MM_OPT INSTALL_BASE=/home/$USER/perl5;
-	alias ls 'ls -alhv --color=always --group-directories-first'
-	alias bat 'bat --color=always --theme=Dracula'
-	alias vi 'nvim'
-	" >> /home/$USER/.config/fish/config.fish
-	fish -c 'set -U FZF_COMPLETE 3'
-  set -Ux FZF_DEFAULT_OPTS '--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4 --height=50%  --reverse --multi --info=default --prompt=" " --pointer= --marker= --preview-window=right:60%'
-	fish -c 'set -U FZF_PREVIEW_DIR_CMD "ls -alhv --color=always --group-directories-first"'
-	fish -c 'set -U FZF_PREVIEW_FILE_CMD "bat -n --color=always --theme=Dracula"'
-	fish -c 'set -Ua fish_user_paths /home/$USER/.local/pipx/shared/bin /home/$USER/.cargo/bin /home/$USER/perl5/bin /usr/local/src/go/bin /usr/local/src/nodejs/bin'
+  fish -c 'set -U FZF_COMPLETE 3'
+  fish -c 'set -Ux FZF_DEFAULT_OPTS "--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4 --height=50%  --reverse --multi --info=default --prompt=\" \" --pointer= --marker= --preview-window=right:60%"'
+  fish -c 'set -U FZF_FIND_FILE_COMMAND "find -type f"'
+  fish -c 'set -U FZF_PREVIEW_DIR_CMD "ls -alhv --color=always --group-directories-first"'
+  fish -c 'set -U FZF_PREVIEW_FILE_CMD "bat -n --color=always --theme=Dracula"'
+  fish -c 'set -Ua fish_user_paths /home/$USER/.local/pipx/shared/bin /home/$USER/.cargo/bin /home/$USER/perl5/bin /usr/local/src/go/bin /usr/local/src/nodejs/bin'
 #}}}
 
-# Perl(CPAN) {{{
+# Perl (CPAN) {{{
 cpan local::lib
 cpan App::cpanminus
 cpanm Neovim::Ext
 #}}}
 
-# Python(PIPX) {{{
+# Python (PIPX) {{{
 pipx install neovim
 pip install neovim
 #}}}
 
-# Rust(CARGO) {{{
+# Rust (CARGO) {{{
 curl https://sh.rustup.rs -sSf | sh
 cargo install bat ripgrep fd-find
 #}}}
@@ -225,7 +210,7 @@ go install github.com/jesseduffield/lazydocker@latest
 #go install github.com/sibprogrammer/xq@latest
 #}}}
 
-# NodeJs(NPM) {{{
+# NodeJs (NPM) {{{
 NODE_VERSION=$(curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
 #set NODE_VERSION (curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
 curl -Lo /home/$USER/node.tar.gz "https://nodejs.org/dist/{$NODE_VERSION}/node-{$NODE_VERSION}-linux-x64.tar.gz"
