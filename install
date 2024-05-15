@@ -15,7 +15,7 @@ sudo apt -y install\
   xclip xorg xinit x11-xserver-utils\
   fish fzf tmux man-db curl wget tar zip unzip bzip2 gzip lshw btop\
   aria2 yt-dlp ffmpeg patch mpv transmission-cli\
-  gnupg lsb-release apt-transport-https ca-certificates\
+  gnupg lsb-release apt-transport-https ca-certificates universal-ctags\
   pipx
   #i3 kitty zsh vim nitrogen picom firefox-esr youtube-dl vlc 7zip
 #}}}
@@ -219,7 +219,7 @@ if ! grep -q "fisher" /home/$USER/.config/fish/fish_plugins; then
 fi
   fish -c 'set -U FZF_COMPLETE 3'
   fish -c 'set -Ux FZF_DEFAULT_OPTS "--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4 --height=50%  --reverse --multi --info=default --prompt=\" \" --pointer= --marker= --preview-window=right:60%"'
-  fish -c 'set -U FZF_FIND_FILE_COMMAND "find -type f"'
+  fish -c 'set -U FZF_FIND_FILE_COMMAND "find -L -type f"'
   fish -c 'set -U FZF_PREVIEW_DIR_CMD "ls -alhv --color=always --group-directories-first"'
   fish -c 'set -U FZF_PREVIEW_FILE_CMD "bat -n --color=always --theme=Dracula"'
   fish -c 'set -Ua fish_user_paths /home/$USER/.local/pipx/shared/bin /home/$USER/.cargo/bin /home/$USER/perl5/bin /usr/local/src/go/bin /usr/local/src/nodejs/bin'

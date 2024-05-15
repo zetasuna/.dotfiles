@@ -15,7 +15,7 @@ alias ls 'ls -ahv --color=auto --group-directories-first'
 alias ll 'ls -alhv --color=always --group-directories-first'
 alias bat 'bat --color=always --theme=Dracula'
 alias vi 'nvim'
-bind \c\[A __fzf_reverse_isearch
-bind \c\[B __fzf_find_file
-bind \c\[C '__fzf_cd --hidden'
-bind \c\[D fileManager
+bind \e1 fileManager
+bind \e2 __fzf_reverse_isearch
+bind \e3 __fzf_find_file
+bind \e4 '__fzf_cd --hidden'
