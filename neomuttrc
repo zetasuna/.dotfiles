@@ -1,0 +1,38 @@
+#set sidebar_visible = yes
+set ssl_force_tls = yes
+set ssl_starttls=yes
+set abort_nosubject = no
+set mail_check = 60
+set timeout = 10
+set sort = "reverse-date-received"
+set signature = "~/.config/neomutt/signature"
+set copy = no
+set move = no
+set imap_keepalive = 900
+
+set from = "21020222@vnu.edu.vn"
+set realname = "Nam Nguyễn"
+
+# Imap settings
+set imap_user = "21020222@vnu.edu.vn"
+set imap_pass = "ndyz yydi fikn vsxn"
+
+# Smtp settings
+set smtp_url = "smtps://21020222@smtp.gmail.com"
+set smtp_pass = "ndyz yydi fikn vsxn"
+
+# Remote gmail folders
+set folder = "imaps://imap.gmail.com/"
+set spoolfile = "+INBOX"
+set postponed = "+[Gmail]/Drafts"
+set record = "+[Gmail]/Sent Mail"
+set trash = "+[Gmail]/Trash"
+bind index g noop 
+macro index gi "<change-folder>$spoolfile<Enter>" "go to inbox"
+macro index gd "<change-folder>$postponed<enter>" "go to drafts"
+macro index gs "<change-folder>$record<enter>" "go to sent"
+macro index gt "<change-folder>$trash<enter>" "go to trash""
+
+set header_cache = "~/.config/neomutt/cache/headers"
+set message_cachedir = "~/.config/neomutt/cache/bodies"
+set certificate_file = "~/.config/neomutt/certificates"
