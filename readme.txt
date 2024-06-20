@@ -41,3 +41,37 @@ Text to ascii art: https://patorjk.com/software/taag/#p=display&f=Big&t=Nam%20.d
 	+) git clone git@github.com:zetasuna/.dotfiles.git
 	+) chmod +x ~/.dotfiles/install && ~/.dotfiles/install
 5: Logout and Login again, wait some minutes
+
+
+                    Packages/Tools    
+┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ +) 1.1.1.1   ┃ +) Perl              ┃ +) Tldr      ┃ 
+┃ +) GCP       ┃ +) Python            ┃ +) fzf       ┃
+┃ +) Nix       ┃ +) Golang            ┃ +) Bat       ┃
+┃              ┃ +) Rust              ┃ +) Ripgrep   ┃
+┃              ┃ +) npm               ┃ +) fd        ┃
+┃              ┣━━━━━━━━━━━━━━━━━━━━━━┫ +) mpv       ┃
+┃              ┃ +) Brave Browser     ┃ +) yt-dlp    ┃
+┃              ┃ +) ProtonVPN         ┃ +) archiver  ┃
+┃              ┃ +) Transmission      ┃              ┃
+┃              ┃ +) Syncthing         ┃              ┃
+┃              ┃ +) Gopass            ┃              ┃
+┃              ┣━━━━━━━━━━━━━━━━━━━━━━┫              ┃
+┃              ┃ +) ST Terminal       ┃              ┃
+┃              ┃ +) Tmux              ┃              ┃
+┃              ┃ +) Fish              ┃              ┃
+┃              ┃ +) Helix             ┃              ┃
+┃              ┃ +) Git               ┃              ┃
+┃              ┃ +) Git lfs           ┃              ┃
+┃              ┃ +) Lazygit           ┃              ┃
+┃              ┃ +) Docker            ┃              ┃ 
+┃              ┃ +) Lazydocker        ┃              ┃
+┃              ┣━━━━━━━━━━━━━━━━━━━━━━┫              ┃
+┃              ┃ +) Ibus-Bamboo       ┃              ┃
+┃              ┃ +) Virtualbox        ┃              ┃
+┃              ┃ +) ani-cli           ┃              ┃
+┗━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┛
+
+
+
+Key Binding
