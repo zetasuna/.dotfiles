@@ -160,6 +160,10 @@ ln -s /home/$USER/.dotfiles/init.vim /home/$USER/.config/nvim/init.vim
 #	sudo make install
 #	cd /home/$USER
 #fi
+#if [ ! -d "home/$USER/.config/tmux/plugins/tmp" ]; then
+# git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+#fi
+
 #mkdir -p /home/$USER/.config/tmux
 #ln -s /home/$USER/.dotfiles/.tmux.conf /home/$USER/.config/tmux/tmux.conf
 #ln -s /home/$USER/.dotfiles/.tmux.conf.local /home/$USER/.config/tmux/tmux.conf.local
@@ -214,6 +218,7 @@ mkdir -p /home/$USER/.config/fish
 ln -s /home/$USER/.dotfiles/config.fish /home/$USER/.config/fish/config.fish
 if ! grep -q "fisher" /home/$USER/.config/fish/fish_plugins; then
   fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
+  fish -c 'fisher install dracula/fish'
   fish -c 'fisher install IlanCosman/tide@v6'
   fish -c 'fisher install jethrokuan/fzf'
 fi

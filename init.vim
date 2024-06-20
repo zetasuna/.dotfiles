@@ -23,7 +23,7 @@ filetype on
 filetype plugin on
 filetype indent on
 set nocompatible
-set runtimepath^=$HOME/.local/share/nvim
+"set runtimepath^=$HOME/.config/vim
 " Important!!
 if has('termguicolors')
 	set termguicolors
@@ -32,8 +32,8 @@ if has("syntax")
 	syntax on
 endif
 
-if !filereadable(expand("$HOME/.local/share/nvim/autoload/plug.vim"))
-	silent execute "!curl -fLo $HOME/.local/share/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+if !filereadable(expand("$HOME/.vim/autoload/plug.vim"))
+	silent execute "!curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 	autocmd VimEnter * PlugInstall
 endif
 
@@ -45,25 +45,14 @@ let g:ale_completion_enabled = 0
 let g:ale_completion_delay = 0
 let g:ale_completion_autoimport = 0
 
-call plug#begin(expand("$HOME/.local/share/nvim/plugged"))
-Plug 'sainnhe/gruvbox-material'
+call plug#begin(expand("$HOME/.vim/plugged"))
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'dense-analysis/ale'
-"Plug 'neovim/nvim-lspconfig'
-"Plug 'hrsh7th/cmp-nvim-lsp'
-"Plug 'hrsh7th/cmp-buffer'
-"Plug 'hrsh7th/cmp-path'
-"Plug 'hrsh7th/cmp-cmdline'
-"Plug 'hrsh7th/nvim-cmp'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'preservim/tagbar'
 call plug#end()
 
-" Set contrast.
-" This configuration option should be placed before `colorscheme gruvbox-material`.
-" Available values: 'hard', 'medium'(default), 'soft'
-let g:gruvbox_material_background='hard'
-"colorscheme gruvbox-material
 colorscheme dracula
 set background=dark
 
@@ -101,7 +90,7 @@ set autoindent expandtab tabstop=4 shiftwidth=4
 set noruler noshowmode showcmd cmdheight=1 laststatus=3 showtabline=0
 set splitright
 set fillchars=vert:┃,vertleft:┫,vertright:┣,verthoriz:╋,horiz:━,horizup:┻,horizdown:┳
-"set viewdir=$HOME/.local/share/vim/view
+"set viewdir=$HOME/.config/vim/view
 set viewoptions-=options
 set foldmethod=marker
 hi Normal           guibg=NONE                  gui=NONE
@@ -190,6 +179,6 @@ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "norm
 autocmd WinEnter,BufEnter * setlocal statusline=%{FileFormat()}│%{&fileencoding?&fileencoding:&encoding}%4c┃%-4l%t│%{LinterStatus()}%w%h%r%m%=
 autocmd WinLeave,BufLeave * setlocal statusline=%=
 
-autocmd BufWinLeave *.* silent! mkview
-autocmd BufWinEnter *.* silent! loadview
+"autocmd BufWinLeave *.* silent! mkview
+"autocmd BufWinEnter *.* silent! loadview
 "}}}
