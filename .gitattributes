@@ -1,0 +1,10 @@
+extension/candy-icons.tar.xz filter=lfs diff=lfs merge=lfs -text
+extension/gtk-dracula.zip filter=lfs diff=lfs merge=lfs -text
+extension/oreo-spark-green-cursors.tar.gz filter=lfs diff=lfs merge=lfs -text
+extension/virtualbox-7.0_7.0.14-161095~Debian~bookworm_amd64.deb filter=lfs diff=lfs merge=lfs -text
+extension/Dracula.zip filter=lfs diff=lfs merge=lfs -text
+extension/oreo-black-cursors.tar.gz filter=lfs diff=lfs merge=lfs -text
+extension/oreo-spark-dark-cursors.tar.gz filter=lfs diff=lfs merge=lfs -text
+extension/oreo-spark-orange-cursors.tar.gz filter=lfs diff=lfs merge=lfs -text
+extension/oreo-spark-red-cursors.tar.gz filter=lfs diff=lfs merge=lfs -text
+extension/protonvpn.deb filter=lfs diff=lfs merge=lfs -text
