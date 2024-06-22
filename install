@@ -16,7 +16,8 @@ sudo apt -y install\
   fish fzf tmux man-db curl wget tar zip unzip bzip2 gzip unar lshw btop\
   aria2 yt-dlp ffmpeg patch mpv transmission-cli neomutt\
   gnupg lsb-release apt-transport-https ca-certificates universal-ctags\
-  pipx
+  pipx\
+  clang clangd bear
   #i3 kitty zsh vim nitrogen picom firefox-esr youtube-dl vlc 7zip
 #}}}
 
