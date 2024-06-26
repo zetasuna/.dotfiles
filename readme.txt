@@ -60,7 +60,7 @@ Text to ascii art: https://patorjk.com/software/taag/#p=display&f=Big&t=Nam%20.d
 ┃              ┃ +) ST Terminal       ┃              ┃
 ┃              ┃ +) Tmux              ┃              ┃
 ┃              ┃ +) Fish              ┃              ┃
-┃              ┃ +) Helix             ┃              ┃
+┃              ┃ +) Neovim            ┃              ┃
 ┃              ┃ +) Git               ┃              ┃
 ┃              ┃ +) Git lfs           ┃              ┃
 ┃              ┃ +) Lazygit           ┃              ┃

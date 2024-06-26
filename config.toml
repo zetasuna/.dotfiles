@@ -1,0 +1,135 @@
+theme = "dracula"
+
+[editor]
+scrolloff                 = 1               # Number of lines of padding around the edge of the screen when scrolling
+mouse                     = false           # Enable mouse mode
+middle-click-paste        = false           # Middle click paste support
+scroll-lines              = 3               # Number of lines to scroll per scroll wheel step (Enable mouse)
+shell                     = ["fish", "-c"]  # Shell to use when running external commands
+line-number               = "relative"      # Line number display: absolute simply shows each line's number, while relative shows the distance from the current line. When unfocused or in insert mode, relative will still show absolute line numbers
+cursorline                = true            # Highlight all lines with a cursor
+cursorcolumn              = true            # Highlight all columns with a cursor
+auto-completion           = true            # Enable automatic pop up of auto-completion
+auto-format               = true            # Enable automatic formatting on save
+auto-pairs                = true            # Enables automatic insertion of pairs to parentheses, brackets, etc. Can be a simple boolean value, or a specific mapping of pairs of single characters.
+auto-save                 = false
+idle-timeout              = 250             # Time in milliseconds since last keypress before idle timers trigger
+completion-timeout        = 250             # Time in milliseconds after typing a word character before completions are shown, set to 5 for instant
+preview-completion-insert = true            # Whether to apply completion item instantly when selected
+completion-trigger-len    = 2               # The min-length of word under cursor to trigger autocompletion
+completion-replace        = false           # Set to true to make completions always replace the entire word and not just the part before the cursor
+auto-info                 = true            # Whether to display info boxes
+true-color                = true            # Set to true to override automatic detection of terminal truecolor support in the event of a false negative
+undercurl                 = true            # Set to true to override automatic detection of terminal undercurl support in the event of a false negative
+rulers                    = []              # List of column positions at which to display the rulers. Can be overridden by language specific rulers in languages.toml file
+bufferline                = "never"         # Renders a line at the top of the editor displaying open buffers. Can be always, never or multiple (only shown if more than one buffer is in use)
+color-modes               = true            # Whether to color the mode indicator with different colors depending on the mode itself
+text-width                = 80              # Maximum line length. Used for the :reflow command and soft-wrapping if soft-wrap.wrap-at-text-width is set
+workspace-lsp-roots       = []              # Directories relative to the workspace root that are treated as LSP roots. Should only be set in .helix/config.toml
+default-line-ending       = "native"        # The line ending to use for new documents. Can be native, lf, crlf, ff, cr or nel. native uses the platform's native line ending (crlf on Windows, otherwise lf)
+insert-final-newline      = true            # Whether to automatically insert a trailing line-ending on write if missing
+popup-border              = "all"           # Draw border around popup, menu, all, or none
+indent-heuristic          = "hybrid"        # How the indentation for a newly inserted line is computed: simple just copies the indentation level from the previous line, tree-sitter computes the indentation based on the syntax tree and hybrid combines both approaches. If the chosen heuristic is not available, a different one will be used as a fallback (the fallback order being hybrid -> tree-sitter -> simple)
+jump-label-alphabet       = "abcdefghijklmnopqrstuvwxyz" # The characters that are used to generate two character jump labels. Characters at the start of the alphabet are used first 
+
+# "╎", "▏", "┆", "┊", "⸽"
+[editor.statusline]
+left = [ "spinner", "file-base-name", "read-only-indicator", "file-modification-indicator" ]
+center = [ "mode" ]
+right = [ "diagnostics", "separator", "total-line-numbers", "separator", "file-encoding", "file-type", "separator", "file-line-ending", "separator" ]
+separator = "┆"           
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "SELECT"
+
+[editor.lsp]
+enable                             = true  # Enables LSP integration. Setting to false will completely disable language servers regardless of language settings 
+auto-signature-help                = true  # Enable automatic popup of signature help (parameter hints)
+display-signature-help-docs        = true  # Display docs under signature help popup
+display-messages                   = true  # Display LSP progress messages below statusline
+display-inlay-hints                = true  # Display inlay hints
+snippets                           = true  # Enables snippet completions. Requires a server restart (:lsp-restart) to take effect after :config-reload / :set
+goto-reference-include-declaration = true  # Include declaration in the goto references popup.
+
+# Defines the shape of cursor in each mode. Valid values for these options are block, bar, underline, or hidden.
+[editor.cursor-shape]
+insert = "block"
+normal = "block"
+select = "block"
+
+# Set options for file picker and global search. Ignoring a file means it is not visible in the Helix file picker and global search.
+[editor.file-picker] 
+hidden            = false  # Enables ignoring hidden files
+follow-symlinks   = true   # Follow symlinks instead of ignoring them
+deduplicate-links = true   # Ignore symlinks that point at files already shown in the picker
+parents           = true   # Enables reading ignore files from parent directories
+ignore            = true   # Enables reading .ignore files
+git-ignore        = true   # Enables reading .gitignore files
+git-global        = true   # Enables reading global .gitignore, whose path is specified in git's config: core.excludesfile option
+git-exclude       = true   # Enables reading .git/info/exclude files
+# max-depth         = 1      # Set with an integer value for maximum depth to recurse
+
+[editor.search]
+smart-case  = true  # Enable smart case regex searching (case-insensitive unless pattern contains upper case characters)
+wrap-around = true  # Whether the search should wrap after depleting the matches	
+
+[editor.whitespace.render]
+space   = "none"
+tab     = "none"
+nbsp    = "none"
+nnbsp   = "none"
+newline = "none"
+[editor.whitespace.characters]
+space   = "·"
+nbsp    = "⍽"
+nnbsp   = "␣"
+tab     = "→"
+newline = "⏎"
+tabpad  = "·"    # Tabs will look like "→···" (depending on tab width)
+
+[editor.gutters]
+layout  = ["diagnostics", "spacer", "line-numbers", "spacer", "diff"]  # Gutters to display: Available are diagnostics and diff and line-numbers and spacer, note that diagnostics also includes other features like breakpoints, 1-width padding will be inserted if gutters is non-empty
+[editor.gutters.line-numbers]
+min-width = 1
+# [editor.gutters.diagnostics]  
+# Currently unused
+# [editor.gutters.diff]
+# The diff gutter option displays colored bars indicating whether a git diff represents that a line was added, removed or changed. These colors are controlled by the theme attributes diff.plus, diff.minus and diff.delta.
+# Other diff providers will eventually be supported by a future plugin system.
+# There are currently no options for this section.
+# [editor.gutters.spacer]
+# Currently unused
+
+[editor.soft-wrap]
+enable             = true  # Whether soft wrapping is enabled.
+max-wrap           = 20    # Maximum free space left at the end of the line.  
+max-indent-retain  = 0     # Maximum indentation to carry over when soft wrapping a line.
+wrap-indicator     = "↪"   # Text inserted before soft wrapped lines, highlighted with ui.virtual.wrap
+wrap-at-text-width = false # Soft wrap at text-width instead of using the full viewport size.
+
+[editor.smart-tab]
+enable         = true   # If set to true, then when the cursor is in a position with non-whitespace to its left, instead of inserting a tab, it will run move_parent_node_end. If there is only whitespace to the left, then it inserts a tab as normal. With the default bindings, to explicitly insert a tab character, press Shift-tab.
+supersede-menu = false  # Normally, when a menu is on screen, such as when auto complete is triggered, the tab key is bound to cycling through the items. This means when menus are on screen, one cannot use the tab key to trigger the smart-tab command. If this option is set to true, the smart-tab command always takes precedence, which means one cannot use the tab key to cycle through menu items. One of the other bindings must be used instead, such as arrow keys or C-n / C-p.
+
+[keys.normal]
+#j         = ["move_line_down_anchored"]
+#k         = ["move_line_up_anchored"]
+#h         = ["move_char_left_same_line"]
+#l         = ["move_char_right_same_line"]
+"S-left"  = "goto_line_start"
+"S-right" = "goto_line_end"
+"home"    = "no_op"
+"end"     = "no_op"
+tab       = "move_parent_node_end"
+S-tab     = "move_parent_node_start"
+
+[keys.insert]
+S-tab     = "move_parent_node_start"
+
+[keys.select]
+#j         = ["extend_line_down_anchored"]
+#k         = ["extend_line_up_anchored"]
+#h         = ["extend_char_left_same_line"]
+#l         = ["extend_char_right_same_line"]
+tab       = "extend_parent_node_end"
+S-tab     = "extend_parent_node_start"

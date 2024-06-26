@@ -37,6 +37,8 @@ vim.g.have_nerd_font = true
 -- NOTE: You can change these options as you wish!
 -- For more options, you can see `:help option-list`
 
+vim.opt.encoding = "utf-8"
+
 -- Make line numbers default
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
@@ -47,7 +49,9 @@ vim.opt.number = true
 vim.opt.mouse = "a"
 
 -- Don't show the mode, since it's already in the status line
+vim.opt.ruler = false
 vim.opt.showmode = false
+vim.opt.showcmd = true
 vim.opt.cmdheight = 0
 
 -- Sync clipboard between OS and Neovim.
@@ -60,6 +64,7 @@ vim.opt.breakindent = true
 
 -- Save undo history
 vim.opt.undofile = true
+vim.opt.swapfile = true
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
@@ -73,7 +78,10 @@ vim.opt.updatetime = 250
 
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
+vim.opt.timeout = true
+vim.opt.ttimeout = true
 vim.opt.timeoutlen = 300
+vim.opt.ttimeoutlen = 0
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -90,6 +98,8 @@ vim.opt.inccommand = "split"
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
+vim.opt.cursorcolumn = false
+vim.opt.cursorlineopt = "number,line"
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
@@ -98,6 +108,12 @@ vim.opt.scrolloff = 10
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
+
+vim.opt.wildmenu = true
+vim.opt.wildmode = "full"
+vim.opt.wildoptions = ""
+
+vim.opt.fillchars = "vert:┃,vertleft:┫,vertright:┣,verthoriz:╋,horiz:━,horizup:┻,horizdown:┳"
 
 -- [[ Basic Keymaps ]]
 -- See `:help vim.keymap.set()`
@@ -138,9 +154,30 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 -- See `:help vim.highlight.on_yank()`
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
 	callback = function()
 		vim.highlight.on_yank()
+	end,
+})
+
+vim.api.nvim_create_autocmd("BufRead", {
+	group = vim.api.nvim_create_augroup("RestoreCursor", { clear = true }),
+	callback = function()
+		vim.api.nvim_create_autocmd("FileType", {
+			buffer = 0,
+			once = true,
+			callback = function()
+				local line = vim.fn.line("'\"")
+				if
+					line >= 1
+					and line <= vim.fn.line("$")
+					and vim.bo.filetype ~= "commit"
+					and not vim.tbl_contains({ "xxd", "gitrebase" }, vim.bo.filetype)
+				then
+					vim.cmd('normal! g`"')
+				end
+			end,
+		})
 	end,
 })
 
@@ -234,6 +271,14 @@ require("lazy").setup({
 		-- Change the name of the colorscheme plugin below, and then change the command in the config to whatever the name of that colorscheme is.
 		-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
 		"Mofiqul/dracula.nvim",
+		--  config = function()
+		-- dracula.setup({
+		--  overrides = {
+		--   MatchParen = { gui = "NONE" },
+		--   SpellBad = { gui = "NONE" },
+		--  },
+		-- })
+		--  end,
 		-- Make sure to load this before all the other start plugins.
 		priority = 1000,
 		init = function()
@@ -241,6 +286,25 @@ require("lazy").setup({
 			vim.cmd.colorscheme("dracula")
 			-- You can configure highlights by doing something like:
 			-- vim.cmd.hi("Comment gui=none")
+			vim.cmd.hi("StatusLine   guibg=#282a36 guifg=#bd93f9 gui=NONE")
+			vim.cmd.hi("Visual       guibg=#ffb86c guifg=#282a36 gui=NONE")
+			--vim.cmd.hi("LineNr       guibg=#282a36 guifg=#bd93f9 gui=NONE")
+			vim.cmd.hi("CursorLineNr guibg=#282a36 guifg=#bd93f9 gui=bold")
+			vim.cmd.hi("WildMenu     guibg=#bd93f9 guifg=#282a36 gui=NONE")
+			vim.cmd.hi("Search       guibg=#ffb86c guifg=#282a36 gui=NONE")
+			vim.cmd.hi("CurSearch    guibg=#50fa7b guifg=#282a36 gui=NONE")
+			vim.cmd.hi("IncSearch    guibg=#50fa7b guifg=#282a36 gui=NONE")
+			vim.cmd.hi("WinSeparator guibg=#282a36 guifg=#bd93f9 gui=bold")
+			vim.cmd.hi("ModeMsg      guibg=#282a36 guifg=#bd93f9 gui=bold")
+			vim.cmd.hi("MoreMsg      guibg=#282a36 guifg=#bd93f9 gui=bold")
+			vim.cmd.hi("ErrorMsg     guibg=#282a36 guifg=#ff5555 gui=bold")
+			vim.cmd.hi("WarningMsg   guibg=#282a36 guifg=#ff5555 gui=bold")
+			vim.cmd.hi("Question     guibg=#282a36 guifg=#ff5555 gui=bold")
+			vim.cmd.hi("Title        guibg=#282a36 guifg=#bd93f9 gui=bold")
+			vim.cmd.hi("SpecialKey   guibg=NONE    guifg=#bd93f9 gui=bold")
+			vim.cmd.hi("SpellBad     guifg=#bd93f9 gui=NONE")
+			vim.cmd.hi("MatchParen   guifg=#bd93f9 gui=NONE")
+			--vim.cmd.hi("NonText      guibg=#282a36 guifg=#50fa7b gui=NONE")
 		end,
 	},
 
@@ -252,8 +316,7 @@ require("lazy").setup({
 				return [[%-4l:%4c]]
 			end
 			local colors = {
-				gray = "#282a36",
-				lightgray = "#5f6a8e",
+				gray = "#5f6a8e",
 				orange = "#ffb86c",
 				purple = "#bd93f9",
 				red = "#ff5555",
@@ -261,36 +324,38 @@ require("lazy").setup({
 				green = "#50fa7b",
 				white = "#f8f8f2",
 				black = "#282a36",
+				cyan = "8be9fd",
+				pink = "ff79c6",
 			}
 			local custom_dracula = {
 				normal = {
 					a = { bg = colors.purple, fg = colors.black, gui = "bold" },
-					b = { bg = colors.lightgray, fg = colors.white },
-					c = { bg = colors.gray, fg = colors.white },
+					b = { bg = colors.gray, fg = colors.white },
+					c = { bg = colors.black, fg = colors.white },
 				},
 				insert = {
 					a = { bg = colors.green, fg = colors.black, gui = "bold" },
-					b = { bg = colors.lightgray, fg = colors.white },
-					c = { bg = colors.gray, fg = colors.white },
+					b = { bg = colors.gray, fg = colors.white },
+					c = { bg = colors.black, fg = colors.white },
 				},
 				visual = {
 					a = { bg = colors.orange, fg = colors.black, gui = "bold" },
-					b = { bg = colors.lightgray, fg = colors.white },
-					c = { bg = colors.gray, fg = colors.white },
+					b = { bg = colors.gray, fg = colors.white },
+					c = { bg = colors.black, fg = colors.white },
 				},
 				replace = {
 					a = { bg = colors.red, fg = colors.black, gui = "bold" },
-					b = { bg = colors.lightgray, fg = colors.white },
-					c = { bg = colors.gray, fg = colors.white },
+					b = { bg = colors.gray, fg = colors.white },
+					c = { bg = colors.black, fg = colors.white },
 				},
 				command = {
-					a = { bg = colors.yellow, fg = colors.black, gui = "bold" },
-					b = { bg = colors.lightgray, fg = colors.white },
-					c = { bg = colors.gray, fg = colors.white },
+					a = { bg = colors.purple, fg = colors.black, gui = "bold" },
+					b = { bg = colors.gray, fg = colors.white },
+					c = { bg = colors.black, fg = colors.white },
 				},
 				inactive = {
-					a = { bg = colors.gray, fg = colors.white, gui = "bold" },
-					b = { bg = colors.lightgray, fg = colors.white },
+					a = { bg = colors.black, fg = colors.black, gui = "bold" },
+					b = { bg = colors.gray, fg = colors.white },
 					c = { bg = colors.purple, fg = colors.black },
 				},
 			}
@@ -306,7 +371,7 @@ require("lazy").setup({
 					},
 					ignore_focus = {},
 					always_divide_middle = true,
-					globalstatus = false,
+					globalstatus = true,
 					refresh = {
 						statusline = 1000,
 						tabline = 1000,
@@ -319,7 +384,7 @@ require("lazy").setup({
 					lualine_c = { "branch" },
 					lualine_x = { "searchcount", "diagnostics" },
 					lualine_y = { "filetype" },
-					lualine_z = { "progress", location },
+					lualine_z = { location },
 				},
 				inactive_sections = {
 					lualine_a = {},
@@ -427,7 +492,7 @@ require("lazy").setup({
 			require("telescope").setup({
 				-- You can put your default mappings / updates / etc. in here
 				-- All the info you're looking for is in `:help telescope.setup()`
-				--[[ 
+				--[[
             defaults = {
                mappings = {
                   i = { ['<c-enter>'] = 'to_fuzzy_refine' },
