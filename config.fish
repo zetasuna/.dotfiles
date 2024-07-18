@@ -23,12 +23,12 @@ if type -q fisher
     end
 end
 # Auto start Tmux Session
-# if type -q tmux
-#     and status is-interactive
-#     and test -z "$TMUX"
-#     and not string match -qr 'screen|tmux' "$TERM"
-#     tmux new-session -As Main
-# end
+if type -q tmux
+    and status is-interactive
+    and test -z "$TMUX"
+    and not string match -qr 'screen|tmux' "$TERM"
+    tmux new-session -As Main
+end
 
 # NOTE: Environment Variable
 set -g fish_greeting
@@ -271,3 +271,59 @@ abbr --add tm tmux new-session -As Main
 # bind \[15\~ 'fileManager'
 bind \[1\;2A __fzf_reverse_isearch
 bind \[1\;2B __fzf_find_file
+
+
+
+# fish_lsp_enabled_handlers <ARRAY>
+# enables the fish-lsp handlers (options: 'formatting', 'logging', 'complete',
+# 'hover', 'rename', 'definition', 'references', 'diagnostics', 'signatureHelp',
+# 'codeAction', 'index')
+set -gx fish_lsp_enabled_handlers formatting logging complete hover rename definition references diagnostics signatureHelp codeAction index
+
+# fish_lsp_disabled_handlers <ARRAY>
+# disables the fish-lsp handlers(options: 'formatting', 'logging', 'complete',
+# 'hover', 'rename', 'definition', 'references', 'diagnostics', 'signatureHelp',
+# 'codeAction', 'index')
+# set -gx fish_lsp_disabled_handlers
+
+# fish_lsp_commit_characters <ARRAY>
+# array of the completion expansion characters. Single letter values only.
+# Commit characters are used to select completion items, as shortcuts. (default:
+# [])
+# set -gx fish_lsp_commit_characters
+
+# fish_lsp_logfile <STRING>
+# path to the logs.txt file (default: '~/path/to/fish-lsp/logs.txt')
+set -gx fish_lsp_logfile '$HOME/fish-lsp/logs.txt'
+
+# fish_lsp_format_tabsize <NUMBER>
+# amount of spaces in a tab character for the formatter provider (default: 4)
+set -gx fish_lsp_format_tabsize 2
+
+# fish_lsp_format_switch_case <BOOLEAN>
+# keep case statements left aligned with switch block. (default: false)
+set -gx fish_lsp_format_switch_case false
+
+# fish_lsp_all_indexed_paths <ARRAY>
+# fish file paths to include as workspaces (default: ['/usr/share/fish',
+# '$HOME/.config/fish'])
+set -gx fish_lsp_all_indexed_paths /usr/share/fish '$HOME/.config/fish'
+
+# fish_lsp_modifiable_paths <ARRAY>
+# fish file paths that can be renamed by the user (default:
+# ['$HOME/.config/fish'])
+set -gx fish_lsp_modifiable_paths '$HOME/.config/fish'
+
+# fish_lsp_diagnostic_disable_error_codes <ARRAY>
+# disable diagnostics for matching error codes (options: 1001, 1002, 1003, 1004,
+# 2001, 2002, 2003, 3001, 3002, 3003) (default: [])
+# set -gx fish_lsp_diagnostic_disable_error_codes
+
+# fish_lsp_max_background_files <NUMBER>
+# maximum number of background files to read into buffer on startup (default:
+# 1000)
+set -gx fish_lsp_max_background_files 1000
+
+# fish_lsp_show_client_popups <BOOLEAN>
+# show popup window notification in the connected client (default: true)
+set -gx fish_lsp_show_client_popups true

@@ -45,6 +45,21 @@ local advanced_filetype = {
   "xml",
   "yaml",
 }
+local custom_colors = {
+  bg = "#282A36",
+  bgdark = "#21222C",
+  bgdarker = "#191a21",
+  fg = "#F8F8F2",
+  selection = "#44475A",
+  comment = "#6272A4",
+  red = "#FF5555",
+  orange = "#FFB86C",
+  yellow = "#F1FA8C",
+  green = "#50fa7b",
+  purple = "#BD93F9",
+  cyan = "#8BE9FD",
+  pink = "#FF79C6",
+}
 -- ┏━━━━━━━━━━━━━━━━━━┓
 -- ┃ Config + Plugins ┃
 -- ┗━━━━━━━━━━━━━━━━━━┛
@@ -258,21 +273,6 @@ end)
 now(function() -- Initialization
   -- [[ Dracula Theme ]]================================================
   add("Mofiqul/dracula.nvim")
-  local colors = {
-    bg = "#282A36",
-    bgdark = "#21222C",
-    bgdarker = "#191a21",
-    fg = "#F8F8F2",
-    selection = "#44475A",
-    comment = "#6272A4",
-    red = "#FF5555",
-    orange = "#FFB86C",
-    yellow = "#F1FA8C",
-    green = "#50fa7b",
-    purple = "#BD93F9",
-    cyan = "#8BE9FD",
-    pink = "#FF79C6",
-  }
   require("dracula").setup({
     colors = {},
     show_end_of_buffer = false, -- show the '~' characters after the end of buffers
@@ -280,47 +280,45 @@ now(function() -- Initialization
     lualine_bg_color = "#282a36", -- default nil
     italic_comment = false, -- default false
     -- overrides the default highlights with table see `:h synIDattr`
-    overrides = function(colors)
-      return {
-        Normal = { fg = colors.fg },
-        StatusLine = { fg = colors.purple },
-        WildMenu = { bg = colors.purple, fg = colors.bg },
-        QuickFixLine = { bg = colors.orange, fg = colors.bg },
-        CursorLineNr = { fg = colors.purple, bold = 1 },
-        CurSearch = { bg = colors.green, fg = colors.bg },
-        IncSearch = { bg = colors.orange, fg = colors.bg },
-        DiffAdd = { fg = colors.green },
-        Folded = { fg = colors.purple, bold = 1 },
-        WinSeparator = { fg = colors.purple, bold = 1 },
-        MatchParen = { fg = colors.green, standout = 1 },
-        Visual = { bg = colors.purple, fg = colors.bg },
-        SnippetTabstop = { bg = colors.orange, fg = colors.bg },
-        MsgSeparator = { bg = colors.bg },
-        MsgArea = { fg = colors.green, bold = 1 },
-        ErrorMsg = { fg = colors.red },
-        WarningMsg = { fg = colors.yellow },
-        MoreMsg = { fg = colors.purple, bold = 1 },
-        Title = { fg = colors.purple, bold = 1 },
-        Question = { fg = colors.purple, bold = 1 },
-        NonText = { fg = colors.green, bold = 1 }, -- precedes, extend,...
-        SpecialKey = { fg = colors.green, bold = 1 }, -- ... except Whitespace character
-        Whitespace = { fg = colors.comment }, -- Trail, Tab,...
-        NormalFloat = { fg = colors.fg },
-        FloatBorder = { fg = colors.purple },
-        FloatTitle = { fg = colors.green },
-        FloatFooter = { fg = colors.green },
-        Pmenu = { fg = colors.comment, bg = colors.bgdarker },
-        PmenuKind = { fg = colors.comment, bg = colors.bgdarker },
-        PmenuExtra = { fg = colors.comment, bg = colors.bgdarker },
-        PmenuSel = { fg = colors.green, bg = colors.bgdarker },
-        PmenuKindSel = { fg = colors.green, bg = colors.bgdarker },
-        PmenuExtraSel = { fg = colors.green, bg = colors.bgdarker },
-        PmenuMatchSel = { fg = colors.green, bg = colors.bgdarker },
-        PmenuMatch = { fg = colors.purple, bg = colors.bgdarker },
-        PmenuThumb = { bg = colors.purple },
-        -- PmemuSbar = { bg = colors.selection }, -- Not Work
-      }
-    end,
+    overrides = {
+      Normal = { fg = custom_colors.fg },
+      StatusLine = { fg = custom_colors.purple },
+      WildMenu = { bg = custom_colors.purple, fg = custom_colors.bg },
+      QuickFixLine = { bg = custom_colors.orange, fg = custom_colors.bg },
+      CursorLineNr = { fg = custom_colors.purple, bold = true },
+      CurSearch = { bg = custom_colors.green, fg = custom_colors.bg },
+      IncSearch = { bg = custom_colors.orange, fg = custom_colors.bg },
+      DiffAdd = { fg = custom_colors.green },
+      Folded = { fg = custom_colors.purple, bold = true },
+      WinSeparator = { fg = custom_colors.purple, bold = true },
+      MatchParen = { fg = custom_colors.green, standout = true },
+      Visual = { bg = custom_colors.purple, fg = custom_colors.bg },
+      SnippetTabstop = { bg = custom_colors.orange, fg = custom_colors.bg },
+      MsgSeparator = { bg = custom_colors.bg },
+      MsgArea = { fg = custom_colors.green, bold = true },
+      ErrorMsg = { fg = custom_colors.red },
+      WarningMsg = { fg = custom_colors.yellow },
+      MoreMsg = { fg = custom_colors.purple, bold = true },
+      Title = { fg = custom_colors.purple, bold = true },
+      Question = { fg = custom_colors.purple, bold = true },
+      NonText = { fg = custom_colors.green, bold = true }, -- precedes, extend,...
+      SpecialKey = { fg = custom_colors.green, bold = true }, -- ... except Whitespace character
+      Whitespace = { fg = custom_colors.comment }, -- Trail, Tab,...
+      NormalFloat = { fg = custom_colors.fg },
+      FloatBorder = { fg = custom_colors.purple },
+      FloatTitle = { fg = custom_colors.green },
+      FloatFooter = { fg = custom_colors.green },
+      Pmenu = { fg = custom_colors.comment, bg = custom_colors.bgdarker },
+      PmenuKind = { fg = custom_colors.comment, bg = custom_colors.bgdarker },
+      PmenuExtra = { fg = custom_colors.comment, bg = custom_colors.bgdarker },
+      PmenuSel = { fg = custom_colors.green, bg = custom_colors.bgdarker },
+      PmenuKindSel = { fg = custom_colors.green, bg = custom_colors.bgdarker },
+      PmenuExtraSel = { fg = custom_colors.green, bg = custom_colors.bgdarker },
+      PmenuMatchSel = { fg = custom_colors.green, bg = custom_colors.bgdarker },
+      PmenuMatch = { fg = custom_colors.purple, bg = custom_colors.bgdarker },
+      PmenuThumb = { bg = custom_colors.purple },
+      -- PmemuSbar = { bg = custom_colors.selection }, -- Not Work
+    },
   })
   vim.cmd.colorscheme("dracula")
   vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "#44475A" })
@@ -887,29 +885,29 @@ now(function() -- Initialization
       prompt_prefix = "❱ ",
     },
     mappings = {
-      caret_left = "<Left>",
-      caret_right = "<Right>",
+      caret_left = "<M-h>",
+      caret_right = "<M-l>",
       choose = "<CR>",
+      choose_marked = "<S-CR>",
       choose_in_split = "<C-s>",
-      choose_in_tabpage = "<C-t>",
       choose_in_vsplit = "<C-v>",
-      choose_marked = "<M-CR>",
+      choose_in_tabpage = "<C-t>",
       delete_char = "<BS>",
       delete_char_right = "<Del>",
-      delete_left = "<C-u>",
-      delete_word = "<C-w>",
+      delete_word = "C-w",
+      delete_left = "",
       mark = "<C-x>",
       mark_all = "<C-a>",
-      move_down = "<C-n>",
       move_start = "<C-g>",
+      move_down = "<C-n>",
       move_up = "<C-p>",
       paste = "<C-r>",
       refine = "<C-Space>",
       refine_marked = "<M-Space>",
-      scroll_down = "<C-f>",
-      scroll_left = "<C-h>",
-      scroll_right = "<C-l>",
-      scroll_up = "<C-b>",
+      scroll_left = "<S-Left>",
+      scroll_right = "<S-Right>",
+      scroll_down = "<S-Down>",
+      scroll_up = "<S-Up>",
       stop = "<Esc>",
       toggle_info = "<S-Tab>",
       toggle_preview = "<Tab>",
@@ -933,7 +931,15 @@ now(function() -- Initialization
     local_opts.cwd = nil
     return MiniPick.builtin.files(local_opts, opts)
   end
-  -- vim.api.nvim_set_hl(0, "")
+  vim.api.nvim_set_hl(0, "MiniPickNormal", { fg = custom_colors.fg })
+  vim.api.nvim_set_hl(0, "MiniPickHeader", { fg = custom_colors.green })
+  vim.api.nvim_set_hl(0, "MiniPickMatchRanges", { fg = custom_colors.green })
+  vim.api.nvim_set_hl(0, "MiniPickMatchCurrent", { bg = custom_colors.selection })
+  vim.api.nvim_set_hl(0, "MiniPickMatchMarked", { fg = custom_colors.cyan })
+  vim.api.nvim_set_hl(0, "MiniPickPrompt", { fg = custom_colors.green })
+  vim.api.nvim_set_hl(0, "MiniPickBorder", { fg = custom_colors.purple })
+  vim.api.nvim_set_hl(0, "MiniPickBorderBusy", { fg = custom_colors.orange })
+  vim.api.nvim_set_hl(0, "MiniPickBorderText", { fg = custom_colors.green })
   -- [[ Sessions ]]=====================================================
   require("mini.sessions").setup({
     autowrite = true,
@@ -1059,7 +1065,7 @@ now(function() -- Initialization
       local sort_latest = MiniVisits.gen_sort.default({ recency_weight = 1 })
       MiniExtra.pickers.visit_paths({ cwd = cwd, filter = "core", sort = sort_latest }, { source = { name = desc } })
     end
-    local opts = opts or {}
+    local opts = {}
     opts.desc = desc
     vim.keymap.set("n", "<Leader>" .. keys, rhs, opts)
   end
@@ -1073,32 +1079,24 @@ now(function() -- Plugins
     source = "nvim-lualine/lualine.nvim",
     -- depends = {"nvim-tree/nvim-web-devicons"}
   })
-  local colors = {
-    orange = "#ffb86c",
-    purple = "#bd93f9",
-    green = "#50fa7b",
-    black = "#282a36",
-    pink = "ff79c6",
-    cyan = "8be9fd",
-  }
   local custom_dracula = {
     normal = {
-      a = { bg = colors.purple, fg = colors.black, gui = "bold" },
+      a = { bg = custom_colors.purple, fg = custom_colors.bg, gui = "bold" },
     },
     insert = {
-      a = { bg = colors.green, fg = colors.black, gui = "bold" },
+      a = { bg = custom_colors.green, fg = custom_colors.bg, gui = "bold" },
     },
     visual = {
-      a = { bg = colors.orange, fg = colors.black, gui = "bold" },
+      a = { bg = custom_colors.orange, fg = custom_colors.bg, gui = "bold" },
     },
     replace = {
-      a = { bg = colors.pink, fg = colors.black, gui = "bold" },
+      a = { bg = custom_colors.pink, fg = custom_colors.bg, gui = "bold" },
     },
     command = {
-      a = { bg = colors.purple, fg = colors.black, gui = "bold" },
+      a = { bg = custom_colors.purple, fg = custom_colors.bg, gui = "bold" },
     },
     inactive = {
-      a = { bg = colors.black, fg = colors.black, gui = "bold" },
+      a = { bg = custom_colors.bg, fg = custom_colors.bg, gui = "bold" },
     },
   }
   local function custom_1()
@@ -1152,7 +1150,7 @@ now(function() -- Plugins
           "diagnostics",
           colored = false,
           sections = { "error", "warn", "info", "hint" },
-          symbols = { error = " ", warn = " ", info = " ", hint = " " },
+          symbols = { error = " ", warn = " ", info = " ", hint = " " },
           padding = 0,
         },
         { "%=" },
@@ -1264,7 +1262,6 @@ now(function() -- Plugins
     end,
   })
   -- [[ Inline Diagnostic Nvim ]]=======================================
-  add("rachartier/tiny-inline-diagnostic.nvim")
   vim.diagnostic.config({
     severity_sort = true,
     update_in_insert = false,
@@ -1281,10 +1278,11 @@ now(function() -- Plugins
         [vim.diagnostic.severity.ERROR] = " ",
         [vim.diagnostic.severity.WARN] = " ",
         [vim.diagnostic.severity.INFO] = " ",
-        [vim.diagnostic.severity.HINT] = " ",
+        [vim.diagnostic.severity.HINT] = " ",
       },
     },
   })
+  add("rachartier/tiny-inline-diagnostic.nvim")
   require("tiny-inline-diagnostic").setup({
     signs = {
       left = "",
@@ -1300,8 +1298,8 @@ now(function() -- Plugins
       warn = "DiagnosticWarn",
       info = "DiagnosticInfo",
       hint = "DiagnosticHint",
-      -- arrow = "SpecialKey",
-      background = "normal", -- Can be a highlight or a hexadecimal color (#RRGGBB)
+      arrow = "SpecialKey",
+      background = "Normal", -- Can be a highlight or a hexadecimal color (#RRGGBB)
       -- mixing_color = "None", -- Can be None or a hexadecimal color (#RRGGBB). Used to blend the background color with the diagnostic background color with another color.
     },
     blend = {
@@ -1452,10 +1450,10 @@ now(function() -- Plugins
       documentation = cmp.config.window.bordered(winopts),
     },
     mapping = cmp.mapping.preset.insert({
-      ["<C-n>"] = cmp.mapping.select_next_item(),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
-      ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-      ["<C-f>"] = cmp.mapping.scroll_docs(4),
+      ["<C-n>"] = cmp.mapping.select_next_item(),
+      ["<S-Up>"] = cmp.mapping.scroll_docs(-4),
+      ["<S-Down>"] = cmp.mapping.scroll_docs(4),
       ["<CR>"] = cmp.mapping.confirm({ select = true }),
       ["<S-CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
       ["<C-Space>"] = cmp.mapping.complete({}),
@@ -1502,14 +1500,14 @@ now(function() -- Plugins
       },
     }),
   })
-  vim.api.nvim_set_hl(0, "CmpItemAbbr", { fg = "#6272a4" })
-  vim.api.nvim_set_hl(0, "CmpItemAbbrDefault", { fg = "#6272a4" })
-  vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { fg = "#50fa7b" })
-  vim.api.nvim_set_hl(0, "CmpItemAbbrMatchDefault", { fg = "#50fa7b" })
-  vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = "#50fa7b" })
-  vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzyDefault", { fg = "#50fa7b" })
-  vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { fg = "#6272a4", strikethrough = true })
-  vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecatedDefault", { fg = "#6272a4", strikethrough = true })
+  vim.api.nvim_set_hl(0, "CmpItemAbbr", { fg = custom_colors.fg })
+  vim.api.nvim_set_hl(0, "CmpItemAbbrDefault", { fg = custom_colors.fg })
+  vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { fg = custom_colors.green })
+  vim.api.nvim_set_hl(0, "CmpItemAbbrMatchDefault", { fg = custom_colors.green })
+  vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = custom_colors.green })
+  vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzyDefault", { fg = custom_colors.green })
+  vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { fg = custom_colors.fg, strikethrough = true })
+  vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecatedDefault", { fg = custom_colors.fg, strikethrough = true })
   -- [[ LSP config ]]===================================================
   add({
     source = "williamboman/mason-lspconfig.nvim",
@@ -1521,8 +1519,8 @@ now(function() -- Plugins
     },
   })
   local servers = {
-    -- bashls = {},
-    -- fish_lsp = {},
+    bashls = {},
+    fish_lsp = {},
     -- awk_ls = {},
     lua_ls = {
       -- on_init = function(client)
@@ -1556,11 +1554,11 @@ now(function() -- Plugins
         },
       },
     },
-    -- perlnavigator = {},
-    -- pyright = {},
+    perlnavigator = {},
+    pyright = {},
     -- asm_lsp = {},
-    -- clangd = {},
-    -- autotools_ls = {},
+    clangd = {},
+    autotools_ls = {},
     -- nil_ls = {
     --   autostart = true,
     --   settings = {
@@ -1583,7 +1581,7 @@ now(function() -- Plugins
         },
       },
     },
-    -- docker_compose_language_service = {}, -- "set filetype=yaml.docker-compose" if not run
+    docker_compose_language_service = {}, -- "set filetype=yaml.docker-compose" if not run
     -- gopls = {
     --   hints = {
     --     assignVariableTypes = true,
@@ -1595,21 +1593,21 @@ now(function() -- Plugins
     --     rangeVariableTypes = true,
     --   },
     -- },
-    -- html = {},
-    -- cssls = {},
-    -- eslint = {
-    --   on_attach = function(client, bufnr)
-    --     vim.api.nvim_create_autocmd("BufWritePre", {
-    --       buffer = bufnr,
-    --       command = "EslintFixAll",
-    --     })
-    --   end,
-    -- },
+    html = {},
+    cssls = {},
+    eslint = {
+      on_attach = function(client, bufnr)
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          buffer = bufnr,
+          command = "EslintFixAll",
+        })
+      end,
+    },
     -- sqls = {
     --   -- cmd = {"path/to/command", "-config", "path/to/config.yml"};
     -- },
-    -- jsonls = {},
-    -- lemminx = {},
+    jsonls = {},
+    lemminx = {},
     -- yamlls = {
     --   settings = {
     --     yaml = {
@@ -1658,20 +1656,20 @@ now(function() -- Plugins
       -- "awk-language-server",
       "lua-language-server",
       "perlnavigator",
-      -- "pyright",
+      "pyright",
       -- "asm-lsp",
-      -- "clangd",
+      "clangd",
       "autotools-language-server",
       -- "nil",
       "dockerfile-language-server",
       "docker-compose-language-service",
       -- "gopls",
-      -- "html-lsp",
-      -- "css-lsp",
-      -- "eslint-lsp",
+      "html-lsp",
+      "css-lsp",
+      "eslint-lsp",
       -- "sqls",
-      -- "json-lsp",
-      -- "lemminx",
+      "json-lsp",
+      "lemminx",
       -- "yaml-language-server",
       -- [[ Formatter  ]]-----------------------------------------------
       "shellcheck",
