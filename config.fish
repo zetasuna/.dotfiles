@@ -33,12 +33,18 @@ end
 # NOTE: Environment Variable
 set -g fish_greeting
 set -g fish_key_bindings fish_vi_key_bindings
+set -g fish_cursor_default block
+set -g fish_cursor_insert line
+set -g fish_cursor_visual underscore
+set -g fish_cursor_external underscore
+set -g fish_cursor_replace underscore
+set -g fish_cursor_replace_one underscore
 set -g fish_escape_delay_ms 30
 set -g fish_sequence_key_delay_ms 500
 set -gx EDITOR hx
 set -Ux MANPAGER "sh -c 'col -bx | bat -l man -p'"
 set -Ux MANROFFOPT -c
-set -Ux FZF_DEFAULT_OPTS "--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4 --height=50%  --reverse --multi --info=default --prompt=\" \" --pointer= --marker= --preview-window=right:60%"
+set -Ux FZF_DEFAULT_OPTS "--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4 --height=50%  --reverse --multi --info=default --prompt=\"❱ \" --pointer=󰄾 --marker=● --preview-window=right:60%"
 set -U FZF_COMPLETE 3
 set -U FZF_FIND_FILE_COMMAND "fd --strip-cwd-prefix -HLc auto"
 set -U FZF_PREVIEW_FILE_CMD "bat -n --color=always --theme=Dracula"
@@ -124,7 +130,7 @@ set -U tide_right_prompt_separator_same_color ""
 # Custom Items
 set -U tide_aws_bg_color "#424450"
 set -U tide_aws_color "#50fa7b"
-set -U tide_aws_icon 
+set -U tide_aws_icon 
 set -U tide_gcloud_bg_color "#424450"
 set -U tide_gcloud_color "#50fa7b"
 set -U tide_gcloud_icon 󱇶
@@ -133,11 +139,11 @@ set -U tide_terraform_color "#50fa7b"
 set -U tide terraform_icon 󱁢
 set -U tide_docker_bg_color "#424450"
 set -U tide_docker_color "#50fa7b"
-set -U tide_docker_icon 
+set -U tide_docker_icon 
 set -U tide_docker_default_contexts default colima
 set -U tide_kubectl_bg_icon "#424450"
 set -U tide_kubectl_color "#50fa7b"
-set -U tide_kubectl_icon 󰠳
+set -U tide_kubectl_icon 
 set -U tide_toolbox_bg_color "#424450"
 set -U tide_toolbox_color "#50fa7b"
 set -U tide_toolbox_icon 
@@ -187,14 +193,14 @@ set -U tide_git_truncation_length 24
 set -U tide_git_truncation_strategy
 set -U tide_character_color "#50fa7b"
 set -U tide_character_color_failure "#ff5555"
-set -U tide_character_icon 
-set -U tide_character_vi_icon_default 
-set -U tide_character_vi_icon_replace 󰶼
-set -U tide_character_vi_icon_visual 󰶹
+set -U tide_character_icon ❱
+set -U tide_character_vi_icon_default ❰
+set -U tide_character_vi_icon_replace ❰
+set -U tide_character_vi_icon_visual ❰
 
 # NOTE: Function
 # File Manager
-function manageFile
+function fileManager
     while true
         set selection (ls -ahv --color=auto --group-directories-first | fzf \
         --bind="left:pos(2)+accept" \
@@ -206,9 +212,9 @@ function manageFile
         --reverse \
         --multi \
         --info=default\
-        --prompt=" " \
-        --pointer= \
-        --marker= \
+        --prompt="❱ " \
+        --pointer=󰄾 \
+        --marker=● \
         --border=bold \
         --border-label=$(pwd) \
         --preview-window=right:60% \
@@ -220,7 +226,7 @@ function manageFile
         echo " " $cd_pre;
         ls -alhv --color=always --group-directories-first "$cd_pre";
         else
-        echo " " $cd_pre;
+        echo "󰈮 " $cd_pre;
         bat --style=numbers --theme=Dracula --color=always $sel 2>/dev/null
         end')
         if test -d "$selection"
@@ -251,10 +257,12 @@ alias ll 'ls -alhv --color=always --group-directories-first'
 alias tldr 'tldr -t base16'
 alias bat 'bat --color=auto --theme=Dracula'
 alias mpv 'mpv --keep-open=yes --quiet'
+# alias fd 'fd --strip-cwd-prefix -HL'
+# alias rg 'rg -uu -L'
 
 # NOTE: Abbreviations
 abbr --add dotdot --regex '^\.\.+$' --function multicd
-abbr --add v nvim
+abbr --add n nvim
 abbr --add x xdg-open
 abbr --add tl tldr
 abbr --add tm tmux new-session -As Main
