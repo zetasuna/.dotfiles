@@ -2,10 +2,10 @@
 
 # Essential {{{
 if [ ! -d "/home/$USER/.config" ]; then
-  mkdir -p /home/$USER/.config
+  mkdir -p /home/"$USER"/.config
 fi
 if [ ! -d "/home/$USER/.local/share" ]; then
-  mkdir -p /home/$USER/.local/share
+  mkdir -p /home/"$USER"/.local/share
 fi
 sudo apt -y install\
   gcc make cmake automake autoconf build-essential ninja-build\
@@ -23,7 +23,7 @@ sudo apt -y install\
 
 # Font {{{
 sudo rm -rf /usr/local/share/fonts
-sudo cp -r /home/$USER/.dotfiles/fonts /usr/local/share/fonts
+sudo cp -r /home/"$USER"/.dotfiles/fonts /usr/local/share/fonts
 fc-cache -fv
 #cp /home/$USER/.dotfiles/testfont.sh /home/$USER/testfont.sh
 #chmod +x /home/$USER/testfont.sh
@@ -129,12 +129,12 @@ fc-cache -fv
 #sudo tar -C /opt -xzf /home/$USER/nvim-linux64.tar.gz
 #rm -f /home/$USER/nvim-linux64.tar.gz
 sudo git clone https://github.com/neovim/neovim /usr/local/src/neovim
-cd /usr/local/src/neovim
+cd /usr/local/src/neovim || exit
 sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
-cd /home/$USER
-mkdir -p /home/$USER/.config/nvim
-ln -s /home/$USER/.dotfiles/init.vim /home/$USER/.config/nvim/init.vim
+cd /home/"$USER" || exit
+mkdir -p /home/"$USER"/.config/nvim
+ln -s /home/"$USER"/.dotfiles/init.vim /home/"$USER"/.config/nvim/init.vim
 ## Lazyvim
 #if [ ! -d "/home/$USER/.config/nvim" ]; then
 #	# required
@@ -203,21 +203,21 @@ ln -s /home/$USER/.dotfiles/init.vim /home/$USER/.config/nvim/init.vim
 #}}}
 
 # Bash {{{
-cat <<'EOF' >> /home/$USER/.profile
+cat <<'EOF' >> /home/"$USER"/.profile
 export PATH="/home/$USER/.local/pipx/shared/bin:/home/$USER/.cargo/bin:/home/$USER/perl5/bin:/usr/local/src/go/bin:/usr/local/src/nodejs/bin:$PATH"
 PERL5LIB="/home/$USER/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/$USER/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/$USER/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/$USER/perl5"; export PERL_MM_OPT;
 EOF
-. /home/$USER/.profile
+. /home/"$USER"/.profile
 #}}}
 
 # Fish {{{
 chsh -s $(which fish)
-mkdir -p /home/$USER/.config/fish
-ln -s /home/$USER/.dotfiles/config.fish /home/$USER/.config/fish/config.fish
-if ! grep -q "fisher" /home/$USER/.config/fish/fish_plugins; then
+mkdir -p /home/"$USER"/.config/fish
+ln -s /home/"$USER"/.dotfiles/config.fish /home/"$USER"/.config/fish/config.fish
+if ! grep -q "fisher" /home/"$USER"/.config/fish/fish_plugins; then
   fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
   fish -c 'fisher install dracula/fish'
   fish -c 'fisher install IlanCosman/tide@v6'
@@ -237,8 +237,9 @@ cpan App::cpanminus
 cpanm Neovim::Ext
 #}}}
 
-# Python (PIPX) {{{
-pipx install neovim
+# Python (venv) {{{
+python3 -m venv .venv
+echo "source .venv/bin/activate" >> /home/"$USER"/.profile
 pip install neovim
 #}}}
 
@@ -250,9 +251,9 @@ cargo install bat ripgrep fd-find
 # Go {{{
 GO_VERSION=$(curl -s "https://go.dev/dl/" | grep -Po 'go[0-9.]*\.linux-amd64\.tar\.gz' | sort -V | tail -n 1)
 #set GO_VERSION (curl -s "https://go.dev/dl/" | grep -Po 'go[0-9.]*\.linux-amd64\.tar\.gz' | sort -V | tail -n 1)
-curl -Lo /home/$USER/go.tar.gz "https://go.dev/dl/{$GO_VERSION}"
-sudo tar -xzf /home/$USER/go.tar.gz -C /usr/local/src
-rm -f /home/$USER/go.tar.gz
+curl -Lo /home/"$USER"/go.tar.gz "https://go.dev/dl/{$GO_VERSION}"
+sudo tar -xzf /home/"$USER"/go.tar.gz -C /usr/local/src
+rm -f /home/"$USER"/go.tar.gz
 go install github.com/jesseduffield/lazygit@latest
 go install github.com/jesseduffield/lazydocker@latest
 #go install github.com/wader/fq@latest
@@ -263,10 +264,10 @@ go install github.com/jesseduffield/lazydocker@latest
 # NodeJs (NPM) {{{
 NODE_VERSION=$(curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
 #set NODE_VERSION (curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
-curl -Lo /home/$USER/node.tar.gz "https://nodejs.org/dist/{$NODE_VERSION}/node-{$NODE_VERSION}-linux-x64.tar.gz"
-sudo tar -xzf /home/$USER/node.tar.gz -C /usr/local/src
+curl -Lo /home/"$USER"/node.tar.gz "https://nodejs.org/dist/{$NODE_VERSION}/node-{$NODE_VERSION}-linux-x64.tar.gz"
+sudo tar -xzf /home/"$USER"/node.tar.gz -C /usr/local/src
 sudo mv /usr/local/src/$(ls /usr/local/src | grep -Po "node-v[0-9.]*-linux-x64" | sort -V | tail -n 1) /usr/local/src/nodejs
 #sudo mv /usr/local/src/(ls /usr/local/src | grep -Po 'node-v[0-9.]*-linux-x64' | sort -V | tail -n 1) /usr/local/src/nodejs
-rm -f /home/$USER/node.tar.gz
+rm -f /home/"$USER"/node.tar.gz
 npm install -g neovim tldr
 #}}}

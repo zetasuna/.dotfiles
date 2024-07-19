@@ -30,6 +30,7 @@ if type -q tmux
     tmux new-session -As Main
 end
 
+source ~/.venv/bin/activate.fish
 # NOTE: Environment Variable
 set -g fish_greeting
 set -g fish_key_bindings fish_vi_key_bindings
@@ -121,39 +122,43 @@ set -U tide_left_prompt_suffix ""
 set -U tide_left_prompt_separator_diff_color ""
 set -U tide_left_prompt_separator_same_color ""
 # Right Prompt
-set -U tide_right_prompt_frame_enabled true
-set -U tide_right_prompt_items aws gcloud terraform docker kubectl toolbox direnv nix_shell context private_mode newline time
+# set -U tide_right_prompt_frame_enabled true
+set -U tide_right_prompt_frame_enabled false # May set to "true" due overcolor in nextline when restore session tmux
+set -U tide_right_prompt_items aws gcloud terraform docker kubectl toolbox direnv python nix_shell context private_mode newline time
 set -U tide_right_prompt_prefix ""
 set -U tide_right_prompt_suffix
 set -U tide_right_prompt_separator_diff_color ""
 set -U tide_right_prompt_separator_same_color ""
 # Custom Items
 set -U tide_aws_bg_color "#424450"
-set -U tide_aws_color "#50fa7b"
+set -U tide_aws_color "#bd93f9"
 set -U tide_aws_icon 
 set -U tide_gcloud_bg_color "#424450"
-set -U tide_gcloud_color "#50fa7b"
+set -U tide_gcloud_color "#bd93f9"
 set -U tide_gcloud_icon 󱇶
 set -U tide_terraform_bg_color "#424450"
-set -U tide_terraform_color "#50fa7b"
+set -U tide_terraform_color "#bd93f9"
 set -U tide terraform_icon 󱁢
 set -U tide_docker_bg_color "#424450"
-set -U tide_docker_color "#50fa7b"
+set -U tide_docker_color "#bd93f9"
 set -U tide_docker_icon 
 set -U tide_docker_default_contexts default colima
 set -U tide_kubectl_bg_icon "#424450"
-set -U tide_kubectl_color "#50fa7b"
+set -U tide_kubectl_color "#bd93f9"
 set -U tide_kubectl_icon 
 set -U tide_toolbox_bg_color "#424450"
-set -U tide_toolbox_color "#50fa7b"
+set -U tide_toolbox_color "#bd93f9"
 set -U tide_toolbox_icon 
 set -U tide_direnv_bg_color "#424450"
-set -U tide_direnv_color "#50fa7b"
+set -U tide_direnv_color "#bd93f9"
 set -U tide_direnv_bg_color_denied "#424450"
 set -U tide_direnv_color_denied "#ff5555"
 set -U tide_direnv_icon 󰌪
+set -U tide_python_bg_color "#424450"
+set -U tide_python_color "#bd93f9"
+set -U tide_python_icon 
 set -U tide_nix_shell_bg_color "#424450"
-set -U tide_nix_shell_color "#50fa7b"
+set -U tide_nix_shell_color "#bd93f9"
 set -U tide_nix_shell_icon 
 set -U tide_context_bg_color "#424450"
 set -U tide_context_color_default "#bd93f9"
@@ -180,15 +185,15 @@ set -U tide_pwd_icon_unwritable 󰞀
 set -U tide_git_bg_color "#424450"
 set -U tide_git_bg_color_unstable "#424450"
 set -U tide_git_bg_color_urgent "#424450"
-set -U tide_git_color_branch "#50fa7b"
+set -U tide_git_color_branch "#bd93f9"
 set -U tide_git_color_conflicted "#ff5555"
-set -U tide_git_color_dirty "#ffb86c"
+set -U tide_git_color_dirty "#8be9fd"
 set -U tide_git_color_operation "#ff5555"
-set -U tide_git_color_staged "#ffb86c"
-set -U tide_git_color_stash "#8be9fd"
-set -U tide_git_color_untracked "#ff79c6"
-set -U tide_git_color_upstream "#8be9fd"
-set -U tide_git_icon 
+set -U tide_git_color_staged "#8be9fd"
+set -U tide_git_color_stash "#50fa7b"
+set -U tide_git_color_untracked "#ffb86c"
+set -U tide_git_color_upstream "#50fa7b"
+set -U tide_git_icon 
 set -U tide_git_truncation_length 24
 set -U tide_git_truncation_strategy
 set -U tide_character_color "#50fa7b"
