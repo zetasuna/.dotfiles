@@ -170,7 +170,7 @@ set -U tide_private_mode_color "#bd93f9"
 set -U tide_private_mode_icon 󰗹
 set -U tide_time_bg_color "#282a36"
 set -U tide_time_color "#50fa7b"
-set -U tide_time_format "%d/%m/%Y "
+set -U tide_time_format "%a %d/%m/%Y "
 set -U tide_shlvl_bg_color "#424450"
 set -U tide_shlvl_color "#bd93f9"
 set -U tide_shlvl_icon 󰆍
