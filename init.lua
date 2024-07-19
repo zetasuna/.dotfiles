@@ -175,8 +175,8 @@ now(function() -- Custom for Neovim
   -- ===================================================================
   nmap_leader('fC', '<Cmd>edit $MYVIMRC<CR>',                                                                 '[C]onfig file edit')
   nmap_leader('fc', '<Cmd>lua MiniFiles.open(vim.fn.stdpath("config"))<CR>',                                  '[c]onfig directory')
-  nmap_leader('fD', '<Cmd>lua MiniFiles.open()<CR>',                                                          '[D]irectory of pwd')
-  nmap_leader('fd', '<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>',                              '[d]irectory of current file')
+  nmap_leader('fD', '<Cmd>lua MiniFiles.open()<CR>',                                                          '[D]irectory in Terminal')
+  nmap_leader('fd', '<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>',                              '[d]irectory in current buffer')
   nmap_leader('fm', '<Cmd>lua MiniFiles.open(vim.fn.stdpath("data").."/site/pack/deps/start/mini.nvim")<CR>', '[m]ini.nvim directory')
   nmap_leader('fp', '<Cmd>lua MiniFiles.open(vim.fn.stdpath("data").."/site/pack/deps/opt")<CR>',             '[p]lugins directory')
   -- ===================================================================
