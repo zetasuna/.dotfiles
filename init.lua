@@ -442,7 +442,7 @@ now(function() -- Initialization
       { mode = "n", keys = "<Leader>B", desc = "  [B]uffer Fuzzy Finder" },
       { mode = "n", keys = "<Leader>b", desc = "  [b]uffer" },
       { mode = "n", keys = "<Leader>c", desc = "  [c]odeium" },
-      { mode = "n", keys = "<Leader>d", desc = "  [d]eps Plugin Manager" },
+      { mode = "n", keys = "<Leader>d", desc = "  [d]eps Plugin Manager" },
       { mode = "n", keys = "<Leader>F", desc = "  [F]iles Fuzzy Finder" },
       { mode = "n", keys = "<Leader>f", desc = "  [f]iles" },
       { mode = "n", keys = "<Leader>G", desc = "  [G]it Fuzzy Finder" },
@@ -755,7 +755,7 @@ now(function() -- Initialization
   vim.api.nvim_set_hl(0, "MiniMapNormal", { fg = "#f8f8f2", bg = "#191a21" })
   vim.api.nvim_set_hl(0, "MiniMapSymbolCount", { fg = "#50fa7b" })
   vim.api.nvim_set_hl(0, "MiniMapSymbolLine", { fg = "#bd93f9" })
-  vim.api.nvim_set_hl(0, "MiniMapSymbolView", { fg = "#44475a" })
+  vim.api.nvim_set_hl(0, "MiniMapSymbolView", { fg = "#bd93f9" })
   -- [[ Misc ]]=========================================================
   require("mini.misc").setup({ make_global = { "put", "put_text", "stat_summary", "bench_time" } })
   MiniMisc.setup_auto_root({})
@@ -1008,8 +1008,8 @@ now(function() -- Initialization
     autoopen = true,
     items = {
       require("mini.starter").sections.builtin_actions(),
-      -- require("mini.starter").sections.sessions(5, true),
-      require("mini.starter").sections.recent_files(5, false, true),
+      require("mini.starter").sections.sessions(5, true),
+      -- require("mini.starter").sections.recent_files(5, false, true),
     },
     header = [[
           ████ ██████           █████  ██ ██
@@ -1098,7 +1098,14 @@ end)
 now(function() -- Plugins
   add("dstein64/vim-startuptime")
   -- [[ Codeium Nvim ]]=================================================
-  add("Exafunction/codeium.vim")
+  add({
+    source = "Exafunction/codeium.vim",
+    hooks = {
+      post_checkout = function()
+        vim.cmd("Codeium Auth")
+      end,
+    },
+  })
   vim.cmd("let g:codeium_enabled = v:true")
   vim.keymap.set("i", "<Tab>", function()
     return vim.fn["codeium#Accept"]()
@@ -1371,97 +1378,43 @@ now(function() -- Plugins
   local kind_icons = {
     Array = " ",
     Boolean = "󰨙 ",
-    Class = " ",
+    Class = "󰠱 ",
     Codeium = " ", -- "󰘦 ",
-    Color = " ",
-    Control = " ",
+    Color = " ",
+    Control = " ",
     Collapsed = " ",
     Constant = "󰏿 ",
-    Constructor = " ",
+    Constructor = " ",
     Copilot = " ",
     Enum = " ",
     EnumMember = " ",
-    Event = " ",
-    Field = " ",
-    File = " ",
-    Folder = " ",
+    Event = " ",
+    Field = " ",
+    File = " ",
+    Folder = " ",
     Function = "󰊕 ",
     Interface = " ",
-    Key = " ",
-    Keyword = " ",
-    Method = "󰊕 ",
-    Module = " ",
+    Key = " ",
+    Keyword = " ",
+    Method = " ",
+    Module = " ",
     Namespace = "󰦮 ",
     Null = " ",
     Number = "󰎠 ",
     Object = " ",
     Operator = " ",
-    Package = " ",
+    Package = " ",
     Property = " ",
     Reference = " ",
-    Snippet = " ",
-    String = " ",
-    Struct = "󰆼 ",
-    TabNine = "󰏚 ",
-    Text = " ",
-    TypeParameter = " ",
-    Unit = " ",
-    Value = " ",
-    Variable = "󰀫 ",
-  }
-  local kind_icons_1 = {
-    Text = " ",
-    Method = "󰆧 ",
-    Function = "󰊕 ",
-    Constructor = " ",
-    Field = "󰇽 ",
-    Variable = "󰂡 ",
-    Class = "󰠱 ",
-    Interface = " ",
-    Module = " ",
-    Property = "󰜢 ",
-    Unit = " ",
-    Value = "󰎠 ",
-    Enum = " ",
-    Keyword = "󰌋 ",
     Snippet = " ",
-    Color = "󰏘 ",
-    File = "󰈙 ",
-    Reference = " ",
-    Folder = "󰉋 ",
-    EnumMember = " ",
-    Constant = "󰏿 ",
-    Struct = " ",
-    Event = "",
-    Operator = "󰆕",
-    TypeParameter = "󰅲",
-  }
-  local kind_icons_2 = {
-    Text = "  ",
-    Method = "  ",
-    Function = "  ",
-    Constructor = "  ",
-    Field = "  ",
-    Variable = "  ",
-    Class = "  ",
-    Interface = "  ",
-    Module = "  ",
-    Property = "  ",
-    Unit = "  ",
-    Value = "  ",
-    Enum = "  ",
-    Keyword = "  ",
-    Snippet = "  ",
-    Color = "  ",
-    File = "  ",
-    Reference = "  ",
-    Folder = "  ",
-    EnumMember = "  ",
-    Constant = "  ",
-    Struct = "  ",
-    Event = "  ",
-    Operator = "  ",
-    TypeParameter = "  ",
+    String = " ",
+    Struct = " ",
+    TabNine = "󰏚 ",
+    Text = " ",
+    TypeParameter = " ",
+    Unit = " ",
+    Value = " ",
+    Variable = " ",
   }
   cmp.setup({
     formatting = {
@@ -1504,12 +1457,11 @@ now(function() -- Plugins
         end
       end, { "i", "s" }),
     }),
-    sources = cmp.config.sources({
-      { name = "nvim_lsp" },
-      { name = "path" },
-    }, {
-      { name = "buffer" },
-    }),
+    sources = cmp.config.sources(
+      { { name = "nvim_lsp" }, { name = "path" } },
+      { { name = "buffer" } },
+      { { name = "codeium.nvim" } }
+    ),
   })
   -- `/` cmdline setup.
   cmp.setup.cmdline({ "/", "?" }, {
