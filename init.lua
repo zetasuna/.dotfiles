@@ -151,7 +151,7 @@ now(function() -- Custom for Neovim
     vim.keymap.set("x", "<Leader>" .. suffix, rhs, opts)
   end
   -- stylua: ignore start
-  -- b is for 'buffer'
+  -- ===================================================================
   nmap_leader('ba', '<Cmd>b#<CR>',                                 '[a]lternate')
   nmap_leader('bD', '<Cmd>lua MiniBufremove.delete(0, true)<CR>',  '[D]elete unsaved')
   nmap_leader('bd', '<Cmd>lua MiniBufremove.delete()<CR>',         '[d]elete')
@@ -159,22 +159,27 @@ now(function() -- Custom for Neovim
   nmap_leader('bu', '<Cmd>lua MiniBufremove.unshow()<CR>',         '[u]nshow')
   nmap_leader('bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', '[W]ipeout unsaved')
   nmap_leader('bw', '<Cmd>lua MiniBufremove.wipeout()<CR>',        '[w]ipeout')
-  -- d is for 'Deps'
-  nmap_leader("da", "<Cmd>DepsAdd<CR>",           "Deps [a]dd")
-  nmap_leader("dc", "<Cmd>DepsClean<CR>",         "Deps [c]lean")
-  nmap_leader("dl", "<Cmd>DepsShowLog<CR>",       "Deps [l]og")
-  nmap_leader("dS", "<Cmd>DepsSnapLoad<CR>",      "Deps [S]nap load")
-  nmap_leader("ds", "<Cmd>DepsSnapSave<CR>",      "Deps [s]nap save")
-  nmap_leader("dU", "<Cmd>DepsUpdateOffline<CR>", "Deps [U]pdate offline")
-  nmap_leader("du", "<Cmd>DepsUpdate<CR>",        "Deps [u]pdate")
-  -- f is for 'files'
+  -- ===================================================================
+  nmap_leader("ca", "<Cmd>Codeium Auth<CR>",   "[a]uth    Codeium")
+  nmap_leader("cd", "<Cmd>CodeiumDisable<CR>", "[d]isable Codeium")
+  nmap_leader("ce", "<Cmd>CodeiumEnable<CR>",  "[e]nable  Codeium")
+  nmap_leader("ct", "<Cmd>CodeiumToggle<CR>",  "[t]oggle  Codeium")
+  -- ===================================================================
+  nmap_leader("da", "<Cmd>DepsAdd<CR>",           "[a]dd            MiniDeps")
+  nmap_leader("dc", "<Cmd>DepsClean<CR>",         "[c]lean          MiniDeps")
+  nmap_leader("dl", "<Cmd>DepsShowLog<CR>",       "[l]og            MiniDeps")
+  nmap_leader("dS", "<Cmd>DepsSnapLoad<CR>",      "[S]nap load      MiniDeps")
+  nmap_leader("ds", "<Cmd>DepsSnapSave<CR>",      "[s]nap save      MiniDeps")
+  nmap_leader("dU", "<Cmd>DepsUpdateOffline<CR>", "[U]pdate offline MiniDeps")
+  nmap_leader("du", "<Cmd>DepsUpdate<CR>",        "[u]pdate         MiniDeps")
+  -- ===================================================================
   nmap_leader('fC', '<Cmd>edit $MYVIMRC<CR>',                                                                 '[C]onfig file edit')
   nmap_leader('fc', '<Cmd>lua MiniFiles.open(vim.fn.stdpath("config"))<CR>',                                  '[c]onfig directory')
   nmap_leader('fD', '<Cmd>lua MiniFiles.open()<CR>',                                                          '[D]irectory of pwd')
   nmap_leader('fd', '<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>',                              '[d]irectory of current file')
   nmap_leader('fm', '<Cmd>lua MiniFiles.open(vim.fn.stdpath("data").."/site/pack/deps/start/mini.nvim")<CR>', '[m]ini.nvim directory')
   nmap_leader('fp', '<Cmd>lua MiniFiles.open(vim.fn.stdpath("data").."/site/pack/deps/opt")<CR>',             '[p]lugins directory')
-  -- g is for git
+  -- ===================================================================
   nmap_leader('gb', '<Cmd>Git blame -- %<CR>',                  '[b]lame')
   nmap_leader('gC', '<Cmd>Git commit --amend<CR>',              '[C]ommit amend')
   nmap_leader('gc', '<Cmd>Git commit<CR>',                      '[c]ommit')
@@ -183,11 +188,19 @@ now(function() -- Custom for Neovim
   nmap_leader('gL', '<Cmd>Git log --oneline<CR>',               '[L]og workspace')
   nmap_leader('gl', '<Cmd>Git log --oneline --follow -- %<CR>', '[l]og buffer')
   nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>',    '[s]how at cursor')
-  xmap_leader('s', '<Cmd>lua MiniGit.show_at_cursor()<CR>',    '[s]how at selection')
-  -- l is for 'LSP' (Language Server Protocol)
+  xmap_leader('s',  '<Cmd>lua MiniGit.show_at_cursor()<CR>',    '[s]how at selection')
+  -- ===================================================================
   local formatting_cmd = '<Cmd>lua require("conform").format({ lsp_fallback = true })<CR>'
-  xmap_leader('b', formatting_cmd,                              '[b]eautify selection')
-  nmap_leader('lb', formatting_cmd,                              '[b]eautify')
+  xmap_leader('f',   formatting_cmd,                             '[f]ormat selection')
+  nmap_leader('laf', formatting_cmd,                             '[f]ormat buffer')
+  nmap_leader('lac', "<Cmd>ConformInfo<Cr>",                     '[c]onform information')
+  nmap_leader('lai', "<Cmd>LspInfo<Cr>",                         '[L]anguage Server')
+  nmap_leader('lal', "<Cmd>LspLog<Cr>",                          '[l]og LSP')
+  nmap_leader('laM', "<Cmd>MasonLog<Cr>",                        '[M]ason log')
+  nmap_leader('lam', "<Cmd>Mason<Cr>",                           '[m]ason')
+  nmap_leader('lar', "<Cmd>LspRestart<Cr>",                      '[r]estart LSP')
+  nmap_leader('laS', "<Cmd>LspStart<Cr>",                        '[S]tart LSP')
+  nmap_leader('las', "<Cmd>LspStop<Cr>",                         '[s]top LSP')
   nmap_leader('lc', '<Cmd>lua vim.lsp.buf.code_action()<CR>',    '[c]ode action')
   nmap_leader('ld', '<Cmd>lua vim.lsp.buf.definition()<CR>',     '[d]efinition')
   nmap_leader('lf', '<Cmd>lua vim.diagnostic.open_float()<CR>',  '[f]loating')
@@ -199,27 +212,32 @@ now(function() -- Custom for Neovim
   nmap_leader('lp', '<Cmd>lua vim.diagnostic.goto_prev()<CR>',   '[p]rev diagnostic')
   nmap_leader('lr', '<Cmd>lua vim.lsp.buf.references()<CR>',     '[r]eferences')
   nmap_leader('ls', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', '[s]ignature')
-  -- m is for 'map'
+  nmap_leader('lt', '<Cmd>lua require("tiny-inline-diagnostic").toggle()<CR>', '[t]oggle inline diagnostic')
+  -- ===================================================================
+  nmap_leader('Mr', '<Cmd>lua MiniMisc.resize_window()<CR>', '[r]esize window to default width')
+  nmap_leader('Mz', '<Cmd>lua MiniMisc.zoom()<CR>',          '[z]oom window')
+  -- ===================================================================
   nmap_leader('mc', '<Cmd>lua MiniMap.close()<CR>',        '[c]lose')
   nmap_leader('mf', '<Cmd>lua MiniMap.toggle_focus()<CR>', '[f]ocus toggle')
   nmap_leader('mo', '<Cmd>lua MiniMap.open()<CR>',         '[o]pen')
   nmap_leader('mr', '<Cmd>lua MiniMap.refresh()<CR>',      '[r]efresh')
   nmap_leader('ms', '<Cmd>lua MiniMap.toggle_side()<CR>',  '[s]ide toggle')
   nmap_leader('mt', '<Cmd>lua MiniMap.toggle()<CR>',       '[t]oggle')
-  -- v is for 'visits'
+  -- ===================================================================
+  nmap_leader('ss', '<Cmd>lua MiniSession.select()<CR>', '[s]elect session')
+  -- ===================================================================
+  local trailspace_toggle_command = '<Cmd>lua vim.b.minitrailspace_disable = not vim.b.minitrailspace_disable<CR>'
+  nmap_leader("tT", '<Cmd>lua MiniTrailspace.trim()<CR>', '[T]rim trailspace')
+  nmap_leader("tt", trailspace_toggle_command,            "[t]oggle trailspace")
+  -- ===================================================================
   nmap_leader('vA', '<Cmd>lua MiniVisits.add_label("core")<CR>',    '[A]dd "core" label')
   nmap_leader('va', '<Cmd>lua MiniVisits.add_label()<CR>',          '[a]dd label')
   nmap_leader('vR', '<Cmd>lua MiniVisits.remove_label("core")<CR>', '[R]emove "core" label')
   nmap_leader('vr', '<Cmd>lua MiniVisits.remove_label()<CR>',       '[r]emove label')
-  -- \ is for 'toggle'
-  local trailspace_toggle_command = '<Cmd>lua vim.b.minitrailspace_disable = not vim.b.minitrailspace_disable<CR>'
-  vim.keymap.set("n", "\\a", '<Cmd>lua MiniCursorword.toggle()<CR>', { desc = 'Toggle Cursor word highlight' })
-  vim.keymap.set("n", "\\R", '<Cmd>lua MiniMisc.resize_window()<CR>', { desc = '[R]esize to default width' })
-  vim.keymap.set("n", "\\S", '<Cmd>lua MiniSessions.select()<CR>',    { desc = '[S]ession select' })
-  vim.keymap.set("n", "\\H", '<Cmd>TSBufToggle highlight<CR>',        { desc = 'Toggle Treesitter highlight' })
-  vim.keymap.set("n", "\\T", '<Cmd>lua MiniTrailspace.trim()<CR>',    { desc = '[T]rim trailspace' })
-  vim.keymap.set("n", "\\t", trailspace_toggle_command,               { desc = "Toggle 'Trailspace'" })
-  vim.keymap.set("n", "\\Z", '<Cmd>lua MiniMisc.zoom()<CR>',          { desc = '[Z]oom' })
+  -- ===================================================================
+  vim.keymap.set("n", "\\a", '<Cmd>lua MiniCursorword.toggle()<CR>',  { desc = "Toggle 'Cursorword highlight'" })
+  vim.keymap.set("n", "\\h", ':let v:hlsearch = 1 - v:hlsearch<CR>',  { desc = "Toggle 'Search highlight'" })
+  vim.keymap.set("n", "\\t", '<Cmd>TSBufToggle highlight<CR>',        { desc = "Toggle 'Treesitter highlight'" })
   vim.keymap.set("n", "\\<", '<Cmd>normal gxiagxila<CR>',             { desc = 'Move arg left' })
   vim.keymap.set("n", "\\>", '<Cmd>normal gxiagxina<CR>',             { desc = 'Move arg right' })
   vim.keymap.set("n", "\\[", '<Cmd>belowright terminal<CR>',          { desc = 'Terminal horizontal' })
@@ -421,16 +439,21 @@ now(function() -- Initialization
   local miniclue = require("mini.clue")
   miniclue.setup({
     clues = {
-      { mode = "n", keys = "<Leader>B", desc = "  [B]uffer Fuzzy Finder" },
-      { mode = "n", keys = "<Leader>b", desc = "  [b]uffer" },
-      { mode = "n", keys = "<Leader>d", desc = "  [d]eps plugin manager" },
-      { mode = "n", keys = "<Leader>F", desc = "󰔃  [F]iles Fuzzy Finder" },
-      { mode = "n", keys = "<Leader>f", desc = "󰔃  [f]iles" },
-      { mode = "n", keys = "<Leader>G", desc = "  [G]it Fuzzy Finder" },
-      { mode = "n", keys = "<Leader>g", desc = "  [g]it             " },
+      { mode = "n", keys = "<Leader>B", desc = "  [B]uffer Fuzzy Finder" },
+      { mode = "n", keys = "<Leader>b", desc = "  [b]uffer" },
+      { mode = "n", keys = "<Leader>c", desc = "  [c]odeium" },
+      { mode = "n", keys = "<Leader>d", desc = "  [d]eps Plugin Manager" },
+      { mode = "n", keys = "<Leader>F", desc = "  [F]iles Fuzzy Finder" },
+      { mode = "n", keys = "<Leader>f", desc = "  [f]iles" },
+      { mode = "n", keys = "<Leader>G", desc = "  [G]it Fuzzy Finder" },
+      { mode = "n", keys = "<Leader>g", desc = "  [g]it             " },
       { mode = "n", keys = "<Leader>L", desc = "  [L]sp Fuzzy Finder" },
       { mode = "n", keys = "<Leader>l", desc = "  [l]sp" },
+      { mode = "n", keys = "<Leader>la", desc = "[a]dditional" },
+      { mode = "n", keys = "<Leader>M", desc = "󰔃  [M]isc" },
       { mode = "n", keys = "<Leader>m", desc = "  [m]ap" },
+      { mode = "n", keys = "<Leader>s", desc = "  [s]essions" },
+      { mode = "n", keys = "<Leader>t", desc = "  [t]railspace" },
       { mode = "n", keys = "<Leader>V", desc = "  [V]isits Fuzzy Finder" },
       { mode = "n", keys = "<Leader>v", desc = "  [v]isits" },
       { mode = "n", keys = "<Leader>/", desc = "  Neovim Search" },
@@ -474,8 +497,8 @@ now(function() -- Initialization
         col = 0,
       },
       delay = 300,
-      scroll_down = "<C-d>",
-      scroll_up = "<C-u>",
+      scroll_down = "<S-Down>",
+      scroll_up = "<S-Up>",
     },
   })
   vim.api.nvim_set_hl(0, "MiniClueSeparator", { fg = "#bd93f9", bold = true })
@@ -1074,6 +1097,21 @@ now(function() -- Initialization
 end)
 now(function() -- Plugins
   add("dstein64/vim-startuptime")
+  -- [[ Codeium Nvim ]]=================================================
+  add("Exafunction/codeium.vim")
+  vim.cmd("let g:codeium_enabled = v:true")
+  vim.keymap.set("i", "<Tab>", function()
+    return vim.fn["codeium#Accept"]()
+  end, { desc = "Accept completions", expr = true, silent = true })
+  vim.keymap.set("i", "<S-Right>", function()
+    return vim.fn["codeium#CycleCompletions"](1)
+  end, { desc = "Cycle Next completions", expr = true, silent = true })
+  vim.keymap.set("i", "<S-Left>", function()
+    return vim.fn["codeium#CycleCompletions"](-1)
+  end, { desc = "Cycle Previous completions", expr = true, silent = true })
+  vim.keymap.set("i", "<C-l>", function()
+    return vim.fn["codeium#Clear"]()
+  end, { desc = "Clear completions", expr = true, silent = true })
   -- [[ Lualine Nvim]]==================================================
   add({
     source = "nvim-lualine/lualine.nvim",
@@ -1106,17 +1144,10 @@ now(function() -- Plugins
     return [[%4c┃%-4l ]]
   end
   local function custom_3()
-    return [[ ]]
+    return [[ [%3{codeium#GetStatusString()}] ]]
   end
   local function custom_4()
     return [[]]
-  end
-  local lint_progress = function()
-    local linters = require("lint").get_running()
-    if #linters == 0 then
-      return "󰦕 "
-    end
-    return "󱉶 " .. table.concat(linters, ", ")
   end
   require("lualine").setup({
     options = {
@@ -1306,14 +1337,14 @@ now(function() -- Plugins
       factor = 0.27,
     },
     options = {
-      throttle = 20,
+      throttle = 0,
       softwrap = 15,
       multiple_diag_under_cursor = false,
       overflow = {
         mode = "wrap",
       },
       break_line = {
-        enabled = false,
+        enabled = true,
         after = 30,
       },
       virt_texts = {
@@ -1321,6 +1352,7 @@ now(function() -- Plugins
       },
     },
   })
+  require("tiny-inline-diagnostic").enable()
   -- [[ Completion Nvim]]===============================================
   add({
     source = "hrsh7th/nvim-cmp",
@@ -1456,7 +1488,7 @@ now(function() -- Plugins
       ["<S-Down>"] = cmp.mapping.scroll_docs(4),
       ["<CR>"] = cmp.mapping.confirm({ select = true }),
       ["<S-CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
-      ["<C-Space>"] = cmp.mapping.complete({}),
+      ["<C-Space>"] = cmp.mapping.complete({}), -- Rarely used
       ["<Tab>"] = cmp.mapping(function(fallback)
         if vim.snippet.active({ direction = 1 }) then
           vim.snippet.jump(1)
@@ -1480,7 +1512,7 @@ now(function() -- Plugins
     }),
   })
   -- `/` cmdline setup.
-  cmp.setup.cmdline("/", {
+  cmp.setup.cmdline({ "/", "?" }, {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {
       { name = "buffer" },
@@ -1515,7 +1547,6 @@ now(function() -- Plugins
       "williamboman/mason.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
       "neovim/nvim-lspconfig",
-      "folke/lazydev.nvim",
     },
   })
   local servers = {
@@ -1523,25 +1554,22 @@ now(function() -- Plugins
     fish_lsp = {},
     -- awk_ls = {},
     lua_ls = {
-      -- on_init = function(client)
-      --   local path = client.workspace_folders[1].name
-      --   if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
-      --     return
-      --   end
-      --   client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-      --     runtime = {
-      --       version = "LuaJIT",
-      --     },
-      --     workspace = {
-      --       checkThirdParty = false,
-      --       library = {
-      --         vim.env.VIMRUNTIME,
-      --         -- "${3rd}/luv/library"
-      --         -- "${3rd}/busted/library",
-      --       },
-      --     },
-      --   })
-      -- end,
+      on_init = function(client)
+        client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+          runtime = {
+            version = "LuaJIT",
+          },
+          workspace = {
+            checkThirdParty = false,
+            library = {
+              vim.env.VIMRUNTIME,
+              mini_path,
+              "${3rd}/luv/library",
+              -- "${3rd}/busted/library",
+            },
+          },
+        })
+      end,
       settings = {
         Lua = {
           hint = {
@@ -1596,7 +1624,7 @@ now(function() -- Plugins
     html = {},
     cssls = {},
     eslint = {
-      on_attach = function(client, bufnr)
+      on_attach = function(bufnr)
         vim.api.nvim_create_autocmd("BufWritePre", {
           buffer = bufnr,
           command = "EslintFixAll",
@@ -1635,7 +1663,6 @@ now(function() -- Plugins
       },
     },
   })
-  require("lazydev").setup({})
   require("mason").setup({
     ui = {
       check_outdated_packages_on_open = true,
@@ -1651,7 +1678,7 @@ now(function() -- Plugins
   })
   require("mason-tool-installer").setup({
     ensure_installed = {
-      -- [[ LSP Server ]]-----------------------------------------------
+      -- [[ LSP Server ]]===============================================
       "bash-language-server",
       -- "awk-language-server",
       "lua-language-server",
@@ -1671,7 +1698,7 @@ now(function() -- Plugins
       "json-lsp",
       "lemminx",
       -- "yaml-language-server",
-      -- [[ Formatter  ]]-----------------------------------------------
+      -- [[ Formatter ]]================================================
       "shellcheck",
       "stylua",
       "isort",
@@ -1682,7 +1709,7 @@ now(function() -- Plugins
       "goimports",
       "prettierd",
       "prettier",
-      -- [[ Linter     ]]-----------------------------------------------
+      -- [[ Linter ]]===================================================
       -- "luacheck",
       -- "checkmake",
       -- "cmakelint",
@@ -1712,6 +1739,7 @@ now(function() -- Plugins
       end,
     },
   })
+  require("lspconfig").fish_lsp.setup({})
   -- [[ Conform Nvim]]==================================================
   add("stevearc/conform.nvim")
   require("conform").setup({
