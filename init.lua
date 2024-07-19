@@ -1100,11 +1100,11 @@ now(function() -- Plugins
   -- [[ Codeium Nvim ]]=================================================
   add({
     source = "Exafunction/codeium.vim",
-    hooks = {
-      post_checkout = function()
-        vim.cmd("Codeium Auth")
-      end,
-    },
+    -- hooks = {
+    --   post_checkout = function()
+    --     vim.cmd("Codeium Auth")
+    --   end,
+    -- },
   })
   vim.cmd("let g:codeium_enabled = v:true")
   vim.keymap.set("i", "<Tab>", function()
