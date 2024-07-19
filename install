@@ -234,12 +234,13 @@ fi
 # Perl (CPAN) {{{
 cpan local::lib
 cpan App::cpanminus
-cpanm Neovim::Ext
+cpanm --force Neovim::Ext
 #}}}
 
 # Python (venv) {{{
 python3 -m venv .venv
 echo "source .venv/bin/activate" >> /home/"$USER"/.profile
+# echo "source .venv/bin/activate.fish" >> /home/"$USER"/.config/fish/config.fish
 pip install neovim
 #}}}
 
