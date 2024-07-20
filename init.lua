@@ -161,11 +161,6 @@ now(function() -- Custom for Neovim
    nmap_leader('bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', '[W]ipeout unsaved')
    nmap_leader('bw', '<Cmd>lua MiniBufremove.wipeout()<CR>', '[w]ipeout')
    -- ===================================================================
-   nmap_leader("ca", "<Cmd>Codeium Auth<CR>", "[a]uth    Codeium")
-   nmap_leader("cd", "<Cmd>CodeiumDisable<CR>", "[d]isable Codeium")
-   nmap_leader("ce", "<Cmd>CodeiumEnable<CR>", "[e]nable  Codeium")
-   nmap_leader("ct", "<Cmd>CodeiumToggle<CR>", "[t]oggle  Codeium")
-   -- ===================================================================
    nmap_leader("da", "<Cmd>DepsAdd<CR>", "[a]dd            MiniDeps")
    nmap_leader("dc", "<Cmd>DepsClean<CR>", "[c]lean          MiniDeps")
    nmap_leader("dl", "<Cmd>DepsShowLog<CR>", "[l]og            MiniDeps")
@@ -194,10 +189,13 @@ now(function() -- Custom for Neovim
    -- ===================================================================
    local formatting_cmd = '<Cmd>lua require("conform").format({ lsp_fallback = true })<CR>'
    xmap_leader('f', formatting_cmd, '[f]ormat selection')
-   nmap_leader('laf', formatting_cmd, '[f]ormat buffer')
-   nmap_leader('lac', "<Cmd>ConformInfo<Cr>", '[c]onform information')
-   nmap_leader('lai', "<Cmd>LspInfo<Cr>", '[L]anguage Server')
-   nmap_leader('lal', "<Cmd>LspLog<Cr>", '[l]og LSP')
+   nmap_leader('laF', formatting_cmd, '[F]ormat buffer')
+   nmap_leader('laf', "<Cmd>ConformInfo<Cr>", '[f]ormat Information')
+   nmap_leader('laA', "<Cmd>Codeium Auth<Cr>", '[a]i authentication')
+   nmap_leader('laa', "<Cmd>Codeium Chat<Cr>", '[a]i chatting')
+   nmap_leader('lac', "<Cmd>CmpStatus<Cr>", '[c]ompletion Information')
+   nmap_leader('laL', "<Cmd>LspLog<Cr>", '[L]og LSP')
+   nmap_leader('lal', "<Cmd>LspInfo<Cr>", '[l]anguage Server Information')
    nmap_leader('laM', "<Cmd>MasonLog<Cr>", '[M]ason log')
    nmap_leader('lam', "<Cmd>Mason<Cr>", '[m]ason')
    nmap_leader('lar', "<Cmd>LspRestart<Cr>", '[r]estart LSP')
@@ -443,19 +441,18 @@ now(function() -- Initialization
       clues = {
          { mode = "n", keys = "<Leader>B", desc = "  [B]uffer Fuzzy Finder" },
          { mode = "n", keys = "<Leader>b", desc = "  [b]uffer" },
-         { mode = "n", keys = "<Leader>c", desc = "  [c]odeium" },
-         { mode = "n", keys = "<Leader>d", desc = "  [d]eps Plugin Manager" },
+         { mode = "n", keys = "<Leader>d", desc = "  [d]eps Plugin Manager" },
          { mode = "n", keys = "<Leader>F", desc = "  [F]iles Fuzzy Finder" },
          { mode = "n", keys = "<Leader>f", desc = "  [f]iles" },
          { mode = "n", keys = "<Leader>G", desc = "  [G]it Fuzzy Finder" },
          { mode = "n", keys = "<Leader>g", desc = "  [g]it             " },
          { mode = "n", keys = "<Leader>L", desc = "  [L]sp Fuzzy Finder" },
          { mode = "n", keys = "<Leader>l", desc = "  [l]sp" },
-         { mode = "n", keys = "<Leader>la", desc = "[a]dditional" },
+         { mode = "n", keys = "<Leader>la", desc = "[a]dditional Language Server" },
          { mode = "n", keys = "<Leader>M", desc = "󰔃  [M]isc" },
          { mode = "n", keys = "<Leader>m", desc = "  [m]ap" },
          { mode = "n", keys = "<Leader>s", desc = "  [s]essions" },
-         { mode = "n", keys = "<Leader>t", desc = "  [t]railspace" },
+         { mode = "n", keys = "<Leader>t", desc = "  [t]railspace" },
          { mode = "n", keys = "<Leader>V", desc = "  [V]isits Fuzzy Finder" },
          { mode = "n", keys = "<Leader>v", desc = "  [v]isits" },
          { mode = "n", keys = "<Leader>/", desc = "  Neovim Search" },
@@ -1099,28 +1096,7 @@ now(function() -- Initialization
 end)
 now(function() -- Plugins
    add("dstein64/vim-startuptime")
-   -- [[ Codeium Nvim ]]=================================================
-   add({
-      source = "Exafunction/codeium.vim",
-      -- hooks = {
-      --   post_checkout = function()
-      --     vim.cmd("Codeium Auth")
-      --   end,
-      -- },
-   })
-   vim.cmd("let g:codeium_enabled = v:true")
-   vim.keymap.set("i", "<Tab>", function()
-      return vim.fn["codeium#Accept"]()
-   end, { desc = "Accept completions", expr = true, silent = true })
-   vim.keymap.set("i", "<S-Right>", function()
-      return vim.fn["codeium#CycleCompletions"](1)
-   end, { desc = "Cycle Next completions", expr = true, silent = true })
-   vim.keymap.set("i", "<S-Left>", function()
-      return vim.fn["codeium#CycleCompletions"](-1)
-   end, { desc = "Cycle Previous completions", expr = true, silent = true })
-   vim.keymap.set("i", "<C-l>", function()
-      return vim.fn["codeium#Clear"]()
-   end, { desc = "Clear completions", expr = true, silent = true })
+   add("nvim-lua/plenary.nvim")
    -- [[ Lualine Nvim]]==================================================
    add({
       source = "nvim-lualine/lualine.nvim",
@@ -1153,7 +1129,7 @@ now(function() -- Plugins
       return [[%4c┃%-4l ]]
    end
    local function custom_3()
-      return [[ [%3{codeium#GetStatusString()}] ]]
+      return [[ ]]
    end
    local function custom_4()
       return [[]]
@@ -1384,6 +1360,7 @@ now(function() -- Plugins
       Codeium = " ", -- "󰘦 ",
       Color = " ",
       Control = " ",
+      Collapsed = " ",
       Constant = "󰏿 ",
       Constructor = " ",
       Copilot = " ",
@@ -1458,11 +1435,12 @@ now(function() -- Plugins
             end
          end, { "i", "s" }),
       }),
-      sources = cmp.config.sources(
-         { { name = "nvim_lsp" }, { name = "path" } },
-         { { name = "buffer" } },
-         { { name = "codeium.nvim" } }
-      ),
+      sources = cmp.config.sources({
+         { name = "nvim_lsp" },
+         { name = "path" },
+         { name = "buffer" },
+         { name = "codeium", priority = 100 },
+      }),
    })
    -- `/` cmdline setup.
    cmp.setup.cmdline({ "/", "?" }, {
@@ -1573,7 +1551,9 @@ now(function() -- Plugins
       --     rangeVariableTypes = true,
       --   },
       -- },
-      jdtls = {},
+      java_language_server = {
+         cmd = { "bash", "/home/nam/.local/share/nvim/mason/packages/java-language-server/dist/lang_server_linux.sh" },
+      },
       html = {},
       cssls = {},
       eslint = {
@@ -1644,7 +1624,7 @@ now(function() -- Plugins
          "dockerfile-language-server",
          "docker-compose-language-service",
          -- "gopls",
-         -- "jdtls",
+         "java-language-server",
          "html-lsp",
          "css-lsp",
          "eslint-lsp",
@@ -1798,6 +1778,11 @@ now(function() -- Plugins
       callback = function()
          require("lint").try_lint()
       end,
+   })
+   -- [[ Codeium Nvim ]]=================================================
+   add("Exafunction/codeium.nvim")
+   require("codeium").setup({
+      enable_chat = true,
    })
 end)
 later(function() -- [Not Use]
