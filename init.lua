@@ -1642,7 +1642,7 @@ now(function() -- Plugins
          "lemminx",
          -- "yaml-language-server",
          -- [[ Formatter ]]================================================
-         "shellcheck",
+         "beautysh",
          "stylua",
          "isort",
          "black",
@@ -1654,6 +1654,7 @@ now(function() -- Plugins
          "prettierd",
          "prettier",
          -- [[ Linter ]]===================================================
+         -- "shellcheck",
          -- "luacheck",
          -- "checkmake",
          -- "cmakelint",
@@ -1700,7 +1701,7 @@ now(function() -- Plugins
          return { timeout_ms = 1000, lsp_format = "fallback" }
       end,
       formatters_by_ft = {
-         sh = { "shellcheck" },
+         sh = { "beautysh" },
          fish = { "fish_indent" },
          awk = { "awk" },
          lua = { "stylua" },
