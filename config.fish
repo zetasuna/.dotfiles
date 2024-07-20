@@ -124,7 +124,7 @@ set -U tide_left_prompt_separator_same_color ""
 # Right Prompt
 # set -U tide_right_prompt_frame_enabled true
 set -U tide_right_prompt_frame_enabled false # May set to "true" due overcolor in nextline when restore session tmux
-set -U tide_right_prompt_items aws gcloud terraform docker kubectl toolbox direnv python nix_shell context private_mode newline time
+set -U tide_right_prompt_items aws gcloud terraform docker kubectl toolbox direnv go python nix_shell context private_mode newline time
 set -U tide_right_prompt_prefix ""
 set -U tide_right_prompt_suffix
 set -U tide_right_prompt_separator_diff_color ""
@@ -157,14 +157,17 @@ set -U tide_direnv_icon 󰌪
 set -U tide_python_bg_color "#424450"
 set -U tide_python_color "#bd93f9"
 set -U tide_python_icon 
+set -U tide_go_bg_color "#424450"
+set -U tide_go_color "#bd93f9"
+set -U tide_go_icon 󰟓
 set -U tide_nix_shell_bg_color "#424450"
 set -U tide_nix_shell_color "#bd93f9"
 set -U tide_nix_shell_icon 
 set -U tide_context_bg_color "#424450"
 set -U tide_context_color_default "#bd93f9"
 set -U tide_context_color_root "#ff5555"
-set -U tide_context_color_ssh "#50fa7b"
-set -U tide_context_always_display true
+set -U tide_context_color_ssh "#ffb86c"
+set -U tide_context_always_display false
 set -U tide_private_mode_bg_color "#424450"
 set -U tide_private_mode_color "#bd93f9"
 set -U tide_private_mode_icon 󰗹

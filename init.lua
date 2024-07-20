@@ -1540,19 +1540,29 @@ now(function() -- Plugins
          },
       },
       docker_compose_language_service = {}, -- "set filetype=yaml.docker-compose" if not run
-      -- gopls = {
-      --   hints = {
-      --     assignVariableTypes = true,
-      --     compositeLiteralFields = true,
-      --     compositeLiteralTypes = true,
-      --     constantValues = true,
-      --     functionTypeParameters = false,
-      --     parameterNames = false,
-      --     rangeVariableTypes = true,
-      --   },
-      -- },
-      java_language_server = {
-         cmd = { "bash", "/home/nam/.local/share/nvim/mason/packages/java-language-server/dist/lang_server_linux.sh" },
+      gopls = {
+         settings = {
+            gopls = {
+               hints = {
+                  assignVariableTypes = true,
+                  compositeLiteralFields = true,
+                  compositeLiteralTypes = true,
+                  constantValues = true,
+                  functionTypeParameters = false,
+                  parameterNames = false,
+                  rangeVariableTypes = true,
+               },
+               experimentalPostfixCompletions = true,
+               analyses = {
+                  unusedparams = true,
+                  shadow = true,
+               },
+               staticcheck = true,
+            },
+         },
+         init_options = {
+            usePlaceholders = true,
+         },
       },
       html = {},
       cssls = {},
@@ -1623,8 +1633,7 @@ now(function() -- Plugins
          -- "nil",
          "dockerfile-language-server",
          "docker-compose-language-service",
-         -- "gopls",
-         "java-language-server",
+         "gopls",
          "html-lsp",
          "css-lsp",
          "eslint-lsp",
