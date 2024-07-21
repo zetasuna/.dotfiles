@@ -36,10 +36,10 @@ set -g fish_greeting
 set -g fish_key_bindings fish_vi_key_bindings
 set -g fish_cursor_default block
 set -g fish_cursor_insert line
-set -g fish_cursor_visual underscore
-set -g fish_cursor_external underscore
-set -g fish_cursor_replace underscore
-set -g fish_cursor_replace_one underscore
+set -g fish_cursor_visual block
+set -g fish_cursor_external block
+set -g fish_cursor_replace block
+set -g fish_cursor_replace_one block
 set -g fish_escape_delay_ms 30
 set -g fish_sequence_key_delay_ms 500
 set -gx EDITOR hx
@@ -116,7 +116,7 @@ set -U tide_prompt_pad_items true
 set -U tide_prompt_transient_enabled true
 # Left Prompt
 set -U tide_left_prompt_frame_enabled false
-set -U tide_left_prompt_items shlvl pwd git newline character
+set -U tide_left_prompt_items vi_mode shlvl pwd git newline character
 set -U tide_left_prompt_prefix
 set -U tide_left_prompt_suffix ""
 set -U tide_left_prompt_separator_diff_color ""
@@ -124,7 +124,7 @@ set -U tide_left_prompt_separator_same_color ""
 # Right Prompt
 # set -U tide_right_prompt_frame_enabled true
 set -U tide_right_prompt_frame_enabled false # May set to "true" due overcolor in nextline when restore session tmux
-set -U tide_right_prompt_items aws gcloud terraform docker kubectl toolbox direnv go python nix_shell context private_mode newline time
+set -U tide_right_prompt_items status cmd_duration jobs toolbox aws gcloud pulumi terraform docker kubectl zig elixir crystal rustc ruby php java go node python direnv nix_shell distrobox context private_mode newline time
 set -U tide_right_prompt_prefix ""
 set -U tide_right_prompt_suffix
 set -U tide_right_prompt_separator_diff_color ""
@@ -133,58 +133,41 @@ set -U tide_right_prompt_separator_same_color ""
 set -U tide_aws_bg_color "#424450"
 set -U tide_aws_color "#bd93f9"
 set -U tide_aws_icon 
-set -U tide_gcloud_bg_color "#424450"
-set -U tide_gcloud_color "#bd93f9"
-set -U tide_gcloud_icon 󱇶
-set -U tide_terraform_bg_color "#424450"
-set -U tide_terraform_color "#bd93f9"
-set -U tide terraform_icon 󱁢
-set -U tide_docker_bg_color "#424450"
-set -U tide_docker_color "#bd93f9"
-set -U tide_docker_icon 
-set -U tide_docker_default_contexts default colima
-set -U tide_kubectl_bg_icon "#424450"
-set -U tide_kubectl_color "#bd93f9"
-set -U tide_kubectl_icon 
-set -U tide_toolbox_bg_color "#424450"
-set -U tide_toolbox_color "#bd93f9"
-set -U tide_toolbox_icon 
-set -U tide_direnv_bg_color "#424450"
-set -U tide_direnv_color "#bd93f9"
-set -U tide_direnv_bg_color_denied "#424450"
-set -U tide_direnv_color_denied "#ff5555"
-set -U tide_direnv_icon 󰌪
-set -U tide_python_bg_color "#424450"
-set -U tide_python_color "#bd93f9"
-set -U tide_python_icon 
-set -U tide_go_bg_color "#424450"
-set -U tide_go_color "#bd93f9"
-set -U tide_go_icon 󰟓
-set -U tide_nix_shell_bg_color "#424450"
-set -U tide_nix_shell_color "#bd93f9"
-set -U tide_nix_shell_icon 
+set -U tide_character_color "#50fa7b"
+set -U tide_character_color_failure "#ff5555"
+set -U tide_character_icon ❱
+set -U tide_character_vi_icon_default ❱
+set -U tide_character_vi_icon_replace ❱
+set -U tide_character_vi_icon_visual ❱
+set -U tide_cmd_duration_bg_color "#424450"
+set -U tide_cmd_duration_color "#bd93f9"
+set -U tide_cmd_duration_icon 
+set -U tide_cmd_duration_decimals 0
+set -U tide_cmd_duration_threshold 1000
 set -U tide_context_bg_color "#424450"
 set -U tide_context_color_default "#bd93f9"
 set -U tide_context_color_root "#ff5555"
 set -U tide_context_color_ssh "#ffb86c"
 set -U tide_context_always_display false
-set -U tide_private_mode_bg_color "#424450"
-set -U tide_private_mode_color "#bd93f9"
-set -U tide_private_mode_icon 󰗹
-set -U tide_time_bg_color "#282a36"
-set -U tide_time_color "#50fa7b"
-set -U tide_time_format "%a %d/%m/%Y "
-set -U tide_shlvl_bg_color "#424450"
-set -U tide_shlvl_color "#bd93f9"
-set -U tide_shlvl_icon 󰆍
-set -U tide_shlvl_threshold 0
-set -U tide_pwd_bg_color "#424450"
-set -U tide_pwd_color_anchors "#bd93f9"
-set -U tide_pwd_color_dirs "#bd93f9"
-set -U tide_pwd_color_truncated_dirs "#bd93f9"
-set -U tide_pwd_icon 
-set -U tide_pwd_icon_home 
-set -U tide_pwd_icon_unwritable 󰞀
+set -U tide_context_hostname_parts 0
+set -U tide_crystal_bg_color "#424450"
+set -U tide_crystal_color "#bd93f9"
+set -U tide_crystal_icon 
+set -U tide_distrobox_bg_color "#424450"
+set -U tide_distrobox_color "#bd93f9"
+set -U tide_distrobox_icon 
+set -U tide_direnv_bg_color "#424450"
+set -U tide_direnv_color "#bd93f9"
+set -U tide_direnv_bg_color_denied "#424450"
+set -U tide_direnv_color_denied "#ff5555"
+set -U tide_direnv_icon 󰌪
+set -U tide_docker_bg_color "#424450"
+set -U tide_docker_color "#bd93f9"
+set -U tide_docker_icon 
+set -U tide_docker_default_contexts default colima
+set -U tide_elixir_bg_color "#424450"
+set -U tide_elixir_color "#bd93f9"
+set -U tide_elixir_icon 
 set -U tide_git_bg_color "#424450"
 set -U tide_git_bg_color_unstable "#424450"
 set -U tide_git_bg_color_urgent "#424450"
@@ -198,13 +181,91 @@ set -U tide_git_color_untracked "#ffb86c"
 set -U tide_git_color_upstream "#50fa7b"
 set -U tide_git_icon 
 set -U tide_git_truncation_length 24
-set -U tide_git_truncation_strategy
-set -U tide_character_color "#50fa7b"
-set -U tide_character_color_failure "#ff5555"
-set -U tide_character_icon ❱
-set -U tide_character_vi_icon_default ❰
-set -U tide_character_vi_icon_replace ❰
-set -U tide_character_vi_icon_visual ❰
+set -U tide_git_truncation_strategy l
+set -U tide_gcloud_bg_color "#424450"
+set -U tide_gcloud_color "#bd93f9"
+set -U tide_gcloud_icon 󱇶
+set -U tide_go_bg_color "#424450"
+set -U tide_go_color "#bd93f9"
+set -U tide_go_icon 󰟓
+set -U tide_java_bg_color "#424450"
+set -U tide_java_color "#bd93f9"
+set -U tide_java_icon 
+set -U tide_jobs_bg_color "#424450"
+set -U tide_jobs_color "#bd93f9"
+set -U tide_jobs_icon 
+set -U tide_jobs_number_threshold 0
+set -U tide_kubectl_bg_icon "#424450"
+set -U tide_kubectl_color "#bd93f9"
+set -U tide_kubectl_icon 
+set -U tide_nix_shell_bg_color "#424450"
+set -U tide_nix_shell_color "#bd93f9"
+set -U tide_nix_shell_icon 
+set -U tide_node_bg_color "#424450"
+set -U tide_node_color "#bd93f9"
+set -U tide_node_icon 
+set -U tide_os_bg_color "#424450"
+set -U tide_os_color "#bd93f9"
+# set -U tide_os_icon 
+set -U tide_php_bg_color "#424450"
+set -U tide_php_color "#bd93f9"
+set -U tide_php_icon 󰌟
+set -U tide_private_mode_bg_color "#424450"
+set -U tide_private_mode_color "#bd93f9"
+set -U tide_private_mode_icon 󰗹
+set -U tide_pulumi_bg_color "#424450"
+set -U tide_pulumi_color "#bd93f9"
+# set -U tide_pulumi_icon 
+set -U tide_pwd_bg_color "#424450"
+set -U tide_pwd_color_anchors "#bd93f9"
+set -U tide_pwd_color_dirs "#bd93f9"
+set -U tide_pwd_color_truncated_dirs "#bd93f9"
+set -U tide_pwd_icon 
+set -U tide_pwd_icon_home 
+set -U tide_pwd_icon_unwritable 󰞀
+set -U tide_python_bg_color "#424450"
+set -U tide_python_color "#bd93f9"
+set -U tide_python_icon 
+set -U tide_ruby_bg_color "#424450"
+set -U tide_ruby_color "#bd93f9"
+set -U tide_ruby_icon 
+set -U tide_rustc_bg_color "#424450"
+set -U tide_rustc_color "#bd93f9"
+set -U tide_rustc_icon 
+set -U tide_shlvl_bg_color "#424450"
+set -U tide_shlvl_color "#bd93f9"
+set -U tide_shlvl_icon 󰆍
+set -U tide_shlvl_threshold 0
+set -U tide_status_bg_color "#424450"
+set -U tide_status_color "#50fa7b"
+set -U tide_status_icon ✔
+set -U tide_status_bg_color_failure "#424450"
+set -U tide_status_color_failure "#ff5555"
+set -U tide_status_icon_failure ✘
+set -U tide_terraform_bg_color "#424450"
+set -U tide_terraform_color "#bd93f9"
+set -U tide terraform_icon 󱁢
+set -U tide_time_bg_color "#282a36"
+set -U tide_time_color "#50fa7b"
+set -U tide_time_format "%a %d/%m/%Y "
+set -U tide_toolbox_bg_color "#424450"
+set -U tide_toolbox_color "#bd93f9"
+set -U tide_toolbox_icon 
+set -U tide_vi_mode_bg_color_default "#bd93f9"
+set -U tide_vi_mode_color_default "#282a36"
+set -U tide_vi_mode_icon_default 
+set -U tide_vi_mode_bg_color_insert "#50fa7b"
+set -U tide_vi_mode_color_insert "#282a36"
+set -U tide_vi_mode_icon_insert 
+set -U tide_vi_mode_bg_color_replace "#ff79c6"
+set -U tide_vi_mode_color_replace "#282a36"
+set -U tide_vi_mode_icon_replace 
+set -U tide_vi_mode_bg_color_visual "#ffb86c"
+set -U tide_vi_mode_color_visual "#282a36"
+set -U tide_vi_mode_icon_visual 
+set -U tide_zig_bg_color "#424450"
+set -U tide_zig_color "#bd93f9"
+set -U tide_zig_icon 
 
 # NOTE: Function
 # File Manager

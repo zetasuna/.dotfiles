@@ -40,8 +40,8 @@
 ┃ +) 1.1.1.1    ┃ +) Perl                ┃ +) Tldr       ┃
 ┃ +) GCP        ┃ +) Python              ┃ +) fzf        ┃
 ┃ +) Nix        ┃ +) Golang              ┃ +) Bat        ┃
-┃               ┃ +) Rust                ┃ +) Ripgrep    ┃
-┃               ┃ +) npm                 ┃ +) fd         ┃
+┃ +) nmcli      ┃ +) Rust                ┃ +) Ripgrep    ┃
+┃ +) nmtui      ┃ +) npm                 ┃ +) fd         ┃
 ┃               ┣━━━━━━━━━━━━━━━━━━━━━━━━┫ +) mpv        ┃
 ┃               ┃ +) Brave Browser       ┃ +) yt-dlp     ┃
 ┃               ┃ +) ProtonVPN           ┃ +) archiver   ┃

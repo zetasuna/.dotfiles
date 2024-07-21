@@ -1346,6 +1346,7 @@ now(function() -- Plugins
          "hrsh7th/cmp-path",
          "hrsh7th/cmp-buffer",
          "hrsh7th/cmp-cmdline",
+         "onsails/lspkind.nvim",
       },
    })
    local cmp = require("cmp")
@@ -1354,53 +1355,69 @@ now(function() -- Plugins
       winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
    }
    local kind_icons = {
-      Array = " ",
-      Boolean = "󰨙 ",
-      Class = " ",
-      Codeium = " ", -- "󰘦 ",
-      Color = " ",
-      Control = " ",
-      Collapsed = " ",
-      Constant = "󰏿 ",
-      Constructor = " ",
-      Copilot = " ",
-      Enum = " ",
-      EnumMember = " ",
-      Event = " ",
-      Field = " ",
-      File = " ",
-      Folder = " ",
-      Function = "󰊕 ",
-      Interface = " ",
-      Key = " ",
-      Keyword = " ",
-      Method = " ",
-      Module = " ",
-      Namespace = " ",
-      Null = " ",
-      Number = "󰎠 ",
-      Object = " ",
-      Operator = " ",
-      Package = " ",
-      Property = " ",
-      Reference = " ",
-      Snippet = " ",
-      String = " ",
-      Struct = " ",
-      TabNine = " ",
-      Text = " ",
-      TypeParameter = " ",
-      Unit = " ",
-      Value = "󱢇 ",
-      Variable = " ",
+      Array = " Array",
+      Boolean = "󰨙 Boolean",
+      Class = " Class",
+      Codeium = " Codeium", -- "󰘦 ",
+      Color = " Color",
+      Control = " Git",
+      -- Collapsed = " ",
+      Constant = "󰏿 Constant",
+      Constructor = " Constructor",
+      Copilot = " Copilot",
+      Enum = " Enum",
+      EnumMember = " EnumMember",
+      Event = " Event",
+      Field = " Field",
+      File = " File",
+      Folder = " Folder",
+      Function = "󰊕 Function",
+      Interface = " Interface",
+      Key = " Key",
+      Keyword = " Keyword",
+      Method = " Method",
+      Module = " Module",
+      Namespace = " Namespace",
+      Null = " Null",
+      -- Number = "󰎠 Number",
+      Object = " Object",
+      Operator = " Operator",
+      Package = " Package",
+      Property = " Property",
+      -- Reference = " Reference",
+      Snippet = " Snippet",
+      -- String = " ",
+      Struct = " Struct",
+      TabNine = " TabNine",
+      Text = " Text",
+      TypeParameter = " TypeParameter",
+      Unit = " Unit",
+      Value = "󱢇 Value",
+      Variable = " Variable",
    }
    cmp.setup({
       formatting = {
          expandable_indicator = true,
-         fields = { "abbr", "kind", "menu" },
-         format = function(_, vim_item)
-            vim_item.kind = (kind_icons[vim_item.kind] or "") .. vim_item.kind
-            return vim_item
+         -- fields = { "abbr", "kind", "menu" },
+         -- format = function(_, vim_item)
+         --    vim_item.kind = (kind_icons[vim_item.kind] or "") .. vim_item.kind
+         --    return vim_item
+         -- end,
+         fields = { "kind", "abbr", "menu" },
+         format = function(entry, vim_item)
+            local kind = require("lspkind").cmp_format({
+               mode = "symbol_text",
+               maxwidth = function()
+                  return math.floor(0.1 * vim.o.columns)
+               end,
+               ellipsis_char = "   ",
+               show_labelDetails = false,
+               symbol_map = kind_icons,
+            })(entry, vim_item)
+            local strings = vim.split(kind.kind, "%s", { trimempty = true })
+            kind.kind = " " .. (strings[1] or "") .. " "
+            kind.menu = (strings[2] or "")
+            return kind
          end,
       },
       snippet = {
@@ -1409,7 +1426,12 @@ now(function() -- Plugins
          end,
       },
       window = {
-         completion = cmp.config.window.bordered(winopts),
+         completion = {
+            border = "double",
+            winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+            col_offset = -3,
+            side_padding = 0,
+         },
          documentation = cmp.config.window.bordered(winopts),
       },
       mapping = cmp.mapping.preset.insert({
@@ -1463,6 +1485,7 @@ now(function() -- Plugins
          },
       }),
    })
+   vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = custom_colors.comment, italic = true })
    vim.api.nvim_set_hl(0, "CmpItemAbbr", { fg = custom_colors.fg })
    vim.api.nvim_set_hl(0, "CmpItemAbbrDefault", { fg = custom_colors.fg })
    vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { fg = custom_colors.green })
