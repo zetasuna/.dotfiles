@@ -1095,7 +1095,7 @@ now(function() -- Initialization
    map_pick_core("vC", nil, "Core visits (cwd)")
 end)
 now(function() -- Plugins
-   add("dstein64/vim-startuptime")
+   -- add("dstein64/vim-startuptime")
    add("nvim-lua/plenary.nvim")
    -- [[ Lualine Nvim]]==================================================
    add({

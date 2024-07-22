@@ -42,7 +42,7 @@ set -g fish_cursor_replace block
 set -g fish_cursor_replace_one block
 set -g fish_escape_delay_ms 30
 set -g fish_sequence_key_delay_ms 500
-set -gx EDITOR hx
+set -gx EDITOR nvim
 set -Ux MANPAGER "sh -c 'col -bx | bat -l man -p'"
 set -Ux MANROFFOPT -c
 set -Ux FZF_DEFAULT_OPTS "--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4 --height=50%  --reverse --multi --info=default --prompt=\"❱ \" --pointer=󰄾 --marker=● --preview-window=right:60%"
