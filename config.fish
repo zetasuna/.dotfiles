@@ -61,6 +61,11 @@ if not test -e /home/$USER/.local/bin/fileExplorer
     end' >/home/$USER/.local/bin/fileExplorer
     chmod +x /home/$USER/.local/bin/fileExplorer
 end
+if not test -e /home/$USER/.local/bin/fzf_extrakto
+    echo '#!/usr/bin/bash
+   fzf --height=100% "$@"' >/home/$USER/.local/bin/fzf_extrakto
+    chmod +x /home/$USER/.local/bin/fzf_extrakto
+end
 
 # NOTE: Fish is interactive
 if status is-interactive
