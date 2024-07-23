@@ -34,6 +34,15 @@
 	+) chmod +x ~/.dotfiles/install && ~/.dotfiles/install
 5: Logout and Login again, wait some minutes
 
+Editors: Neovim
+
+Office: LibreOffice
+
+E-book Reader: baca
+https://github.com/wustho/baca
+
+ascii: arttime
+https://github.com/poetaman/arttime
 
                    << Packages/Tools >>
 ┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
@@ -63,7 +72,6 @@
 ┃               ┃ +) Virtualbox          ┃               ┃
 ┃               ┃ +) ani-cli             ┃               ┃
 ┗━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━┛
-
 
                  << Custom Key Binding >>
 ┏━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓

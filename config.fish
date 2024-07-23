@@ -1,7 +1,4 @@
-if not test -d /home/$USER/.local/bin
-    mkdir -p /home/$USER/.local/bin
-end
-
+# NOTE: Set Environment Path
 set -U fish_user_paths /home/$USER/.local/bin /home/$USER/perl5/bin /home/$USER/.cargo/bin /home/$USER/go/bin /usr/local/src/go/bin /usr/local/src/nodejs/bin /home/$USER/fish_lsp/bin /usr/local/sbin /usr/local/bin /usr/bin /usr/sbin /bin /sbin
 source ~/.venv/bin/activate.fish
 
@@ -13,6 +10,9 @@ set -x PERL_MB_OPT --install_base\ "/home/$USER/perl5"
 set -x PERL_MM_OPT INSTALL_BASE=/home/$USER/perl5
 
 # NOTE: Wrapper
+if not test -d /home/$USER/.local/bin
+    mkdir -p /home/$USER/.local/bin
+end
 if not test -e /home/$USER/.local/bin/fileExplorer
     echo '#!/usr/bin/fish
     while true
@@ -61,10 +61,10 @@ if not test -e /home/$USER/.local/bin/fileExplorer
     end' >/home/$USER/.local/bin/fileExplorer
     chmod +x /home/$USER/.local/bin/fileExplorer
 end
-if not test -e /home/$USER/.local/bin/fzf_extrakto
+if not test -e /home/$USER/.local/bin/extrakto_fzf
     echo '#!/usr/bin/bash
-   fzf --height=100% "$@"' >/home/$USER/.local/bin/fzf_extrakto
-    chmod +x /home/$USER/.local/bin/fzf_extrakto
+   fzf --height=100% "$@"' >/home/$USER/.local/bin/extrakto_fzf
+    chmod +x /home/$USER/.local/bin/extrakto_fzf
 end
 
 # NOTE: Fish is interactive
@@ -82,10 +82,6 @@ if status is-interactive
     end
     # Auto start Tmux Session
     if type -q tmux
-        if not test -d "/home/$USER/.config/tmux/plugins/tpm"
-            mkdir -p /home/$USER/.config/tmux/plugins
-            git clone https://github.com/tmux-plugins/tpm /home/$USER/.config/tmux/plugins/tpm
-        end
         if test -z "$TMUX"
             and not string match -qr 'screen|tmux' "$TERM"
             tmux new-session -As Main
@@ -328,28 +324,25 @@ if status is-interactive
     set -U tide_zig_bg_color "#424450"
     set -U tide_zig_color "#bd93f9"
     set -U tide_zig_icon 
+
+    # NOTE: Alias
+    alias ls 'ls -ahv --color=auto --group-directories-first'
+    alias ll 'ls -alhv --color=always --group-directories-first'
+    alias tldr 'tldr -t base16'
+    alias bat 'bat --color=auto --theme=Dracula'
+    alias mpv 'mpv --keep-open=yes --quiet'
+    # alias fd 'fd --strip-cwd-prefix -HL'
+    # alias rg 'rg -uu -L'
+
+    # NOTE: Abbreviations
+    function multicd
+        echo cd (string repeat -n (math (string length -- $argv[1]) - 1) ../)
+    end
+    abbr --add dotdot --regex '^\.\.+$' --function multicd
+    abbr --add n nvim
+    abbr --add tm tmux new-session -As Main
+
+    # NOTE: Binding
+    bind \[1\;2A __fzf_reverse_isearch
+    bind \[1\;2B __fzf_find_file
 end
-
-# NOTE: Function
-# Auto cd Parent with dot
-function multicd
-    echo cd (string repeat -n (math (string length -- $argv[1]) - 1) ../)
-end
-
-# NOTE: Alias
-alias ls 'ls -ahv --color=auto --group-directories-first'
-alias ll 'ls -alhv --color=always --group-directories-first'
-alias tldr 'tldr -t base16'
-alias bat 'bat --color=auto --theme=Dracula'
-alias mpv 'mpv --keep-open=yes --quiet'
-# alias fd 'fd --strip-cwd-prefix -HL'
-# alias rg 'rg -uu -L'
-
-# NOTE: Abbreviations
-abbr --add dotdot --regex '^\.\.+$' --function multicd
-abbr --add n nvim
-abbr --add tm tmux new-session -As Main
-
-# NOTE: Binding
-bind \[1\;2A __fzf_reverse_isearch
-bind \[1\;2B __fzf_find_file
