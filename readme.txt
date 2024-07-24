@@ -38,8 +38,19 @@ Editors: Neovim
 
 Office: LibreOffice
 
+Document converters: pandoc
+https://pandoc.org/
+
 E-book Reader: baca
 https://github.com/wustho/baca
+
+Picture viewer: chafa
+https://github.com/hpjansson/chafa?tab=readme-ov-file
+
+Note: nb
+https://xwmx.github.io/nb/
+
+Web text: w3m
 
 ascii: arttime
 https://github.com/poetaman/arttime
@@ -54,7 +65,7 @@ https://github.com/poetaman/arttime
 ┃               ┣━━━━━━━━━━━━━━━━━━━━━━━━┫ +) mpv        ┃
 ┃               ┃ +) Brave Browser       ┃ +) yt-dlp     ┃
 ┃               ┃ +) ProtonVPN           ┃ +) archiver   ┃
-┃               ┃ +) Transmission        ┃               ┃
+┃               ┃ +) Transmission        ┃ +) aria2      ┃
 ┃               ┃ +) Syncthing           ┃               ┃
 ┃               ┃ +) Gopass              ┃               ┃
 ┃               ┣━━━━━━━━━━━━━━━━━━━━━━━━┫               ┃

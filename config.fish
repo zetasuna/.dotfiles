@@ -89,7 +89,11 @@ if status is-interactive
     end
 
     # NOTE: Environment Variable
-    set -g fish_greeting
+    if test -d ~/.dotfiles/pictures
+        set -g fish_greeting (chafa --center=on --format=sixels --size=80x10 (random choice ~/.dotfiles/pictures/**))
+    else
+        set -g fish_greeting
+    end
     set -g fish_key_bindings fish_vi_key_bindings
     set -g fish_cursor_default block
     set -g fish_cursor_insert line
@@ -330,7 +334,7 @@ if status is-interactive
     alias ll 'ls -alhv --color=always --group-directories-first'
     alias tldr 'tldr -t base16'
     alias bat 'bat --color=auto --theme=Dracula'
-    alias mpv 'mpv --keep-open=yes --quiet'
+    alias mpv 'mpv --keep-open=yes --really-quiet --vo=sixel --vo-sixel-exit-clear=no'
     # alias fd 'fd --strip-cwd-prefix -HL'
     # alias rg 'rg -uu -L'
 
