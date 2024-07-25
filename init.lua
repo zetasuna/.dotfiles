@@ -68,6 +68,7 @@ now(function() -- Custom for Neovim
    vim.g.mapleader = " " -- Mapleader
    vim.g.maplocalleader = " " -- Local Mapleader
    vim.opt.termguicolors = true -- Enable GUI colors
+   -- vim.opt.grepprg = "rg --vimgrep -uu -L"
    vim.opt.clipboard = "unnamed,unnamedplus" -- Clipboard
    -- vim.opt.spelllang = 'en_us, uk'  -- Define spelling dictionaries
    -- vim.opt.spelloptions = 'camel'  -- Treat parts of camelCase words as seprate words
@@ -948,11 +949,11 @@ now(function() -- Initialization
       return MiniPick.registry[chosen_picker_name]()
    end
    -- Make `:Pick files` accept `cwd`
-   MiniPick.registry.files = function(local_opts)
-      local opts = { source = { cwd = local_opts.cwd } }
-      local_opts.cwd = nil
-      return MiniPick.builtin.files(local_opts, opts)
-   end
+   -- MiniPick.registry.files = function(local_opts)
+   --    local opts = { source = { cwd = local_opts.cwd } }
+   --    local_opts.cwd = nil
+   --    return MiniPick.builtin.files(local_opts, opts)
+   -- end
    vim.api.nvim_set_hl(0, "MiniPickNormal", { fg = custom_colors.fg })
    vim.api.nvim_set_hl(0, "MiniPickHeader", { fg = custom_colors.green })
    vim.api.nvim_set_hl(0, "MiniPickMatchRanges", { fg = custom_colors.green })

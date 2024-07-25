@@ -34,34 +34,34 @@
 	+) chmod +x ~/.dotfiles/install && ~/.dotfiles/install
 5: Logout and Login again, wait some minutes
 
-Editors: Neovim
+Shell: Python => xonsh
+
+Display manager: ly
+=====================================================================
+Web text: w3m
 
 Office: LibreOffice
 
-Document converters: pandoc
-https://pandoc.org/
+Document converters: pandoc [https://pandoc.org]
 
-E-book Reader: baca
-https://github.com/wustho/baca
+E-book Reader: baca [https://github.com/wustho/baca]
 
-Picture viewer: chafa
-https://github.com/hpjansson/chafa?tab=readme-ov-file
+Image: chafa [https://github.com/hpjansson/chafa?tab=readme-ov-file]
 
-Note: nb
-https://xwmx.github.io/nb/
+Note: nb [https://xwmx.github.io/nb]
 
-Web text: w3m
+ascii: arttime [https://github.com/poetaman/arttime]
+=====================================================================
 
-ascii: arttime
-https://github.com/poetaman/arttime
 
                    << Packages/Tools >>
 ┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃               ┃ +) Fish                ┃               ┃
 ┃ +) 1.1.1.1    ┃ +) Perl                ┃ +) Tldr       ┃
 ┃ +) GCP        ┃ +) Python              ┃ +) fzf        ┃
 ┃ +) Nix        ┃ +) Golang              ┃ +) Bat        ┃
 ┃ +) nmcli      ┃ +) Rust                ┃ +) Ripgrep    ┃
-┃ +) nmtui      ┃ +) npm                 ┃ +) fd         ┃
+┃ +) nmtui      ┃ +) NodeJS (NPM)        ┃ +) fd         ┃
 ┃               ┣━━━━━━━━━━━━━━━━━━━━━━━━┫ +) mpv        ┃
 ┃               ┃ +) Brave Browser       ┃ +) yt-dlp     ┃
 ┃               ┃ +) ProtonVPN           ┃ +) archiver   ┃
@@ -71,7 +71,6 @@ https://github.com/poetaman/arttime
 ┃               ┣━━━━━━━━━━━━━━━━━━━━━━━━┫               ┃
 ┃               ┃ +) ST Terminal         ┃               ┃
 ┃               ┃ +) Tmux                ┃               ┃
-┃               ┃ +) Fish                ┃               ┃
 ┃               ┃ +) Neovim              ┃               ┃
 ┃               ┃ +) Git                 ┃               ┃
 ┃               ┃ +) Git lfs             ┃               ┃

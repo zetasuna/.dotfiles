@@ -66,6 +66,11 @@ if not test -e /home/$USER/.local/bin/extrakto_fzf
    fzf --height=100% "$@"' >/home/$USER/.local/bin/extrakto_fzf
     chmod +x /home/$USER/.local/bin/extrakto_fzf
 end
+# if not test -e /home/$USER/.local/bin/rg
+#     echo '#!/usr/bin/bash
+#    /home/$USER/.cargo/bin/rg -uu -L "$@"' >/home/$USER/.local/bin/rg
+#     chmod +x /home/$USER/.local/bin/rg
+# end
 
 # NOTE: Fish is interactive
 if status is-interactive
@@ -334,7 +339,7 @@ if status is-interactive
     alias ll 'ls -alhv --color=always --group-directories-first'
     alias tldr 'tldr -t base16'
     alias bat 'bat --color=auto --theme=Dracula'
-    alias mpv 'mpv --keep-open=yes --really-quiet --vo=sixel --vo-sixel-exit-clear=no'
+    alias mpv 'mpv --keep-open=yes --really-quiet --vo-sixel-exit-clear=no'
     # alias fd 'fd --strip-cwd-prefix -HL'
     # alias rg 'rg -uu -L'
 
@@ -345,6 +350,7 @@ if status is-interactive
     abbr --add dotdot --regex '^\.\.+$' --function multicd
     abbr --add n nvim
     abbr --add tm tmux new-session -As Main
+    abbr --add mpvs mpv --vo=sixel
 
     # NOTE: Binding
     bind \[1\;2A __fzf_reverse_isearch
