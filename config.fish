@@ -9,69 +9,6 @@ set -q PERL_LOCAL_LIB_ROOT; or set -x PERL_LOCAL_LIB_ROOT /home/$USER/perl5
 set -x PERL_MB_OPT --install_base\ "/home/$USER/perl5"
 set -x PERL_MM_OPT INSTALL_BASE=/home/$USER/perl5
 
-# NOTE: Wrapper
-if not test -d /home/$USER/.local/bin
-    mkdir -p /home/$USER/.local/bin
-end
-if not test -e /home/$USER/.local/bin/fileExplorer
-    echo '#!/usr/bin/fish
-    while true
-        set selection (ls -ahv --color=auto --group-directories-first | fzf \
-        --bind="left:pos(2)+accept" \
-        --bind="right:accept" \
-        --bind="shift-up:preview-up" \
-        --bind="shift-down:preview-down" \
-        --bind="space:toggle" \
-        --height=100% \
-        --reverse \
-        --multi \
-        --info=default\
-        --prompt="❱ " \
-        --pointer=󰄾 \
-        --marker=● \
-        --border=bold \
-        --border-label=$(pwd) \
-        --preview-window=right:60% \
-        --preview=\'
-        set sel (echo {} | cut -d " " -f 2);
-        set cd_pre (echo $(pwd)/$(echo {}));
-        set cur_file (file $(echo $sel) | grep [Tt]ext | wc -l);
-        if test (file $(echo $sel) | grep [Dd]irectory | wc -l) -ge 1
-        echo " " $cd_pre;
-        ls -alhv --color=always --group-directories-first "$cd_pre";
-        else
-        echo "󰈮 " $cd_pre;
-        bat --style=numbers --theme=Dracula --color=always $sel 2>/dev/null
-        end\')
-        if test -d "$selection"
-            cd "$selection"
-        else if test -f "$selection"
-            set file_type (if string match -qr \'\.lua|\.json\' "$selection"; echo "text"; else; file -b --mime-type "$selection" | cut -d\'/\' -f1; end)
-            switch $file_type
-                case text
-                    nvim "$selection" >/dev/null 2>&1
-                case inode
-                    nvim "$selection" >/dev/null 2>&1
-                case \'*\'
-                    xdg-open "$selection" >/dev/null 2>&1
-            end
-        else
-            break
-        end
-    end' >/home/$USER/.local/bin/fileExplorer
-    chmod +x /home/$USER/.local/bin/fileExplorer
-end
-if not test -e /home/$USER/.local/bin/extrakto_fzf
-    echo '#!/usr/bin/bash
-   fzf --height=100% "$@"' >/home/$USER/.local/bin/extrakto_fzf
-    chmod +x /home/$USER/.local/bin/extrakto_fzf
-end
-# if not test -e /home/$USER/.local/bin/rg
-#     echo '#!/usr/bin/bash
-#    /home/$USER/.cargo/bin/rg -uu -L "$@"' >/home/$USER/.local/bin/rg
-#     chmod +x /home/$USER/.local/bin/rg
-# end
-
 # NOTE: Fish is interactive
 if status is-interactive
     if not type -q fisher

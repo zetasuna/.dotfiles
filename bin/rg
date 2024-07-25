@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+/home/$USER/.cargo/bin/rg -uu -L "$@"
