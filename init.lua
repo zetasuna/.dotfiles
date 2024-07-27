@@ -121,7 +121,7 @@ now(function() -- Custom for Neovim
    vim.opt.wildmenu = true
    vim.opt.wildmode = "full"
    vim.opt.wildoptions = ""
-   vim.opt.wrap = true -- Display long lines as just one line
+   vim.opt.wrap = false -- Display long lines as just one line
    vim.opt.formatoptions = "rqnl1j" -- Improve comment editing
    vim.opt.formatlistpat = [[^\s*[0-9\-\+\*]\+[\.\)]*\s\+]]
    vim.opt.sessionoptions = { "buffers", "curdir", "folds", "globals", "help", "skiprtp", "tabpages", "winsize" }
@@ -1381,7 +1381,7 @@ now(function() -- Plugins
       Namespace = " Namespace",
       Null = " Null",
       -- Number = "󰎠 Number",
-      Object = " Object",
+      Object = " Object",
       Operator = " Operator",
       Package = " Package",
       Property = " Property",

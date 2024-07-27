@@ -23,11 +23,11 @@ if status is-interactive
         end
     end
     # Auto start Tmux Session
-    if type -q tmux
-        if test -z "$TMUX"
-            and not string match -qr 'screen|tmux' "$TERM"
-            tmux new-session -As Main
-        end
+    if not status is-login
+        and type -q tmux
+        and test -z "$TMUX"
+        and not string match -qr 'screen|tmux' "$TERM"
+        tmux new-session -As Main
     end
 
     # NOTE: Environment Variable
@@ -292,4 +292,11 @@ if status is-interactive
     # NOTE: Binding
     bind \[1\;2A __fzf_reverse_isearch
     bind \[1\;2B __fzf_find_file
+end
+
+# NOTE: Fish is login
+if status is-login
+    if test -z "$DISPLAY" -a "$XDG_VTNR" = 3
+        # echo hi
+    end
 end

@@ -17,14 +17,16 @@ while true
         --border-label=$(pwd) \
         --preview-window=right:60% \
         --preview='
-        set sel (echo {} | cut -d " " -f 2);
-        set cd_pre (echo $(pwd)/$(echo {}));
-        set cur_file (file $(echo $sel) | grep [Tt]ext | wc -l);
-        if test (file $(echo $sel) | grep [Dd]irectory | wc -l) -ge 1
-        echo " " $cd_pre;
-        ls -alhv --color=always --group-directories-first "$cd_pre";
+        set name (echo {})
+        set sel (echo (pwd)/(echo {}))
+        if test (file $sel | grep [Dd]irectory | wc -l) -ge 1
+        echo -e "\e[0;34m  $name\e[0m"
+        ls -alhv --color=always --group-directories-first $sel
+        else if test (file $sel | grep [Ii]mage | wc -l) -ge 1
+        echo -e "\e[0;32m  $name\e[0m"
+        #chafa --symbols=block --size=40x50 $sel
         else
-        echo "󰈮 " $cd_pre;
+        echo -e "\e[0;36m $name\e[0m"
         bat --style=numbers --theme=Dracula --color=always $sel 2>/dev/null
         end')
     if test -d "$selection"
