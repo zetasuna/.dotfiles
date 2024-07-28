@@ -49,7 +49,7 @@ if status is-interactive
     set -Ux MANPAGER "sh -c 'col -bx | bat -l man -p'"
     set -Ux MANROFFOPT -c
     # FZF Config
-    set -Ux FZF_DEFAULT_OPTS "--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4 --height=50%  --reverse --multi --info=default --prompt=\"❱ \" --pointer=󰄾 --marker=● --preview-window=right:60%"
+    set -Ux FZF_DEFAULT_OPTS "--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4 --height=50%  --reverse --multi --info=default --prompt=\"❱ \" --pointer=󰄾 --marker=● --preview-window=right:wrap:60%"
     set -U FZF_COMPLETE 3
     set -U FZF_FIND_FILE_COMMAND "fd --strip-cwd-prefix -HLc auto"
     set -U FZF_PREVIEW_FILE_CMD "bat -n --color=always --theme=Dracula"

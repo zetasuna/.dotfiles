@@ -1,0 +1,30 @@
+#!/usr/bin/fish
+
+if test (count $argv) -eq 1
+    set file (pwd)"/$argv"
+    set type (file --dereference --mime -- "$file")
+    if string match -qr '=[Bb]inary' $type
+        if string match -qr '[Dd]irectory' $type
+            echo -e "\e[1;34m   Folder: $argv[1]\e[0m"
+            ls -alhv --color=always --group-directories-first $file
+        else if string match -qr '[Ii]mage/' $type
+            echo -e "\e[1;32m   Image: $argv[1]\e[0m"
+            set dim "$FZF_PREVIEW_COLUMNS"x(math "$FZF_PREVIEW_LINES - 1")
+            if test $dim = x
+                set dim (stty size < /dev/tty | awk '{print $2 "x" $1}')
+            end
+            if type -q chafa
+                chafa -f sixels -s "$dim" "$file"
+            end
+        else
+            echo -e "\e[1;31m   Binary File: $argv[1]\e[0m"
+        end
+    else
+        echo -e "\e[1;36m   File: $argv[1]\e[0m"
+        if type -q bat
+            bat --style=numbers --theme=Dracula --color=always --pager=never -- $file
+        else
+            cat $file
+        end
+    end
+end

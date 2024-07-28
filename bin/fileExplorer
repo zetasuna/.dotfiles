@@ -15,20 +15,8 @@ while true
         --marker=● \
         --border=bold \
         --border-label=$(pwd) \
-        --preview-window=right:60% \
-        --preview='
-        set name (echo {})
-        set sel (echo (pwd)/(echo {}))
-        if test (file $sel | grep [Dd]irectory | wc -l) -ge 1
-        echo -e "\e[0;34m  $name\e[0m"
-        ls -alhv --color=always --group-directories-first $sel
-        else if test (file $sel | grep [Ii]mage | wc -l) -ge 1
-        echo -e "\e[0;32m  $name\e[0m"
-        #chafa --symbols=block --size=40x50 $sel
-        else
-        echo -e "\e[0;36m $name\e[0m"
-        bat --style=numbers --theme=Dracula --color=always $sel 2>/dev/null
-        end')
+        --preview-window=right:wrap:60% \
+        --preview='fzf_preview {}')
     if test -d "$selection"
         cd "$selection"
     else if test -f "$selection"
