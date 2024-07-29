@@ -33,6 +33,33 @@
 	+) git clone git@github.com:zetasuna/.dotfiles.git
 	+) chmod +x ~/.dotfiles/install && ~/.dotfiles/install
 5: Logout and Login again, wait some minutes
+==============================================================
+[[ Config polkit ]]
+Install: polkitd, policykit-1, pkexec, gnome polkit (maybe policykit-1-gnome) | or sth like that
+Note: ttyagent (authen in cmd) cause fail (fallback) for authen in DE => install agent polkit for DE (gnome work ok) => add to xinit to start
+
+[[ Config fonts ]]
+Install Font: /usr/share/fonts/
+Run command: fc-cache -fv
+Set Nerd Font for: Dwm, ST, gtk-3.0 (see file config in dotfile)
+-- Install JetBrainsMonoNL Nerd Font (Regular)
+-- Install fonts-noto
+
+[[ Config Theme ]]
+Install Icon Theme look like: "/usr/share/themes/Dracula"
+Config Application use: gtk-3.0 (set file config),...
+
+[[ Config Icon ]]
+Install Icon Theme look like: "/usr/share/icons/candy-icons"
+Config Application use: gtk-3.0 (set file config),...
+
+[[ Config Cursor ]]
+Install Cusrsor theme look like: "/usr/share/icons/oreo_spark_green_cursors"
+Edit file: /usr/share/icons/default/index.theme
+-- Inherits=oreo_spark_green_cursors
+-- Install oreo-spark-green-cursors
+
+==============================================================
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃=============================================[[ Custom Keybinding ]]=============================================┃
 ┣━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
@@ -43,10 +70,12 @@
 ┃                   ┃ Prefix - u                    ┃ Update    Plugins                                           ┃
 ┃                   ┃ Prefix - Alt - u              ┃ Uninstall Plugins                                           ┃
 ┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃ Fish              ┃ Ctrl - l                      ┃ Clear Screen                                                ┃
-┃                   ┃ Alt  - e                      ┃ Edit current command in $EDITOR                             ┃
-┃                   ┃ Alt  - h                      ┃ Quick open manpage for current command                      ┃
-┃                   ┃ Alt  - s                      ┃ Add sudo for command                                        ┃
+┃ Fish              ┃ Ctrl  - l                     ┃ Clear Screen                                                ┃
+┃                   ┃ Alt   - e                     ┃ Edit current command in $EDITOR                             ┃
+┃                   ┃ Alt   - h                     ┃ Quick open manpage for current command                      ┃
+┃                   ┃ Alt   - s                     ┃ Add sudo for command                                        ┃
+┃                   ┃ Shift - Up                    ┃ Fuzzy find History                                          ┃
+┃                   ┃ Shift - Down                  ┃ Fuzzy find File / Directory                                 ┃
 ┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
 ┃ Neovim            ┃...............................┃.............................................................┃
 ┣━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
@@ -158,7 +187,37 @@
 ┃                   ┃ uudecode    ┃ encode file into email friendly text                ┃                         ┃
 ┃                   ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━┫
 ┃                   ┃ file        ┃ guess file type                                     ┃                         ┃
-┗━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━┛
+┣━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃============================================[[ Desktop Environment ]]============================================┃
+┣━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃     [ Group ]     ┃  [ Tools ]  ┃                                [ Description ]                                ┃
+┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ Font              ┃ fontconfig  ┃ provide useful tool such as fc-cache,... to manage fonts                      ┃
+┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ XDG               ┃ xdg-utils   ┃ provide useful tool such as xdg-open,...                                      ┃
+┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ Msg Bus System    ┃ D-bus       ┃ message bus system that provides an easy way for inter-process communication  ┃
+┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ Notify Server     ┃ dunst       ┃ Minimalist notification daemon for Linux                                      ┃
+┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ Display Server    ┃ Xorg        ┃ Package contain Xserver + utils need such as xclip,...                        ┃
+┃                   ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃                   ┃ xclip       ┃ Clipboard access to X Clipboard ( May need install if xorg not contain )      ┃
+┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ Window Manager    ┃ Dwm         ┃ Minimal window manager created by Suckless                                    ┃
+┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ Screen Lock       ┃ Slock       ┃ Minimal screen lock created by Suckless                                       ┃
+┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ Terminal Emulator ┃ ST          ┃ Minimal terminal emulator created by Suckless                                 ┃
+┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ Web Browser       ┃ Brave       ┃ My best Browser                                                               ┃
+┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ Media             ┃ Mpv         ┃ All you need                                                                  ┃
+┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ Clipboard         ┃ Copyq       ┃ Clipboard manager with advanced features                                      ┃
+┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ Background Manage ┃ Nitrogen    ┃ desktop background browser and setter for X Window                            ┃
+┣━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
 
 
 

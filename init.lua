@@ -1462,7 +1462,7 @@ now(function() -- Plugins
          { name = "nvim_lsp" },
          { name = "path" },
          { name = "buffer" },
-         { name = "codeium", priority = 100 },
+         -- { name = "codeium", priority = 100 },
       }),
    })
    -- `/` cmdline setup.
@@ -1704,7 +1704,6 @@ now(function() -- Plugins
             server.handlers = vim.tbl_deep_extend("force", {}, handlers, server.handlers or {})
             server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
             require("lspconfig")[server_name].setup(server)
-            -- require("lspconfig")[server_name].setup({})
          end,
       },
    })
@@ -1813,13 +1812,13 @@ now(function() -- Plugins
          require("lint").try_lint()
       end,
    })
-   -- [[ Codeium Nvim ]]=================================================
-   add("Exafunction/codeium.nvim")
-   require("codeium").setup({
-      enable_chat = true,
-   })
 end)
 later(function() -- [Not Use]
+   -- -- [[ Codeium Nvim ]]=================================================
+   -- add("Exafunction/codeium.nvim")
+   -- require("codeium").setup({
+   --    enable_chat = true,
+   -- })
    -- -- [[ Animate ]]==[Cause high startup + Ram overflow with big file]===
    -- local is_many_wins = function(sizes_from, sizes_to)
    --   return vim.tbl_count(sizes_from) >= 3
@@ -1883,21 +1882,21 @@ later(function() -- [Not Use]
    -- })
    -- -- [[ Completion ]]===================================================
    -- require("mini.completion").setup({
-   --   set_vim_settings = false,
-   --   delay = { completion = 100, info = 100, signature = 50 }, -- Disable by setting very high delay time (like 10^7)
-   --   lsp_completion = {
-   --     source_func = "omnifunc",
-   --     auto_setup = true,
-   --   },
-   --   mappings = {
-   --     force_twostep = "<C-Space>", -- Force two-step completion
-   --     force_fallback = "<A-Space>", -- Force fallback completion
-   --     go_in = "<RET>",
-   --   },
-   --   window = {
-   --     info = { height = 25, width = 80, border = "double" },
-   --     signature = { height = 25, width = 80, border = "double" },
-   --   },
+   --    set_vim_settings = false,
+   --    delay = { completion = 100, info = 100, signature = 50 }, -- Disable by setting very high delay time (like 10^7)
+   --    lsp_completion = {
+   --       source_func = "omnifunc",
+   --       auto_setup = true,
+   --    },
+   --    mappings = {
+   --       force_twostep = "<C-Space>", -- Force two-step completion
+   --       force_fallback = "<A-Space>", -- Force fallback completion
+   --       go_in = "<RET>",
+   --    },
+   --    window = {
+   --       info = { height = 25, width = 80, border = "double" },
+   --       signature = { height = 25, width = 80, border = "double" },
+   --    },
    -- })
    -- -- [[ Diff ]]=========================================================
    -- require('mini.diff').setup {
