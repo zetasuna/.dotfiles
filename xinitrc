@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/fish
 
 xset s 300 300
 xss-lock --slock &

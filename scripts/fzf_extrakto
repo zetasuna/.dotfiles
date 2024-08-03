@@ -1,2 +1,2 @@
-#!/usr/bin/bash
-   fzf --height=100% "$@"
+#!/usr/bin/fish
+fzf --height=100% $argv
