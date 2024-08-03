@@ -1,4 +1,12 @@
 # NOTE: Set Environment Path
+set -U XDG_CONFIG_HOME $HOME/.config
+set -U XDG_DATA_HOME $HOME/.local/share
+set -U XDG_STATE_HOME $HOME/.local/state
+set -U XDG_CACHE_HOME $HOME/.cache
+
+set -gx XCURSOR_PATH "$XDG_DATA_HOME"/icons
+
+
 set -U fish_user_paths /home/$USER/.local/bin /home/$USER/perl5/bin /home/$USER/.cargo/bin /home/$USER/go/bin /usr/local/src/go/bin /usr/local/src/nodejs/bin /home/$USER/fish_lsp/bin /usr/local/sbin /usr/local/bin /usr/bin /usr/sbin /bin /sbin
 source ~/.venv/bin/activate.fish
 

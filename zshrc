@@ -4,6 +4,11 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
 	source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+HISTFILE="$XDG_STATE_HOME"/zsh/history
+# Completion files: Use XDG dirs
+[ -d "$XDG_CACHE_HOME"/zsh ] || mkdir -p "$XDG_CACHE_HOME"/zsh
+zstyle ':completion:*' cache-path "$XDG_CACHE_HOME"/zsh/zcompcache
+compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-$ZSH_VERSION
 
 setopt histignorealldups sharehistory
 
@@ -22,9 +27,9 @@ export fpath=(/home/$USER/.config/zsh-completions/src $fpath)
 #export MANROFFOPT="-c"
 
 # Use modern completion system
-rm -f /home/$USER/.zcompdump
+rm -f "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
 autoload -Uz compinit
-compinit
+compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
 
 # Zstyle 
 eval "$(dircolors -b)"
