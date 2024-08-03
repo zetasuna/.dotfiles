@@ -1,0 +1,18 @@
+#!/usr/bin/fish
+
+if test (count $argv) -eq 1
+    set result (wpctl get-volume @DEFAULT_AUDIO_SINK@)
+    switch $argv[1]
+        case get
+            if string match -qr MUTED $result
+                echo "●  "
+            else
+                for tmp in (string split " " $result)
+                    if string match -qr '(\.[0-9])+' $tmp
+                        echo (math -s0 $tmp "*" 100)"  "
+                    end
+                end
+            end
+        case "*"
+    end
+end

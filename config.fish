@@ -296,7 +296,7 @@ end
 
 # NOTE: Fish is login
 if status is-login
-    if test -z "$DISPLAY" -a "$XDG_VTNR" = 3
-        # echo hi
+    if test -z "$DISPLAY" -a "$XDG_VTNR" = 2
+        # exec startx -- -keeptty >/dev/null 2>&1
     end
 end

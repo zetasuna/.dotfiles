@@ -1097,7 +1097,7 @@ now(function() -- Initialization
 end)
 now(function() -- Plugins
    -- add("dstein64/vim-startuptime")
-   add("nvim-lua/plenary.nvim")
+   -- add("nvim-lua/plenary.nvim")
    -- [[ Lualine Nvim]]==================================================
    add({
       source = "nvim-lualine/lualine.nvim",

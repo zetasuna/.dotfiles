@@ -39,26 +39,27 @@ Install: polkitd, policykit-1, pkexec, gnome polkit (maybe policykit-1-gnome) | 
 Note: ttyagent (authen in cmd) cause fail (fallback) for authen in DE => install agent polkit for DE (gnome work ok) => add to xinit to start
 
 [[ Config fonts ]]
-Install Font: /usr/share/fonts/
+Install Font: ~/.local/share/fonts/
 Run command: fc-cache -fv
 Set Nerd Font for: Dwm, ST, gtk-3.0 (see file config in dotfile)
 -- Install JetBrainsMonoNL Nerd Font (Regular)
 -- Install fonts-noto
 
 [[ Config Theme ]]
-Install Icon Theme look like: "/usr/share/themes/Dracula"
+Install Icon Theme look like: "~/.local/share/themes/Dracula"
 Config Application use: gtk-3.0 (set file config),...
 
 [[ Config Icon ]]
-Install Icon Theme look like: "/usr/share/icons/candy-icons"
+Install Icon Theme look like (Not Essential): "~/.icons/candy-icons"
 Config Application use: gtk-3.0 (set file config),...
 
 [[ Config Cursor ]]
-Install Cusrsor theme look like: "/usr/share/icons/oreo_spark_green_cursors"
-Edit file: /usr/share/icons/default/index.theme
--- Inherits=oreo_spark_green_cursors
+Install Cusrsor theme look like (Essential since X server follow old standard so not recognize path in local): 
+"~/.icons/oreo_spark_green_cursors"
+Symlink to file: ~/.icons/theme/cursor.theme ~/.icons/default/index.theme 
 -- Install oreo-spark-green-cursors
 
+[[ Config  ]]
 ==============================================================
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃=============================================[[ Custom Keybinding ]]=============================================┃
