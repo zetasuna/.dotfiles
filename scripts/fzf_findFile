@@ -1,0 +1,3 @@
+#!/usr/bin/fish
+
+fd --strip-cwd-prefix -HLc auto -t f | fzf --height=100% --no-multi | xargs -rI {} tmux new-window -a -n ' [#I]' -c '#{pane_current_path}' nvim {}
