@@ -31,6 +31,7 @@
 	+) cat /home/$USER/.ssh/id_rsa.pub
 	+) copy string to ssh key in github
 	+) git clone git@github.com:zetasuna/.dotfiles.git
+	+) ~/.dotfiles/install fish
 	+) ~/.dotfiles/install all
 5: Reboot
 ===================================================================================================================

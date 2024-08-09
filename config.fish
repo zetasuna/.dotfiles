@@ -5,6 +5,7 @@ begin
     mkdir -p $HOME/.config
     mkdir -p $HOME/.local/share
     mkdir -p $HOME/.local/state
+    mkdir -p $HOME/.local/src
     set -Ux XDG_CACHE_HOME $HOME/.cache
     set -Ux XDG_CONFIG_HOME $HOME/.config
     set -Ux XDG_DATA_HOME $HOME/.local/share

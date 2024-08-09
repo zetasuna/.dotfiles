@@ -1,43 +1,58 @@
 #!/usr/bin/fish
 
-sudo apt -y install \
-    libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev \
-    libevent-dev ncurses-dev libpango-1.0-0 libxtst-dev libgtk-3-dev \
-    fish zsh coreutils man-db curl wget tar zip unzip bzip2 gzip lshw btop \
-    gcc make cmake automake autoconf build-essential ninja-build \
-    pkg-config fontconfig fonts-noto gettext libtool libtool-bin bison fswatch \
-    gnupg lsb-release apt-transport-https ca-certificates universal-ctags \
-    clang clangd bear python3.11-venv \
-    xdg-utils xorg xinit xss-lock x11-xserver-utils xclip copyq patch \
-    alsa-utils pipewire pipewire-pulse wireplumber bluetooth bluez \
-    ibus ibus-gtk ibus-gtk3 ibus-gtk4 \
-    policykit-1 policykit-1-gnome dbus-x11 dunst libnotify-bin flameshot \
-    nitrogen aria2 ffmpeg mpv yt-dlp libreoffice \
-    syncthing transmission transmission-daemon transmission-cli \
-    git docker docker-compose w3m chafa pandoc jq
-if not test -e /etc/udev/rules.d/81-backlight.rules
-    sudo cp $HOME/.dotfiles/81-backlight.rules /etc/udev/rules.d
-end
-
 # XDG based directory
 if not test -d $HOME/xdg-ninja
     git clone https://github.com/b3nj5m1n/xdg-ninja
 end
-mkdir -p $HOME/.cache
-mkdir -p $HOME/.config
-mkdir -p $HOME/.local/share
-mkdir -p $HOME/.local/state
-mkdir -p $HOME/.local/src
-set XDG_CACHE_HOME $HOME/.cache
-set XDG_CONFIG_HOME $HOME/.config
-set XDG_DATA_HOME $HOME/.local/share
-set XDG_STATE_HOME $HOME/.local/state
+
+if not test -e /etc/udev/rules.d/81-backlight.rules
+    sudo cp $HOME/.dotfiles/81-backlight.rules /etc/udev/rules.d
+end
 
 for i in $argv
+    if test $i = fish
+        sudo apt install -y curl chafa python3.11-venv
+        chsh -s $(which fish)
+        mkdir -p $HOME/.config/fish
+        if test -e $HOME/.config/fish/config.fish
+            rm -f $HOME/.config/fish/config.fish
+        end
+        ln -s $HOME/.dotfiles/config.fish $HOME/.config/fish/config.fish
+        if not test -d $HOME/.venv
+            python3 -m venv .venv
+        end
+        exec fish
+    end
+
+    if test $i = zsh
+        or test $i = all
+        mkdir -p -p $XDG_CONFIG_HOME/zsh
+        ln -s $HOME/.dotfiles/zshrc $XDG_CONFIG_HOME/zsh/.zshrc
+    end
+
+    if test $i = package
+        or test $i = all
+        sudo apt -y install \
+            libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev \
+            libevent-dev ncurses-dev libpango-1.0-0 libxtst-dev libgtk-3-dev \
+            fish zsh coreutils man-db curl wget tar zip unzip bzip2 gzip lshw btop \
+            gcc make cmake automake autoconf build-essential ninja-build \
+            pkg-config fontconfig fonts-noto gettext libtool libtool-bin bison fswatch \
+            gnupg lsb-release apt-transport-https ca-certificates universal-ctags \
+            clang clangd bear python3.11-venv \
+            xdg-utils xorg xinit xss-lock x11-xserver-utils xclip copyq patch \
+            alsa-utils pipewire pipewire-pulse wireplumber bluetooth bluez \
+            ibus ibus-gtk ibus-gtk3 ibus-gtk4 \
+            policykit-1 policykit-1-gnome dbus-x11 dunst libnotify-bin flameshot \
+            nitrogen aria2 ffmpeg mpv yt-dlp libreoffice \
+            syncthing transmission transmission-daemon transmission-cli \
+            git docker docker-compose w3m chafa pandoc jq
+    end
+
     if test $i = virtualbox
         or test $i = all
         echo "deb [signed-by=/usr/share/keyrings/oracle_vbox.gpg] https://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
-        wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo gpg --dearmor -o /usr/share/keyrings/oracle-vbox.gpg
+        wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo gpg --dearmor -o /usr/share/keyrings/oracle_vbox.gpg
         sudo apt update
         sudo apt install -y virtualbox-7.0
     end
@@ -48,8 +63,8 @@ for i in $argv
         sudo dpkg -i ./protonvpn-stable-release_1.0.3-3_all.deb && sudo apt update
         echo "de7ef83a663049b5244736d3eabaacec003eb294a4d6024a8fbe0394f22cc4e5  protonvpn-stable-release_1.0.3-3_all.deb" | sha256sum --check -
         sudo apt update
-        rm -f ./protonvpn-stable-release_1.0.3-3_all.deb
         sudo apt install -y protonvpn-cli
+        rm -f ./protonvpn-stable-release_1.0.3-3_all.deb
     end
 
     if test $i = cloudflare
@@ -93,22 +108,6 @@ for i in $argv
     if test $i = git_lfs
         or test $i = all
         curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
-    end
-
-    if test $i = fish
-        test $i = all
-        chsh -s $(which fish)
-        mkdir -p $XDG_CONFIG_HOME/fish
-        if test -e $XDG_CONFIG_HOME/fish/config.fish
-            rm -f $XDG_CONFIG_HOME/fish/config.fish
-        end
-        ln -s $HOME/.dotfiles/config.fish $XDG_CONFIG_HOME/fish/config.fish
-    end
-
-    if test $i = zsh
-        or test $i = all
-        mkdir -p -p $XDG_CONFIG_HOME/zsh
-        ln -s $HOME/.dotfiles/zshrc $XDG_CONFIG_HOME/zsh/.zshrc
     end
 
     if test $i = arttime
@@ -178,7 +177,6 @@ for i in $argv
 
     if test $i = python
         or test $i = all
-        python3 -m venv .venv
         pip install neovim baca
     end
 
