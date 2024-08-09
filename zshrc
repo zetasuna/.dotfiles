@@ -1,6 +1,11 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
+
+# export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+# export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+# export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+# export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
 	source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -8,6 +13,7 @@ HISTFILE="$XDG_STATE_HOME"/zsh/history
 # Completion files: Use XDG dirs
 [ -d "$XDG_CACHE_HOME"/zsh ] || mkdir -p "$XDG_CACHE_HOME"/zsh
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME"/zsh/zcompcache
+autoload -Uz compinit
 compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-$ZSH_VERSION
 
 setopt histignorealldups sharehistory
@@ -18,18 +24,12 @@ bindkey -e
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=1000
 SAVEHIST=1000
-HISTFILE=~/.zsh_history
 
 export PS2='%F{76} %f'
 export PATH="/home/$USER/.goroot/bin:/home/$USER/.nodejs/bin:/home/$USER/.cargo/bin:/opt/nvim-linux64/bin:$PATH"
-export fpath=(/home/$USER/.config/zsh-completions/src $fpath)
+# export fpath=(/home/$USER/.config/zsh-completions/src $fpath)
 #export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 #export MANROFFOPT="-c"
-
-# Use modern completion system
-rm -f "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
-autoload -Uz compinit
-compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
 
 # Zstyle 
 eval "$(dircolors -b)"
@@ -58,31 +58,31 @@ zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
 zstyle ':completion:*' menu no
-# preview directory's content with eza when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-# switch group using `<` and `>`
-zstyle ':fzf-tab:*' switch-group '<' '>'
-# fzf-tab popup tmux
-#zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-
-# Source 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f /home/$USER/.config/powerlevel10k/powerlevel10k.zsh-theme ] && source /home/$USER/.config/powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-#[ -f /home/$USER/.config/zsh-autocomplete/zsh-autocomplete.plugin.zsh ] && source /home/$USER/.config/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-[ -f /home/$USER/.config/fzf-tab/fzf-tab.plugin.zsh ] && source /home/$USER/.config/fzf-tab/fzf-tab.plugin.zsh
-[ -f /home/$USER/.config/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source /home/$USER/.config/zsh-autosuggestions/zsh-autosuggestions.zsh
-[ -f /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# Alias 
-alias -g ls='ls --color=always'
-#alias -g grep='grep --color=always'
-alias -g ip='ip --color=always'
-#alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
-#alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
-
-# public IP
-# dig +short myip.opendns.com @resolver1.opendns.com
-# Volumn
-# echo "`wpctl get-volume @DEFAULT_SINK@ | sed 's/.* //'`" '* 100' | bc | sed 's/\..*/%/'
-
+# # preview directory's content with eza when completing cd
+# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# # switch group using `<` and `>`
+# zstyle ':fzf-tab:*' switch-group '<' '>'
+# # fzf-tab popup tmux
+# #zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+#
+# # Source 
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f /home/$USER/.config/powerlevel10k/powerlevel10k.zsh-theme ] && source /home/$USER/.config/powerlevel10k/powerlevel10k.zsh-theme
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# #[ -f /home/$USER/.config/zsh-autocomplete/zsh-autocomplete.plugin.zsh ] && source /home/$USER/.config/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+# [ -f /home/$USER/.config/fzf-tab/fzf-tab.plugin.zsh ] && source /home/$USER/.config/fzf-tab/fzf-tab.plugin.zsh
+# [ -f /home/$USER/.config/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source /home/$USER/.config/zsh-autosuggestions/zsh-autosuggestions.zsh
+# [ -f /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source /home/$USER/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#
+# # Alias 
+# alias -g ls='ls --color=always'
+# #alias -g grep='grep --color=always'
+# alias -g ip='ip --color=always'
+# #alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
+# #alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
+#
+# # public IP
+# # dig +short myip.opendns.com @resolver1.opendns.com
+# # Volumn
+# # echo "`wpctl get-volume @DEFAULT_SINK@ | sed 's/.* //'`" '* 100' | bc | sed 's/\..*/%/'
+#

@@ -1,21 +1,119 @@
 # NOTE: Set Environment Path
-set -U XDG_CONFIG_HOME $HOME/.config
-set -U XDG_DATA_HOME $HOME/.local/share
-set -U XDG_STATE_HOME $HOME/.local/state
-set -U XDG_CACHE_HOME $HOME/.cache
+begin
+    # XDG based directory
+    mkdir -p $HOME/.cache
+    mkdir -p $HOME/.config
+    mkdir -p $HOME/.local/share
+    mkdir -p $HOME/.local/state
+    set -Ux XDG_CACHE_HOME $HOME/.cache
+    set -Ux XDG_CONFIG_HOME $HOME/.config
+    set -Ux XDG_DATA_HOME $HOME/.local/share
+    set -Ux XDG_STATE_HOME $HOME/.local/state
 
-set -gx XCURSOR_PATH "$XDG_DATA_HOME"/icons
+    # Path
+    set -U fish_user_paths $HOME/fish_lsp/bin $HOME/.local/bin $HOME/perl5/bin $XDG_DATA_HOME/cargo/bin $XDG_DATA_HOME/go/bin $HOME/.local/src/go/bin $HOME/.local/src/nodejs/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
+    source $HOME/.venv/bin/activate.fish
 
+    # Perl
+    set -q PERL5LIB; and set -x PERL5LIB /home/$USER/perl5/lib/perl5:/home/$USER/perl5/lib/perl5
+    set -q PERL5LIB; or set -x PERL5LIB /home/$USER/perl5/lib/perl5
+    set -q PERL_LOCAL_LIB_ROOT; and set -x PERL_LOCAL_LIB_ROOT /home/$USER/perl5:/home/$USER/perl5
+    set -q PERL_LOCAL_LIB_ROOT; or set -x PERL_LOCAL_LIB_ROOT /home/$USER/perl5
+    set -x PERL_MB_OPT --install_base\ "/home/$USER/perl5"
+    set -x PERL_MM_OPT INSTALL_BASE=/home/$USER/perl5
 
-set -U fish_user_paths /home/$USER/.local/bin /home/$USER/perl5/bin /home/$USER/.cargo/bin /home/$USER/go/bin /usr/local/src/go/bin /usr/local/src/nodejs/bin /home/$USER/fish_lsp/bin /usr/local/sbin /usr/local/bin /usr/bin /usr/sbin /bin /sbin
-source ~/.venv/bin/activate.fish
+    # X11
+    mkdir -p $XDG_CONFIG_HOME/X11
+    mkdir -p $XDG_DATA_HOME/X11
+    mkdir -p $XDG_CACHE_HOME/X11
+    set -gx XINITRC $XDG_CONFIG_HOME/X11/xinitrc
+    set -gx XSERVERRC $XDG_CONFIG_HOME/X11/xserverrc
+    set -gx USERXSESSION $XDG_CACHE_HOME/X11/xsession
+    set -gx USERXSESSIONRC $XDG_CACHE_HOME/X11/xsessionrc
+    set -gx ALTUSERXSESSION $XDG_CACHE_HOME/X11/Xsession
+    set -gx ERRFILE $XDG_CACHE_HOME/X11/xsession-errors
+    set -gx XAUTHORITY $XDG_RUNTIME_DIR/Xauthority
+    set -gx XCURSOR_PATH $XDG_DATA_HOME/icons
+    set -gx XCOMPOSEFILE $XDG_CONFIG_HOME/X11/xcompose
+    set -gx XCOMPOSECACHE $XDG_CACHE_HOME/X11/xcompose
 
-set -q PERL5LIB; and set -x PERL5LIB /home/$USER/perl5/lib/perl5:/home/$USER/perl5/lib/perl5
-set -q PERL5LIB; or set -x PERL5LIB /home/$USER/perl5/lib/perl5
-set -q PERL_LOCAL_LIB_ROOT; and set -x PERL_LOCAL_LIB_ROOT /home/$USER/perl5:/home/$USER/perl5
-set -q PERL_LOCAL_LIB_ROOT; or set -x PERL_LOCAL_LIB_ROOT /home/$USER/perl5
-set -x PERL_MB_OPT --install_base\ "/home/$USER/perl5"
-set -x PERL_MM_OPT INSTALL_BASE=/home/$USER/perl5
+    # Shell
+    mkdir -p $XDG_CONFIG_HOME/readline
+    mkdir -p $XDG_CONFIG_HOME/zsh
+    set -gx INPUTRC $XDG_CONFIG_HOME/readline/inputrc
+    set -gx ZDOTDIR $XDG_CONFIG_HOME/zsh
+
+    # Ibus bamboo
+    set -gx GLFW_IM_MODULE ibus
+    set -gx GTK_IM_MODULE xim
+    set -gx QT_IM_MODULE ibus
+    set -gx QT4_IM_MODULE ibus
+    set -gx CLUTTER_IM_MODULE ibus
+    set -gx XMODIFIERS @im=ibus
+
+    # Tools
+    set -gx ACKRC $XDG_CONFIG_HOME/ack/ackrc
+    set -gx ANSIBLE_HOME $XDG_CONFIG_HOME/ansible
+    set -gx ANSIBLE_CONFIG $XDG_CONFIG_HOME/ansible.cfg
+    set -gx ANSIBLE_GALAXY_CACHE_DIR $XDG_CACHE_HOME/ansible/galaxy_cache
+    set -gx AWS_SHARED_CREDENTIALS_FILE $XDG_CONFIG_HOME/aws/credentials
+    set -gx AWS_CONFIG_FILE $XDG_CONFIG_HOME/aws/config
+    set -gx BASH_COMPLETION_USER_FILE $XDG_CONFIG_HOME/bash-completion/bash_completion
+    set -gx CALCHISTFILE $XDG_STATE_HOME/calc_history
+    set -gx CARGO_HOME $XDG_DATA_HOME/cargo
+    set -gx RUSTUP_HOME $XDG_DATA_HOME/rustup
+    set -gx CUDA_CACHE_PATH $XDG_CACHE_HOME/nv
+    set -gx DOCKER_CONFIG $XDG_CONFIG_HOME/docker
+    set -gx MACHINE_STORAGE_PATH $XDG_DATA_HOME/docker-machine
+    set -gx ELINKS_CONFDIR $XDG_CONFIG_HOME/elinks
+    set -gx FFMPEG_DATADIR $XDG_CONFIG_HOME/ffmpeg
+    set -gx GNUPGHOME $XDG_DATA_HOME/gnupg
+    # set -gx GOROOT $HOME/.local/src/go
+    set -gx GOPATH $XDG_DATA_HOME/go
+    set -gx GOMODCACHE $XDG_CACHE_HOME/go/mod
+    set -gx GTK_RC_FILES $XDG_CONFIG_HOME/gtk-1.0/gtkrc
+    set -gx GTK2_RC_FILES $XDG_CONFIG_HOME/gtk-2.0/gtkrc $XDG_CONFIG_HOME/gtk-2.0/gtkrc.mine
+    set -gx K9SCONFIG $XDG_CONFIG_HOME/k9s
+    set -gx KUBECONFIG $XDG_CONFIG_HOME/kube
+    set -gx KUBECACHEDIR $XDG_CACHE_HOME/kube
+    set -gx LYNX_CFG $XDG_CONFIG_HOME/lynx.cfg
+    set -gx MINIKUBE_HOME $XDG_DATA_HOME/minikube
+    set -gx MPLAYER_HOME $XDG_CONFIG_HOME/mplay
+    set -gx MYSQL_HISTFILE $XDG_STATE_HOME/mysql_history
+    set -gx TERMINFO $XDG_DATA_HOME/terminfo
+    set -gx TERMINFO_DIRS $XDG_DATA_HOME/terminfo /usr/share/terminfo
+    set -gx N_PREFIX $XDG_DATA_HOME/n
+    set -gx NB_DIR $XDG_DATA_HOME/nb
+    set -gx NBRC_PATH $XDG_CONFIG_HOME/nbrc
+    set -gx NODENV_ROOT $XDG_DATA_HOME/nodenv
+    set -gx NODE_REPL_HISTORY $XDG_STATE_HOME/node_repl_history
+    set -gx NVM_DIR $XDG_DATA_HOME/nvm
+    set -gx OMNISHARPHOME $XDG_CONFIG_HOME/omnisharp
+    set -gx PARALLEL_HOME $XDG_CONFIG_HOME/parallel
+    set -gx PLATFORMIO_CORE_DIR $XDG_DATA_HOME/platformio
+    set -gx PSQLRC $XDG_CONFIG_HOME/pg/psqlrc
+    set -gx PSQL_HISTORY $XDG_STATE_HOME/psql_history
+    set -gx PGPASSFILE $XDG_CONFIG_HOME/pg/pgpass
+    set -gx PGSERVICEFILE $XDG_CONFIG_HOME/pg/pg_service.conf
+    set -gx PYTHON_HISTORY $XDG_STATE_HOME/python/history
+    set -gx PYTHONPYCACHEPREFIX $XDG_CACHE_HOME/python
+    set -gx PYTHONUSERBASE $XDG_DATA_HOME/python
+    set -gx WORKON_HOME $XDG_DATA_HOME/virtualenvs
+    set -gx RBENV_ROOT $XDG_DATA_HOME/rbenv
+    set -gx BUNDLE_USER_CACHE $XDG_CACHE_HOME/bundle
+    set -gx BUNDLE_USER_CONFIG $XDG_CONFIG_HOME/bundle/config
+    set -gx BUNDLE_USER_PLUGIN $XDG_DATA_HOME/bundle
+    set -gx RIPGREP_CONFIG_PATH $XDG_CONFIG_HOME/ripgrep/config
+    set -gx SCREENRC $XDG_CONFIG_HOME/screen/screenrc
+    set -gx STARSHIP_CONFIG $XDG_CONFIG_HOME/starship.toml
+    set -gx STARSHIP_CACHE $XDG_CACHE_HOME/starship
+    set -gx TLDR_CACHE_DIR $XDG_CACHE_HOME/tldr # Only work with rust client
+    set -gx W3M_DIR $XDG_STATE_HOME/w3m
+    set -gx WGETRC $XDG_CONFIG_HOME/wgetrc
+    mkdir -p $XDG_DATA_HOME/wineprefixes
+    set -gx WINEPREFIX $XDG_DATA_HOME/wineprefixes/default
+    set -gx _Z_DATA $XDG_DATA_HOME/z
+end
 
 # NOTE: Fish is interactive
 if status is-interactive
@@ -35,7 +133,7 @@ if status is-interactive
         and type -q tmux
         and test -z "$TMUX"
         and not string match -qr 'screen|tmux' "$TERM"
-        tmux new-session -As Main
+        # tmux new-session -As Main
     end
 
     # NOTE: Environment Variable
@@ -285,6 +383,7 @@ if status is-interactive
     alias tldr 'tldr -t base16'
     alias bat 'bat --color=auto --theme=Dracula'
     alias mpv 'mpv --keep-open=yes --really-quiet --vo-sixel-exit-clear=no'
+    alias wget 'wget --hsts-file=$XDG_CACHE_HOME/wget-hsts'
     # alias fd 'fd --strip-cwd-prefix -HL'
     # alias rg 'rg -uu -L'
 

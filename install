@@ -1,274 +1,212 @@
-#!/usr/bin/bash
+#!/usr/bin/fish
 
-# Essential {{{
-if [ ! -d "/home/$USER/.config" ]; then
-    mkdir -p /home/"$USER"/.config
-fi
-if [ ! -d "/home/$USER/.local/share" ]; then
-    mkdir -p /home/"$USER"/.local/share
-fi
-sudo apt -y install\
-    gcc make cmake automake autoconf build-essential ninja-build\
-    libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev\
-    libevent-dev ncurses-dev\
-    pkg-config fontconfig gettext libtool libtool-bin bison fswatch\
-    xclip xorg xinit x11-xserver-utils\
-    fish fzf tmux man-db curl wget tar zip unzip bzip2 gzip unar lshw btop\
-    aria2 yt-dlp ffmpeg patch mpv transmission-cli neomutt\
-    gnupg lsb-release apt-transport-https ca-certificates universal-ctags\
-    pipx\
-    clang clangd bear
-#i3 kitty zsh vim nitrogen youtube-dl vlc 7zip libpango...-dev
-#}}}
+sudo apt -y install \
+    libxft-dev libx11-dev libxrandr-dev libxinerama-dev libimlib2-dev \
+    libevent-dev ncurses-dev libpango-1.0-0 libxtst-dev libgtk-3-dev \
+    fish zsh coreutils man-db curl wget tar zip unzip bzip2 gzip lshw btop \
+    gcc make cmake automake autoconf build-essential ninja-build \
+    pkg-config fontconfig fonts-noto gettext libtool libtool-bin bison fswatch \
+    gnupg lsb-release apt-transport-https ca-certificates universal-ctags \
+    clang clangd bear python3.11-venv \
+    xdg-utils xorg xinit xss-lock x11-xserver-utils xclip copyq patch \
+    alsa-utils pipewire pipewire-pulse wireplumber bluetooth bluez \
+    ibus ibus-gtk ibus-gtk3 ibus-gtk4 \
+    policykit-1 policykit-1-gnome dbus-x11 dunst libnotify-bin flameshot \
+    nitrogen aria2 ffmpeg mpv yt-dlp libreoffice \
+    syncthing transmission transmission-daemon transmission-cli \
+    git docker docker-compose w3m chafa pandoc
+# XDG based directory
+if not test -d $HOME/xdg-ninja
+    git clone https://github.com/b3nj5m1n/xdg-ninja
+end
+mkdir -p $HOME/.cache
+mkdir -p $HOME/.config
+mkdir -p $HOME/.local/share
+mkdir -p $HOME/.local/state
+mkdir -p $HOME/.local/src
+set XDG_CACHE_HOME $HOME/.cache
+set XDG_CONFIG_HOME $HOME/.config
+set XDG_DATA_HOME $HOME/.local/share
+set XDG_STATE_HOME $HOME/.local/state
 
-# Font {{{
-sudo rm -rf /usr/local/share/fonts
-sudo cp -r /home/"$USER"/.dotfiles/fonts /usr/local/share/fonts
-fc-cache -fv
-#cp /home/$USER/.dotfiles/testfont.sh /home/$USER/testfont.sh
-#chmod +x /home/$USER/testfont.sh
-#}}}
+for i in $argv
+    if test $i = virtualbox
+        or test $i = all
+        wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg --dearmor
+        sudo apt update
+        sudo apt install -y virtualbox-7.0
+    end
 
-# Librewolf {{{
-#distro=$(if echo " una bookworm vanessa focal jammy bullseye vera uma " | grep -q " $(lsb_release -sc) "; then lsb_release -sc; else echo focal; fi)
-#wget -O- https://deb.librewolf.net/keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/librewolf.gpg
-#sudo tee /etc/apt/sources.list.d/librewolf.sources << EOF > /dev/null
-#Types: deb
-#URIs: https://deb.librewolf.net
-#Suites: $distro
-#Components: main
-#Architectures: amd64
-#Signed-By: /usr/share/keyrings/librewolf.gpg
-#EOF
-#sudo apt update
-#sudo apt install librewolf -y
-#}}}
+    if test $i = protonvpn
+        or test $i = all
+        wget https://repo2.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.3-3_all.deb
+        sudo dpkg -i ./protonvpn-stable-release_1.0.3-3_all.deb && sudo apt update
+        echo "de7ef83a663049b5244736d3eabaacec003eb294a4d6024a8fbe0394f22cc4e5  protonvpn-stable-release_1.0.3-3_all.deb" | sha256sum --check -
+        sudo apt update
+        rm -f ./protonvpn-stable-release_1.0.3-3_all.deb
+        sudo apt install -y protonvpn-cli
+    end
 
-# Anime Cli {{{
-#git clone "https://github.com/pystardust/ani-cli.git"
-#sudo cp ani-cli/ani-cli /usr/local/bin
-#rm -rf ani-cli
-#}}}
+    if test $i = cloudflare
+        or test $i = all
+        curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+        echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+        sudo apt update && sudo apt install cloudflare-warp
+    end
 
-# Virtualbox {{{
-#wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg --dearmor
-#sudo apt update
-#sudo apt install -y virtualbox-7.0
-#}}}
+    if test $i = ibus
+        or test $i = all
+        # NOTE: Install latest dwm or not working when change input mode
+        echo 'deb http://download.opensuse.org/repositories/home:/lamlng/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/home:lamlng.list
+        curl -fsSL https://download.opensuse.org/repositories/home:lamlng/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_lamlng.gpg >/dev/null
+        sudo apt update
+        sudo apt install -y ibus-bamboo
+    end
 
-# ProtonVPN {{{
-#wget https://repo2.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.3-3_all.deb
-#sudo dpkg -i ./protonvpn-stable-release_1.0.3-3_all.deb && sudo apt update
-#echo "de7ef83a663049b5244736d3eabaacec003eb294a4d6024a8fbe0394f22cc4e5  protonvpn-stable-release_1.0.3-3_all.deb" | sha256sum --check -
-#sudo apt update
-#rm -f ./protonvpn-stable-release_1.0.3-3_all.deb
-#sudo apt install -y protonvpn-cli
-#}}}
+    if test $i = font
+        or test $i = all
+        rm -rf $XDG_DATA_HOME/fonts
+        cp -r $HOME/.dotfiles/fonts $XDG_DATA_HOME/fonts
+        fc-cache -fv
+    end
 
-# Ibus Bamboo {{{
-#echo 'deb http://download.opensuse.org/repositories/home:/lamlng/Debian_11/ /' | sudo tee /etc/apt/sources.list.d/home:lamlng.list
-#curl -fsSL https://download.opensuse.org/repositories/home:lamlng/Debian_11/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_lamlng.gpg > /dev/null
-#sudo apt update
-#sudo apt install -y ibus-bamboo
-#}}}
+    if test $i = icon
+        or test $i = all
+        rm -rf $XDG_DATA_HOME/icons
+        cp -r $HOME/.dotfiles/icons $XDG_DATA_HOME/icons
+        fc-cache -fv
+    end
 
-# Suckless {{{
-#if [ ! -d "/home/$USER/.config/suckless" ]; then
-#	git clone https://github.com/bakkeby/dwm-flexipatch.git   /home/$USER/.config/suckless/dwm
-#	git clone https://github.com/bakkeby/st-flexipatch.git    /home/$USER/.config/suckless/st
-#	git clone https://github.com/bakkeby/dmenu-flexipatch.git /home/$USER/.config/suckless/dmenu
-#	git clone https://github.com/bakkeby/slock-flexipatch.git /home/$USER/.config/suckless/slock
-#	git clone https://git.suckless.org/slstatus               /home/$USER/.config/suckless/slstatus
-#fi
-#rm -f /home/$USER/.config/suckless/dwm/config.h
-#rm -f /home/$USER/.config/suckless/st/config.h
-#rm -f /home/$USER/.config/suckless/dmenu/config.h
-#rm -f /home/$USER/.config/suckless/slock/config.h
-#ln -s /home/$USER/.dotfiles/suckless/dwm_config.h   /home/$USER/.config/suckless/dwm/config.h
-#ln -s /home/$USER/.dotfiles/suckless/st_config.h    /home/$USER/.config/suckless/st/config.h
-#ln -s /home/$USER/.dotfiles/suckless/dmenu_config.h /home/$USER/.config/suckless/dmenu/config.h
-#ln -s /home/$USER/.dotfiles/suckless/slock_config.h /home/$USER/.config/suckless/slock/config.h
-#if [ ! -d "/home/$USER/.config/suckless" ]; then
-#	ln -s /home/$USER/.dotfiles/suckless /home/$USER/.config/suckless
-#fi
-#sudo make -C "/home/$USER/.config/suckless/dwm"      clean install
-#sudo make -C "/home/$USER/.config/suckless/st"       clean install
-#sudo make -C "/home/$USER/.config/suckless/dmenu"    clean install
-#sudo make -C "/home/$USER/.config/suckless/slock"    clean install
-#sudo make -C "/home/$USER/.config/suckless/slstatus" clean install
-#rm -f /home/$USER/.xinitrc
-#ln -s /home/$USER/.dotfiles/.xinitrc /home/$USER/.xinitrc
-#	echo "startx" >> .profile
-#}}}
+    if test $i = theme
+        or test $i = all
+        rm -rf $XDG_DATA_HOME/themes
+        cp -r $HOME/.dotfiles/themes $XDG_DATA_HOME/themes
+        cp -r $HOME/.dotfiles/gtk-3.0 $XDG_DATA_HOME/gtk3-0
+        fc-cache -fv
+    end
 
-# Fzf {{{
-#if [ ! -d "/home/$USER/.config/fzf" ]; then
-#	git clone --depth 1 https://github.com/junegunn/fzf.git /home/$USER/.config/fzf
-#	cd /home/$USER/.config/fzf
-#	./install
-#	cd /home/$USER
-#	# Update fzf
-#	# cd /home/$USER/.config/fzf && git pull && ./install
-#fi
-#}}}
+    if test $i = git_lfs
+        or test $i = all
+        curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+    end
 
-# Vim {{{
-#git clone https://github.com/vim/vim.git /home/$USER/.config/vim
-#cd /home/$USER/.config/vim/src
-#make distclean
-#make
-#sudo make install
-#cd /home/$USER
-#rm -f /home/$USER/.vimrc
-#ln -s /home/$USER/.dotfiles/.vimrc /home/$USER/.vimrc
-#}}}
+    if test $i = fish
+        test $i = all
+        chsh -s $(which fish)
+        mkdir -p $XDG_CONFIG_HOME/fish
+        if test -e $XDG_CONFIG_HOME/fish/config.fish
+            rm -f $XDG_CONFIG_HOME/fish/config.fish
+        end
+        ln -s $HOME/.dotfiles/config.fish $XDG_CONFIG_HOME/fish/config.fish
+    end
 
-# Neovim {{{
-#curl -Lo /home/$USER/nvim-linux64.tar.gz https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
-#sudo rm -rf /opt/nvim
-#sudo tar -C /opt -xzf /home/$USER/nvim-linux64.tar.gz
-#rm -f /home/$USER/nvim-linux64.tar.gz
-sudo git clone https://github.com/neovim/neovim /usr/local/src/neovim
-cd /usr/local/src/neovim || exit
-sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
-sudo make install
-cd /home/"$USER" || exit
-mkdir -p /home/"$USER"/.config/nvim
-ln -s /home/"$USER"/.dotfiles/init.vim /home/"$USER"/.config/nvim/init.vim
-## Lazyvim
-#if [ ! -d "/home/$USER/.config/nvim" ]; then
-#	# required
-#	mv ~/.config/nvim{,.bak}
-#
-#	# optional but recommended
-#	mv ~/.local/share/nvim{,.bak}
-#	mv ~/.local/state/nvim{,.bak}
-#	mv ~/.cache/nvim{,.bak}
-#
-#	# Clone
-#	git clone https://github.com/LazyVim/starter /home/$USER/.config/nvim
-#	rm -rf /home/$USER/.config/nvim/.git
-#fi
-#}}}
+    if test $i = zsh
+        or test $i = all
+        mkdir -p -p $XDG_CONFIG_HOME/zsh
+        ln -s $HOME/.dotfiles/zshrc $XDG_CONFIG_HOME/zsh/.zshrc
+    end
 
-# Tmux {{{
-#if [ ! -d "/home/$USER/.config/tmux" ]; then
-#	git clone https://github.com/tmux/tmux.git /home/$USER/.config/tmux
-#	cd /home/$USER/.config/tmux
-#	./autogen.sh
-#	./configure --enable-sixel
-#	make
-#	sudo make install
-#	cd /home/$USER
-#fi
-#if [ ! -d "home/$USER/.config/tmux/plugins/tmp" ]; then
-# git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
-#fi
+    if test $i = arttime
+        or test $i = all
+        # zsh -c '{url="https://gist.githubusercontent.com/poetaman/bdc598ee607e9767fe33da50e993c650/raw/d0146d258a30daacb9aee51deca9410d106e4237/arttime_online_installer.sh"; zsh -c "$(curl -fsSL $url || wget -qO- $url)"}'
+        git clone https://github.com/poetaman/arttime.git $HOME/.local/src/arrtime
+        cd $HOME/.local/src/arrtime
+        ./install.sh
+        cd $HOME
+    end
 
-#mkdir -p /home/$USER/.config/tmux
-#ln -s /home/$USER/.dotfiles/.tmux.conf /home/$USER/.config/tmux/tmux.conf
-#ln -s /home/$USER/.dotfiles/.tmux.conf.local /home/$USER/.config/tmux/tmux.conf.local
-#ln -s /home/$USER/.dotfiles/.tmux.conf /home/$USER/.tmux.conf
-#ln -s /home/$USER/.dotfiles/.tmux.conf.local /home/$USER/.tmux.conf.local
-#}}}
+    if test $i = suckless
+        or test $i = all
+        git clone https://git.suckless.org/dwm $HOME/.local/src/dwm
+        git clone https://github.com/bakkeby/st-flexipatch.git $HOME/.local/src/st
+        git clone https://git.suckless.org/dmenu $HOME/.local/src/dmenu
+        git clone https://git.suckless.org/slock $HOME/.local/src/slock
+        make -C $HOME/.local/src/dwm clean install
+        make -C $HOME/.local/src/st clean install
+        make -C $HOME/.local/src/dmenu clean install
+        make -C $HOME/.local/src/slock clean install
+        mkdir -p $XDG_CONFIG_HOME/X11
+        ln -s $HOME/.dotfiles/xinitrc $XDG_CONFIG/X11/xinitrc
+    end
 
-# Zsh {{{
-#rm -f /home/$USER/.zshrc
-#ln -s /home/$USER/.dotfiles/.zshrc /home/$USER/.zshrc
-#chsh -s $(which zsh)
-## Zsh Plugin
-#if [ ! -d "/home/$USER/.config/powerlevel10k" ]; then
-#	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /home/$USER/.config/powerlevel10k
-#fi
-#
-##if [ ! -d "/home/$USER/.config/zsh-autocomplete" ]; then
-##	git clone --depth 1 https://github.com/marlonrichert/zsh-autocomplete.git /home/$USER/.config/zsh-autocomplete
-##fi
-#
-#if [ ! -d "/home/$USER/.config/zsh-completions" ]; then
-#	git clone https://github.com/zsh-users/zsh-completions.git /home/$USER/.config/zsh-completions
-#fi
-#
-#if [ ! -d "/home/$USER/.config/fzf-tab" ]; then
-#	git clone https://github.com/Aloxaf/fzf-tab /home/$USER/.config/fzf-tab
-#fi
-#
-#if [ ! -d "/home/$USER/.config/zsh-autosuggestions" ]; then
-#	git clone https://github.com/zsh-users/zsh-autosuggestions /home/$USER/.config/zsh-autosuggestions
-#fi
-#
-#if [ ! -d "/home/$USER/.config/zsh-syntax-highlighting" ]; then
-#	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/$USER/.config/zsh-syntax-highlighting
-#fi
-#}}}
+    if test $i = tmux
+        or test $i = all
+        git clone https://github.com/tmux/tmux.git $HOME/.local/src/tmux
+        cd $HOME/.local/src/tmux
+        ./autogen.sh
+        ./configure --prefix=$HOME/.local --enable-sixel
+        make install
+        cd /home/$USER
+        mkdir -p $XDG_CONFIG_HOME/tmux
+        ln -s $HOME/.dotfiles/tmux.conf $XDG_CONFIG_HOME/tmux/tmux.conf
+    end
 
-# Bash {{{
-cat <<'EOF' >> /home/"$USER"/.profile
-export PATH="/home/$USER/.local/pipx/shared/bin:/home/$USER/.cargo/bin:/home/$USER/perl5/bin:/usr/local/src/go/bin:/usr/local/src/nodejs/bin:$PATH"
-PERL5LIB="/home/$USER/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/$USER/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/$USER/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/$USER/perl5"; export PERL_MM_OPT;
-EOF
-. /home/"$USER"/.profile
-#}}}
+    if test $i = neovim
+        or test $i = all
+        #curl -Lo /home/$USER/nvim-linux64.tar.gz https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+        #sudo rm -rf /opt/nvim
+        #sudo tar -C /opt -xzf /home/$USER/nvim-linux64.tar.gz
+        #rm -f /home/$USER/nvim-linux64.tar.gz
+        git clone https://github.com/neovim/neovim $HOME/.local/src/neovim
+        make -C $HOME/.local/src/neovim CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=$HOME/.local/neovim
+        make -C $HOME/.local/src/neovim install
+        cp $HOME/.local/src/neovim/build/bin/nvim $HOME/.local/bin
+        mkdir -p $XDG_CONFIG_HOME/nvim
+        ln -s $HOME/.dotfiles/init.lua $XDG_CONFIG_HOME/nvim/init.lua
+    end
 
-# Fish {{{
-chsh -s $(which fish)
-mkdir -p /home/"$USER"/.config/fish
-ln -s /home/"$USER"/.dotfiles/config.fish /home/"$USER"/.config/fish/config.fish
-if ! grep -q "fisher" /home/"$USER"/.config/fish/fish_plugins; then
-    fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
-    fish -c 'fisher install dracula/fish'
-    fish -c 'fisher install IlanCosman/tide@v6'
-    fish -c 'fisher install jethrokuan/fzf'
-fi
-fish -c 'set -U FZF_COMPLETE 3'
-fish -c 'set -Ux FZF_DEFAULT_OPTS "--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4 --height=50%  --reverse --multi --info=default --prompt=\" \" --pointer= --marker= --preview-window=right:60%"'
-fish -c 'set -U FZF_FIND_FILE_COMMAND "find -L -type f"'
-fish -c 'set -U FZF_PREVIEW_DIR_CMD "ls -alhv --color=always --group-directories-first"'
-fish -c 'set -U FZF_PREVIEW_FILE_CMD "bat -n --color=always --theme=Dracula"'
-fish -c 'set -Ua fish_user_paths /home/$USER/.local/pipx/shared/bin /home/$USER/.cargo/bin /home/$USER/perl5/bin /usr/local/src/go/bin /usr/local/src/nodejs/bin'
-#}}}
+    if test $i = fzf
+        or test $i = all
+        git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.local/src/fzf
+        $HOME/.local/src/fzf/install --xdg
+        cp $HOME/.local/src/fzf/bin/fzf $HOME/.local/bin/fzf
+        # Update fzf
+        # cd /home/$USER/.config/fzf && git pull && ./install
+    end
 
-# Perl (CPAN) {{{
-cpan local::lib
-cpan App::cpanminus
-cpanm --force Neovim::Ext
-#}}}
+    if test $i = cpan
+        test $i = all
+        cpan local::lib
+        cpan App::cpanminus
+        cpanm --force Neovim::Ext
+    end
 
-# Python (venv) {{{
-python3 -m venv .venv
-echo "source .venv/bin/activate" >> /home/"$USER"/.profile
-# echo "source .venv/bin/activate.fish" >> /home/"$USER"/.config/fish/config.fish
-pip install neovim
-#}}}
+    if test $i = python
+        or test $i = all
+        python3 -m venv .venv
+        pip install neovim baca
+    end
 
-# Rust (CARGO) {{{
-curl https://sh.rustup.rs -sSf | sh
-cargo install bat ripgrep fd-find
-#}}}
+    if test $i = rust
+        or test $i = all
+        curl https://sh.rustup.rs -sSf | sh
+        cargo install bat ripgrep fd-find bluetui
+    end
 
-# Go {{{
-GO_VERSION=$(curl -s "https://go.dev/dl/" | grep -Po 'go[0-9.]*\.linux-amd64\.tar\.gz' | sort -V | tail -n 1)
-#set GO_VERSION (curl -s "https://go.dev/dl/" | grep -Po 'go[0-9.]*\.linux-amd64\.tar\.gz' | sort -V | tail -n 1)
-curl -Lo /home/"$USER"/go.tar.gz "https://go.dev/dl/{$GO_VERSION}"
-sudo tar -xzf /home/"$USER"/go.tar.gz -C /usr/local/src
-rm -f /home/"$USER"/go.tar.gz
-go install github.com/jesseduffield/lazygit@latest
-go install github.com/jesseduffield/lazydocker@latest
-#go install github.com/wader/fq@latest
-#go install github.com/mikefarah/yq/v4@latest
-#go install github.com/sibprogrammer/xq@latest
-#}}}
+    if test $i = go
+        or test $i = all
+        # GO_VERSION=$(curl -s "https://go.dev/dl/" | grep -Po 'go[0-9.]*\.linux-amd64\.tar\.gz' | sort -V | tail -n 1)
+        set GO_VERSION (curl -s "https://go.dev/dl/" | grep -Po 'go[0-9.]*\.linux-amd64\.tar\.gz' | sort -V | tail -n 1)
+        curl -Lo $HOME/go.tar.gz "https://go.dev/dl/$GO_VERSION"
+        tar -xzf $HOME/go.tar.gz -C $HOME/.local/src
+        rm -f $HOME/go.tar.gz
+        go install github.com/jesseduffield/lazygit@latest
+        go install github.com/jesseduffield/lazydocker@latest
+        go install github.com/mholt/archiver/v3/cmd/arc@latest
+        #go install github.com/wader/fq@latest
+        #go install github.com/mikefarah/yq/v4@latest
+        #go install github.com/sibprogrammer/xq@latest
+    end
 
-# NodeJs (NPM) {{{
-NODE_VERSION=$(curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
-#set NODE_VERSION (curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
-curl -Lo /home/"$USER"/node.tar.gz "https://nodejs.org/dist/{$NODE_VERSION}/node-{$NODE_VERSION}-linux-x64.tar.gz"
-sudo tar -xzf /home/"$USER"/node.tar.gz -C /usr/local/src
-sudo mv /usr/local/src/$(ls /usr/local/src | grep -Po "node-v[0-9.]*-linux-x64" | sort -V | tail -n 1) /usr/local/src/nodejs
-#sudo mv /usr/local/src/(ls /usr/local/src | grep -Po 'node-v[0-9.]*-linux-x64' | sort -V | tail -n 1) /usr/local/src/nodejs
-rm -f /home/"$USER"/node.tar.gz
-npm install -g neovim tldr
-#}}}
+    if test $i = nodejs
+        or test $i = all
+        # NODE_VERSION=$(curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
+        set NODE_VERSION (curl -s "https://nodejs.org/en/download/prebuilt-binaries" | grep -Po 'v[0-9.]*' | sort -V | tail -n 1)
+        curl -Lo $HOME/node.tar.gz "https://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.tar.gz"
+        tar -xzf $HOME/node.tar.gz -C $HOME/.local/src
+        mv $HOME/.local/src/$(ls $HOME/.local/src | grep -Po "node-v[0-9.]*-linux-x64" | sort -V | tail -n 1) $HOME/.local/src/nodejs
+        #sudo mv /usr/local/src/(ls /usr/local/src | grep -Po 'node-v[0-9.]*-linux-x64' | sort -V | tail -n 1) /usr/local/src/nodejs
+        rm -f $HOME/node.tar.gz
+        npm install -g neovim tldr nb.sh
+    end
+end
