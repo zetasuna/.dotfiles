@@ -14,7 +14,11 @@ sudo apt -y install \
     policykit-1 policykit-1-gnome dbus-x11 dunst libnotify-bin flameshot \
     nitrogen aria2 ffmpeg mpv yt-dlp libreoffice \
     syncthing transmission transmission-daemon transmission-cli \
-    git docker docker-compose w3m chafa pandoc
+    git docker docker-compose w3m chafa pandoc jq
+if not test -e /etc/udev/rules.d/81-backlight.rules
+    sudo cp $HOME/.dotfiles/81-backlight.rules /etc/udev/rules.d
+end
+
 # XDG based directory
 if not test -d $HOME/xdg-ninja
     git clone https://github.com/b3nj5m1n/xdg-ninja
@@ -32,6 +36,7 @@ set XDG_STATE_HOME $HOME/.local/state
 for i in $argv
     if test $i = virtualbox
         or test $i = all
+        echo "deb [signed-by=/usr/share/keyrings/oracle_vbox.gpg] https://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
         wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg --dearmor
         sudo apt update
         sudo apt install -y virtualbox-7.0

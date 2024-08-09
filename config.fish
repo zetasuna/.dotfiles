@@ -109,7 +109,7 @@ begin
     set -gx STARSHIP_CACHE $XDG_CACHE_HOME/starship
     set -gx TLDR_CACHE_DIR $XDG_CACHE_HOME/tldr # Only work with rust client
     set -gx W3M_DIR $XDG_STATE_HOME/w3m
-    set -gx WGETRC $XDG_CONFIG_HOME/wgetrc
+    # set -gx WGETRC $XDG_CONFIG_HOME/wgetrc
     mkdir -p $XDG_DATA_HOME/wineprefixes
     set -gx WINEPREFIX $XDG_DATA_HOME/wineprefixes/default
     set -gx _Z_DATA $XDG_DATA_HOME/z
@@ -383,7 +383,6 @@ if status is-interactive
     alias tldr 'tldr -t base16'
     alias bat 'bat --color=auto --theme=Dracula'
     alias mpv 'mpv --keep-open=yes --really-quiet --vo-sixel-exit-clear=no'
-    alias wget 'wget --hsts-file=$XDG_CACHE_HOME/wget-hsts'
     # alias fd 'fd --strip-cwd-prefix -HL'
     # alias rg 'rg -uu -L'
 

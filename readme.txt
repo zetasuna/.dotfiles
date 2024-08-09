@@ -31,8 +31,8 @@
 	+) cat /home/$USER/.ssh/id_rsa.pub
 	+) copy string to ssh key in github
 	+) git clone git@github.com:zetasuna/.dotfiles.git
-	+) ~/.dotfiles/install
-5: Logout and Login again, wait some minutes
+	+) ~/.dotfiles/install all
+5: Reboot
 ===================================================================================================================
 [[ Config polkit ]]
 Install: polkitd, policykit-1, pkexec, gnome polkit (maybe policykit-1-gnome) | or sth like that
