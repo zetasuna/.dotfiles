@@ -33,7 +33,7 @@
 	+) git clone git@github.com:zetasuna/.dotfiles.git
 	+) ~/.dotfiles/install
 5: Logout and Login again, wait some minutes
-==============================================================
+===================================================================================================================
 [[ Config polkit ]]
 Install: polkitd, policykit-1, pkexec, gnome polkit (maybe policykit-1-gnome) | or sth like that
 Note: ttyagent (authen in cmd) cause fail (fallback) for authen in DE => install agent polkit for DE (gnome work ok) => add to xinit to start
